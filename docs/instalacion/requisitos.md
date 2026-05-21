@@ -23,7 +23,7 @@ La aplicación utiliza principalmente:
 El repositorio debe conservar una estructura similar a esta:
 
 ```text
-TFM-FORM-PROF-2025-26/
+tfm-cdd-evaluacion/
 ├─ app.py
 ├─ core/
 ├─ data/

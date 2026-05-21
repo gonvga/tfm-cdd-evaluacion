@@ -3,7 +3,7 @@
 La estructura recomendada del repositorio es la siguiente:
 
 ```text
-TFM-FORM-PROF-2025-26/
+tfm-cdd-evaluacion/
 ├─ assets/
 ├─ core/
 ├─ data/

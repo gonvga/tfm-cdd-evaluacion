@@ -1,10 +1,10 @@
 site_name: Documentación MRCDD - Evaluación de Contenidos Digitales
 site_description: Documentación técnica y pedagógica de la aplicación de evaluación de la competencia digital docente en el Área 2 del MRCDD.
 site_author: Gonzalo Vega Pérez
-site_url: https://TU_USUARIO.github.io/TFM-FORM-PROF-2025-26/
+site_url: https://gonvga.github.io/tfm-cdd-evaluacion/
 
-repo_name: TFM-FORM-PROF-2025-26
-repo_url: https://github.com/TU_USUARIO/TFM-FORM-PROF-2025-26
+repo_name: tfm-cdd-evaluacion
+repo_url: https://github.com/gonvga/tfm-cdd-evaluacion
 edit_uri: edit/main/docs/
 
 theme:
