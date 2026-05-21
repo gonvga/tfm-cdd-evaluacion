@@ -1,0 +1,19 @@
+# Entorno virtual
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Flet / build
+build/
+dist/
+
+# SO / editor
+.DS_Store
+.vscode/
+.idea/
+
+# web
+site/

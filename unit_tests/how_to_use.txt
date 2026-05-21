@@ -1,0 +1,12 @@
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+
+Resumen limpio
+python -m pytest -q unit_tests
+
+Ejecución explicativa (una línea por test)
+python -m pytest -v unit_tests
+
+Extra: ver solo fallos completos (stacktrace largo)
+python -m pytest unit_tests -v --tb=long

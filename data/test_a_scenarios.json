@@ -1,0 +1,38 @@
+[
+  {
+    "id": "A1_pdf_licencia",
+    "title": "Encontrar un PDF reutilizable sobre volcanes",
+    "prompt": "Necesitas un PDF sobre volcanes con licencia abierta para usar en clase.",
+    "required_patterns": [
+      { "id": "filetype_pdf", "label": "Usa filetype:pdf", "regex": "(?i)\\bfiletype\\s*:\\s*pdf\\b" }
+    ],
+    "recommended_patterns": [
+      { "id": "quotes", "label": "Usa comillas para frase exacta (opcional)", "regex": "\"[^\"]+\"" },
+      { "id": "site_edu_gob", "label": "Acota a fuente fiable con site: (opcional)", "regex": "(?i)\\bsite\\s*:\\s*(\\.edu|\\.gob|\\.gov|\\.org|edu|gob)\\b" },
+      { "id": "cc_license", "label": "Incluye término de licencia (CC BY, Creative Commons...) (opcional)", "regex": "(?i)\\b(CC\\s*BY|Creative\\s*Commons|licencia\\s*abierta|open\\s*license)\\b" }
+    ]
+  },
+  {
+    "id": "A2_institucional",
+    "title": "Buscar recurso institucional fiable",
+    "prompt": "Encuentra información sobre riesgos volcánicos en una web institucional (gobierno, universidad, etc.).",
+    "required_patterns": [
+      { "id": "site_required", "label": "Usa site: para acotar la fuente", "regex": "(?i)\\bsite\\s*:\\s*\\S+" }
+    ],
+    "recommended_patterns": [
+      { "id": "filetype_optional", "label": "Acota por formato (PDF/PPT/DOC) (opcional)", "regex": "(?i)\\bfiletype\\s*:\\s*(pdf|ppt|pptx|doc|docx)\\b" },
+      { "id": "exclude", "label": "Excluye términos irrelevantes con -palabra (opcional)", "regex": "(?i)(\\s|^)\\-[a-záéíóúñ0-9]+" }
+    ]
+  },
+  {
+    "id": "A3_frase_exacta",
+    "title": "Encontrar definición exacta",
+    "prompt": "Encuentra una definición que contenga la frase exacta: \"magma ascendente\".",
+    "required_patterns": [
+      { "id": "quotes_required", "label": "Usa comillas para la frase exacta", "regex": "\"magma\\s+ascendente\"" }
+    ],
+    "recommended_patterns": [
+      { "id": "site_optional", "label": "Acota con site: a fuente fiable (opcional)", "regex": "(?i)\\bsite\\s*:\\s*\\S+" }
+    ]
+  }
+]

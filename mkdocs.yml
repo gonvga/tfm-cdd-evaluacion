@@ -1,0 +1,96 @@
+site_name: Documentación MRCDD - Evaluación de Contenidos Digitales
+site_description: Documentación técnica y pedagógica de la aplicación de evaluación de la competencia digital docente en el Área 2 del MRCDD.
+site_author: Gonzalo Vega Pérez
+site_url: https://TU_USUARIO.github.io/TFM-FORM-PROF-2025-26/
+
+repo_name: TFM-FORM-PROF-2025-26
+repo_url: https://github.com/TU_USUARIO/TFM-FORM-PROF-2025-26
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: es
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - toc.follow
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Cambiar a modo oscuro
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Cambiar a modo claro
+
+plugins:
+  - search:
+      lang: es
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+nav:
+  - Inicio: index.md
+  - Instalación:
+      - Requisitos: instalacion/requisitos.md
+      - Ejecución: instalacion/ejecucion.md
+  - Arquitectura:
+      - Visión general: arquitectura/index.md
+      - Estructura del proyecto: arquitectura/estructura.md
+      - Flujo de evaluación: arquitectura/flujo.md
+      - Persistencia y resultados: arquitectura/persistencia.md
+  - Desarrollo:
+      - Componentes principales: desarrollo/componentes.md
+      - Escenarios JSON: desarrollo/json.md
+      - Añadir una nueva prueba: desarrollo/nueva-prueba.md
+      - Validación y pruebas unitarias: desarrollo/tests.md
+  - Pruebas:
+      - Resumen general: pruebas/index.md
+      - Competencia 2.1:
+          - Resumen: pruebas/competencia-21/index.md
+          - P01 - Detectar recursos adecuados: pruebas/competencia-21/p01.md
+          - P02 - Seleccionar el mejor recurso: pruebas/competencia-21/p02.md
+          - P03 - Organizar un banco de recursos: pruebas/competencia-21/p03.md
+          - P04 - Curación avanzada de contenidos: pruebas/competencia-21/p04.md
+      - Competencia 2.2:
+          - Resumen: pruebas/competencia-22/index.md
+          - P05 - Corregir una ficha educativa: pruebas/competencia-22/p05.md
+          - P06 - Completar plantilla didáctica: pruebas/competencia-22/p06.md
+          - P07 - Adaptar recurso para accesibilidad: pruebas/competencia-22/p07.md
+          - P08 - Diseñar secuencia digital: pruebas/competencia-22/p08.md
+      - Competencia 2.3:
+          - Resumen: pruebas/competencia-23/index.md
+          - P09 - Clasificar archivos y licencias: pruebas/competencia-23/p09.md
+          - P10 - Configurar permisos: pruebas/competencia-23/p10.md
+          - P11 - Publicar recurso correctamente: pruebas/competencia-23/p11.md
+          - P12 - Optimizar repositorio digital: pruebas/competencia-23/p12.md
+  - Evaluación:
+      - Enfoque pedagógico: evaluacion/enfoque-pedagogico.md
+      - Criterios y evidencias: evaluacion/criterios-evidencias.md
+      - Progresión competencial: evaluacion/progresion.md
+  - Mantenimiento:
+      - Actualización de contenidos: mantenimiento/actualizacion.md
+      - Limitaciones y mejoras futuras: mantenimiento/mejoras-futuras.md
