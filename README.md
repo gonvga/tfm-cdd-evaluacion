@@ -14,6 +14,10 @@ Para publicar en GitHub Pages:
 ```bash
 mkdocs gh-deploy
 ```
+Para lanzarlo en local:
+```bash
+mkdocs serve
+```
 
 Antes de publicar, actualiza en `mkdocs.yml`:
 
