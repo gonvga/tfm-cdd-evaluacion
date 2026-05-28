@@ -1,0 +1,166 @@
+{
+  "test_id": "P01",
+  "scenario_id": "comp21_a1_acceso_contenidos",
+  "scenario_title": "Acceso y reconocimiento de recursos digitales",
+  "title": "P01 · Competencia 2.1 Nivel A1",
+  "statement": "Evalúa los indicadores 2.1.A1.1, 2.1.A1.2 y 2.1.A1.3 mediante tareas de clasificación, selección de herramientas de búsqueda, reconocimiento de metadatos y organización básica de recursos.",
+  "intro": "Escenario: preparas una unidad didáctica y debes reconocer criterios de calidad, elegir herramientas de búsqueda adecuadas, identificar el papel de los metadatos y organizar recursos digitales relacionados con la actividad docente.",
+  "classification": {
+    "title": "Fase A · Clasificación de criterios de calidad",
+    "description": "Clasifica cada etiqueta en la dimensión que corresponde: científica, técnica o didáctica.",
+    "resource": {
+      "title": "Simulador interactivo sobre circuitos eléctricos",
+      "source": "Portal educativo institucional",
+      "context": "Recurso digital para trabajar electricidad en 3º de ESO."
+    },
+    "categories": [
+      {
+        "id": "scientific",
+        "label": "Criterios científicos",
+        "description": "Fiabilidad y rigor de la fuente."
+      },
+      {
+        "id": "technical",
+        "label": "Criterios técnicos",
+        "description": "Acceso, legalidad y accesibilidad."
+      },
+      {
+        "id": "didactic",
+        "label": "Criterios didácticos",
+        "description": "Adecuación pedagógica al alumnado y al currículo."
+      }
+    ],
+    "labels": [
+      {
+        "id": "authorship",
+        "text": "Autoría institucional o reconocida",
+        "expected_category": "scientific"
+      },
+      {
+        "id": "updated",
+        "text": "Fecha de actualización o revisión",
+        "expected_category": "scientific"
+      },
+      {
+        "id": "license",
+        "text": "Licencia de uso Creative Commons",
+        "expected_category": "technical"
+      },
+      {
+        "id": "accessibility",
+        "text": "Compatibilidad con lectores de pantalla o subtítulos",
+        "expected_category": "technical"
+      },
+      {
+        "id": "level",
+        "text": "Nivel educativo o edad recomendada",
+        "expected_category": "didactic"
+      },
+      {
+        "id": "objectives",
+        "text": "Objetivos de aprendizaje vinculados al currículo",
+        "expected_category": "didactic"
+      }
+    ]
+  },
+  "search_tools": {
+    "title": "Fase B · Configuración de herramientas de búsqueda",
+    "description": "Selecciona los buscadores preferentes para reducir resultados condicionados por publicidad o perfil comercial.",
+    "options": [
+      {
+        "id": "google",
+        "label": "Google",
+        "description": "Buscador general con resultados patrocinados.",
+        "expected": false
+      },
+      {
+        "id": "google_scholar",
+        "label": "Google Académico",
+        "description": "Orientado a literatura científica y académica.",
+        "expected": true
+      },
+      {
+        "id": "duckduckgo",
+        "label": "DuckDuckGo",
+        "description": "Prioriza privacidad y evita perfiles de usuario.",
+        "expected": true
+      },
+      {
+        "id": "yahoo",
+        "label": "Yahoo Search",
+        "description": "Buscador general con alta carga publicitaria.",
+        "expected": false
+      }
+    ]
+  },
+  "metadata_question": {
+    "title": "Pregunta sobre metadatos",
+    "prompt": "Has localizado un recurso excelente para tu clase de Tecnología, pero al intentar buscarlo de nuevo días después no consigues encontrarlo. ¿Qué elemento del recurso digital permite que los buscadores lo indexen y tú puedas recuperarlo de forma eficiente mediante palabras clave específicas?",
+    "options": [
+      {
+        "id": "a",
+        "text": "El tamaño del archivo y su fecha de creación.",
+        "expected": false
+      },
+      {
+        "id": "b",
+        "text": "Los metadatos: etiquetas de área, nivel, autoría y descripción.",
+        "expected": true
+      },
+      {
+        "id": "c",
+        "text": "El nombre del servidor donde está alojado el archivo.",
+        "expected": false
+      },
+      {
+        "id": "d",
+        "text": "La resolución de las imágenes que contiene el recurso.",
+        "expected": false
+      }
+    ]
+  },
+  "organization": {
+    "title": "Fase C · Organización y almacenamiento",
+    "description": "Crea una carpeta relacionada con la unidad didáctica sobre sostenibilidad y decide qué archivos deben incluirse en ella.",
+    "folder_hint": "Ejemplos válidos: UD 1 Sostenibilidad, Recursos Biología 1º ESO, Sostenibilidad ESO.",
+    "valid_folder_keywords": [
+      "sostenibilidad",
+      "biología",
+      "biologia",
+      "eso",
+      "recursos",
+      "unidad",
+      "ud"
+    ],
+    "files": [
+      {
+        "id": "pdf",
+        "name": "Documento_01.pdf",
+        "description": "PDF sobre sostenibilidad y consumo responsable.",
+        "expected_in_folder": true
+      },
+      {
+        "id": "link",
+        "name": "Enlace_recurso.url",
+        "description": "Enlace a recurso interactivo sobre desarrollo sostenible.",
+        "expected_in_folder": true
+      },
+      {
+        "id": "video",
+        "name": "Video_actividad.mp4",
+        "description": "Vídeo didáctico sobre hábitos sostenibles.",
+        "expected_in_folder": true
+      },
+      {
+        "id": "shopping",
+        "name": "Lista_Compra.pdf",
+        "description": "Archivo personal no relacionado con la actividad docente.",
+        "expected_in_folder": false
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has reconocido criterios de calidad, herramientas de búsqueda adecuadas, el papel de los metadatos y una organización básica coherente.",
+    "failure": "Prueba no superada. Revisa las fases marcadas: criterios científicos, técnicos y didácticos; buscadores neutros o académicos; metadatos; y organización de archivos educativos."
+  }
+}
