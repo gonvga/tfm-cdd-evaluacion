@@ -35,30 +35,6 @@ def build_result_box(feedback_data: dict) -> ft.Control:
         ),
     ]
 
-    for detail in feedback_data.get("details", []):
-        controls.append(
-            ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(
-                            detail["title"],
-                            size=14,
-                            weight=ft.FontWeight.BOLD,
-                            color=ft.Colors.WHITE,
-                        ),
-                        *[
-                            ft.Text(line, size=13, color=ft.Colors.WHITE)
-                            for line in detail["lines"]
-                        ],
-                    ],
-                    spacing=4,
-                ),
-                bgcolor="#22FFFFFF",
-                border_radius=8,
-                padding=10,
-            )
-        )
-
     return ft.Container(
         content=ft.Column(
             controls=controls,
@@ -90,7 +66,26 @@ def build_info_panel(title: str, lines: list[str]) -> ft.Control:
     )
 
 
-def build_checkbox_cards(options: list[dict], saved_ids: list[str]) -> tuple[dict, list[ft.Control]]:
+def feedback_colors(is_correct: bool) -> tuple[str, str]:
+    return ("#DCFCE7", "#16A34A") if is_correct else ("#FEE2E2", "#DC2626")
+
+
+def inline_feedback(text: str, is_correct: bool) -> ft.Control:
+    bgcolor, color = feedback_colors(is_correct)
+    return ft.Container(
+        content=ft.Text(text, size=12, color=color),
+        bgcolor=bgcolor,
+        border=ft.border.all(1, color),
+        border_radius=8,
+        padding=8,
+    )
+
+
+def build_checkbox_cards(
+    options: list[dict],
+    saved_ids: list[str],
+    validated: bool = False,
+) -> tuple[dict, list[ft.Control]]:
     checkboxes = {}
     cards = []
 
@@ -101,6 +96,20 @@ def build_checkbox_cards(options: list[dict], saved_ids: list[str]) -> tuple[dic
         details = []
         if option.get("description"):
             details.append(ft.Text(option["description"], size=13, color=ft.Colors.GREY_700))
+        expected = option["expected"]
+        selected = option["id"] in saved_ids
+        item_ok = selected == expected
+        if validated:
+            explanation = option.get(
+                "description",
+                "Se ajusta al contexto indicado." if expected else "No se ajusta al contexto.",
+            )
+            details.append(
+                inline_feedback(
+                    f"{'Correcta' if expected else 'Incorrecta'}: {explanation}",
+                    item_ok,
+                )
+            )
 
         cards.append(
             ft.Container(
@@ -121,6 +130,7 @@ def build_checkbox_cards(options: list[dict], saved_ids: list[str]) -> tuple[dic
                 col={"xs": 12, "md": 6},
                 padding=10,
                 border=ft.border.all(1, ft.Colors.GREY_300),
+                bgcolor=feedback_colors(item_ok)[0] if validated else None,
                 border_radius=10,
             )
         )
@@ -172,6 +182,35 @@ def build_multi_select_feedback(title: str, options: list[dict], result: dict) -
     return {"title": title, "lines": lines}
 
 
+def build_resource_detail(resource: dict) -> ft.Control:
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(
+                    f"Ficha detallada · Recurso {resource['id']}",
+                    size=16,
+                    weight=ft.FontWeight.BOLD,
+                ),
+                ft.Text(f"Título: {resource['title']}"),
+                ft.Text(f"Repositorio: {resource['repository']}"),
+                ft.Text(f"Edad recomendada: {resource['age']}"),
+                ft.Text(f"Nivel lector: {resource['reading_level']}"),
+                ft.Text(f"Formato: {resource['format']}"),
+                ft.Text(f"Licencia: {resource['license']}"),
+                ft.Text(f"Accesibilidad: {resource['accessibility']}"),
+                ft.Text(f"Compatibilidad: {resource['compatibility']}"),
+                ft.Text(f"Registro: {resource['registration']}"),
+                ft.Text(f"Valoración: {resource['reason']}"),
+            ],
+            spacing=5,
+        ),
+        bgcolor=ft.Colors.BLUE_50,
+        border=ft.border.all(1, ft.Colors.BLUE_100),
+        border_radius=12,
+        padding=15,
+    )
+
+
 def build_test_p02(state: dict, refresh_view) -> ft.Control:
     test_data = load_test_data()
     requirements = test_data["requirements"]
@@ -184,68 +223,85 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
     saved_filters = state["responses"].get("p02_filters", [])
     selected_value = state["responses"].get("p02_selected")
     opened_details = state["responses"].get("p02_opened_details", [])
+    active_resource_id = state["responses"].get("p02_active_resource")
+    validated = state["feedback"]["p02"]["ok"] is not None
 
     requirement_checkboxes, requirement_cards = build_checkbox_cards(
         requirements["options"],
         saved_requirements,
+        validated,
     )
     repository_checkboxes, repository_cards = build_checkbox_cards(
         repositories["options"],
         saved_repositories,
+        validated,
     )
     filter_checkboxes, filter_cards = build_checkbox_cards(
         filters["options"],
         saved_filters,
+        validated,
     )
 
     selected_radio = ft.RadioGroup(
         value=selected_value,
         content=ft.Column(spacing=8),
     )
-    detail_box = ft.Column(spacing=8)
+    active_resource = next(
+        (
+            resource
+            for resource in resources["items"]
+            if resource["id"] == active_resource_id
+        ),
+        None,
+    )
+    detail_box = (
+        build_resource_detail(active_resource)
+        if active_resource
+        else build_info_panel(
+            "Ficha detallada",
+            [
+                "Abre una ficha para revisar nivel, licencia, accesibilidad, compatibilidad, registro y valoración antes de seleccionar el recurso."
+            ],
+        )
+    )
 
     def show_detail(resource: dict):
         if resource["id"] not in opened_details:
             opened_details.append(resource["id"])
 
         state["responses"]["p02_opened_details"] = opened_details
-
-        detail_box.controls = [
-            ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(
-                            f"Ficha detallada · Recurso {resource['id']}",
-                            size=16,
-                            weight=ft.FontWeight.BOLD,
-                        ),
-                        ft.Text(f"Título: {resource['title']}"),
-                        ft.Text(f"Repositorio: {resource['repository']}"),
-                        ft.Text(f"Edad recomendada: {resource['age']}"),
-                        ft.Text(f"Nivel lector: {resource['reading_level']}"),
-                        ft.Text(f"Formato: {resource['format']}"),
-                        ft.Text(f"Licencia: {resource['license']}"),
-                        ft.Text(f"Accesibilidad: {resource['accessibility']}"),
-                        ft.Text(f"Compatibilidad: {resource['compatibility']}"),
-                        ft.Text(f"Registro: {resource['registration']}"),
-                        ft.Text(f"Valoración: {resource['reason']}"),
-                    ],
-                    spacing=5,
-                ),
-                bgcolor=ft.Colors.BLUE_50,
-                border_radius=12,
-                padding=15,
-            )
-        ]
+        state["responses"]["p02_active_resource"] = resource["id"]
         refresh_view()
 
     rows = []
     for resource in resources["items"]:
+        expected = resource["id"] == resources["expected_id"]
+        selected = selected_value == resource["id"]
+        item_ok = selected == expected
+        title_control = ft.Text(resource["title"])
+        if validated:
+            title_control = ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(resource["title"]),
+                        inline_feedback(
+                            (
+                                f"Correcta: {resource['reason']}"
+                                if expected
+                                else f"Incorrecta: {resource['reason']}"
+                            ),
+                            item_ok,
+                        ),
+                    ],
+                    spacing=6,
+                ),
+                padding=6,
+            )
         rows.append(
             ft.DataRow(
                 cells=[
                     ft.DataCell(ft.Text(resource["id"])),
-                    ft.DataCell(ft.Text(resource["title"])),
+                    ft.DataCell(title_control),
                     ft.DataCell(ft.Text(resource["repository"])),
                     ft.DataCell(ft.Text(resource["format"])),
                     ft.DataCell(ft.Text(resource["compatibility"])),
@@ -260,7 +316,38 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
         )
 
     selected_radio.content.controls = [
-        ft.Radio(value=resource["id"], label=f"{resource['id']} · {resource['title']}")
+        ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Radio(value=resource["id"], label=f"{resource['id']} · {resource['title']}"),
+                    *(
+                        [
+                            inline_feedback(
+                                (
+                                    f"Correcta: {resource['reason']}"
+                                    if resource["id"] == resources["expected_id"]
+                                    else f"Incorrecta: {resource['reason']}"
+                                ),
+                                (
+                                    selected_value == resource["id"] == resources["expected_id"]
+                                    or (
+                                        selected_value != resource["id"]
+                                        and resource["id"] != resources["expected_id"]
+                                    )
+                                ),
+                            )
+                        ]
+                        if validated
+                        else []
+                    ),
+                ],
+                spacing=4,
+            ),
+            bgcolor=feedback_colors(resource["id"] == resources["expected_id"])[0] if validated else None,
+            border=ft.border.all(1, feedback_colors(resource["id"] == resources["expected_id"])[1]) if validated else None,
+            border_radius=8,
+            padding=8,
+        )
         for resource in resources["items"]
     ]
 

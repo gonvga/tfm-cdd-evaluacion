@@ -32,30 +32,6 @@ def build_result_box(feedback_data: dict) -> ft.Control:
         ft.Text(feedback_data["message"], size=14, color=ft.Colors.WHITE),
     ]
 
-    for detail in feedback_data.get("details", []):
-        controls.append(
-            ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(
-                            detail["title"],
-                            size=14,
-                            weight=ft.FontWeight.BOLD,
-                            color=ft.Colors.WHITE,
-                        ),
-                        *[
-                            ft.Text(line, size=13, color=ft.Colors.WHITE)
-                            for line in detail["lines"]
-                        ],
-                    ],
-                    spacing=4,
-                ),
-                bgcolor="#22FFFFFF",
-                border_radius=8,
-                padding=10,
-            )
-        )
-
     return ft.Container(
         content=ft.Column(
             controls=controls,
@@ -87,25 +63,67 @@ def build_info_panel(title: str, lines: list[str]) -> ft.Control:
     )
 
 
-def build_checkbox_cards(options: list[dict], saved_ids: list[str]) -> tuple[dict, list[ft.Control]]:
+def feedback_colors(is_correct: bool) -> tuple[str, str]:
+    return ("#DCFCE7", "#16A34A") if is_correct else ("#FEE2E2", "#DC2626")
+
+
+def inline_feedback(text: str, is_correct: bool) -> ft.Control:
+    bgcolor, color = feedback_colors(is_correct)
+    return ft.Container(
+        content=ft.Text(text, size=12, color=color),
+        bgcolor=bgcolor,
+        border=ft.border.all(1, color),
+        border_radius=8,
+        padding=8,
+    )
+
+
+def build_checkbox_cards(
+    options: list[dict],
+    saved_ids: list[str],
+    validated: bool = False,
+) -> tuple[dict, list[ft.Control]]:
     checkboxes = {}
     cards = []
 
     for option in options:
         checkbox = ft.Checkbox(value=option["id"] in saved_ids)
         checkboxes[option["id"]] = checkbox
+        expected = option["expected"]
+        selected = option["id"] in saved_ids
+        item_ok = selected == expected
+        feedback = []
+        if validated:
+            feedback.append(
+                inline_feedback(
+                    (
+                        "Correcta: permite recuperar recursos por criterios estables."
+                        if expected
+                        else "Incorrecta: no garantiza una catalogación sistemática ni recuperable."
+                    ),
+                    item_ok,
+                )
+            )
         cards.append(
             ft.Container(
                 content=ft.Row(
                     controls=[
                         checkbox,
-                        ft.Text(option["label"], size=15, weight=ft.FontWeight.W_600, expand=True),
+                        ft.Column(
+                            controls=[
+                                ft.Text(option["label"], size=15, weight=ft.FontWeight.W_600),
+                                *feedback,
+                            ],
+                            spacing=6,
+                            expand=True,
+                        ),
                     ],
                     vertical_alignment=ft.CrossAxisAlignment.START,
                 ),
                 col={"xs": 12, "md": 6},
                 padding=10,
                 border=ft.border.all(1, ft.Colors.GREY_300),
+                bgcolor=feedback_colors(item_ok)[0] if validated else None,
                 border_radius=10,
             )
         )
@@ -193,11 +211,34 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
     saved_systems = state["responses"].get("p03_systems", [])
     opened_resources = state["responses"].get("p03_opened_resources", [])
     active_resource_id = state["responses"].get("p03_active_resource")
+    validated = state["feedback"]["p03"]["ok"] is not None
+    saved_query_result = evaluate_query_tasks(queries["tasks"], saved_queries) if validated else None
 
     query_fields = {}
     query_controls = []
 
     for task in queries["tasks"]:
+        task_ok = True
+        query_feedback = []
+        if validated and saved_query_result:
+            task_detail = saved_query_result["details"][task["id"]]
+            task_ok = not task_detail["missing_patterns"]
+            if task_ok:
+                query_feedback.append(
+                    inline_feedback("Correcta: la consulta cubre los criterios pedidos.", True)
+                )
+            else:
+                pattern_labels = {
+                    pattern["id"]: pattern["label"]
+                    for pattern in task["required_patterns"]
+                }
+                missing = [
+                    pattern_labels[pattern_id]
+                    for pattern_id in task_detail["missing_patterns"]
+                ]
+                query_feedback.append(
+                    inline_feedback(f"Falta: {', '.join(missing)}.", False)
+                )
         field = ft.TextField(
             label=task["label"],
             value=saved_queries.get(task["id"], ""),
@@ -214,11 +255,13 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
                         ft.Text(task["label"], size=15, weight=ft.FontWeight.BOLD),
                         ft.Text(task["hint"], size=13, color=ft.Colors.GREY_700),
                         field,
+                        *query_feedback,
                     ],
                     spacing=6,
                 ),
                 padding=12,
                 border=ft.border.all(1, ft.Colors.GREY_300),
+                bgcolor=feedback_colors(task_ok)[0] if validated else None,
                 border_radius=10,
             )
         )
@@ -226,6 +269,7 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
     system_checkboxes, system_cards = build_checkbox_cards(
         system["options"],
         saved_systems,
+        validated,
     )
 
     folder_options = dropdown_options(cataloging["folder_options"])
@@ -281,6 +325,12 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
 
     for resource in cataloging["resources"]:
         saved_resource = saved_catalog.get(resource["id"], {})
+        expected = {
+            "folder": resource["expected_folder"],
+            "difficulty": resource["expected_difficulty"],
+            "tag": resource["expected_tag"],
+        }
+        resource_ok = saved_resource == expected
         folder_dropdown = ft.Dropdown(
             value=saved_resource.get("folder"),
             width=180,
@@ -305,21 +355,34 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
 
         reviewed_label = "Revisada" if resource["id"] in opened_resources else "Pendiente"
         reviewed_color = ft.Colors.GREEN_700 if resource["id"] in opened_resources else ft.Colors.ORANGE_700
+        resource_title = ft.Column(
+            controls=[
+                ft.Text(resource["title"], weight=ft.FontWeight.W_600),
+                ft.Text(resource["format"], size=12, color=ft.Colors.GREY_700),
+                ft.Text(reviewed_label, size=12, color=reviewed_color),
+            ],
+            spacing=3,
+        )
+        if validated:
+            resource_title.controls.append(
+                inline_feedback(
+                    (
+                        "Correcta: la catalogación coincide con la ficha revisada."
+                        if resource_ok
+                        else (
+                            f"Correcta: finalidad {expected['folder']}, "
+                            f"dificultad {expected['difficulty']}, etiqueta {expected['tag']}."
+                        )
+                    ),
+                    resource_ok,
+                )
+            )
 
         catalog_rows.append(
             ft.DataRow(
                 cells=[
                     ft.DataCell(ft.Text(resource["id"])),
-                    ft.DataCell(
-                        ft.Column(
-                            controls=[
-                                ft.Text(resource["title"], weight=ft.FontWeight.W_600),
-                                ft.Text(resource["format"], size=12, color=ft.Colors.GREY_700),
-                                ft.Text(reviewed_label, size=12, color=reviewed_color),
-                            ],
-                            spacing=3,
-                        )
-                    ),
+                    ft.DataCell(resource_title),
                     ft.DataCell(
                         ft.ElevatedButton(
                             "Ver ficha",

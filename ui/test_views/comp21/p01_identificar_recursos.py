@@ -35,30 +35,6 @@ def build_result_box(feedback_data: dict) -> ft.Control:
         ),
     ]
 
-    for detail in feedback_data.get("details", []):
-        controls.append(
-            ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(
-                            detail["title"],
-                            size=14,
-                            weight=ft.FontWeight.BOLD,
-                            color=ft.Colors.WHITE,
-                        ),
-                        *[
-                            ft.Text(line, size=13, color=ft.Colors.WHITE)
-                            for line in detail["lines"]
-                        ],
-                    ],
-                    spacing=4,
-                ),
-                bgcolor="#22FFFFFF",
-                border_radius=8,
-                padding=10,
-            )
-        )
-
     return ft.Container(
         content=ft.Column(
             controls=controls,
@@ -95,6 +71,21 @@ def ids_to_labels(items: list[dict], ids: list[str], label_key: str = "label") -
     return [labels.get(item_id, item_id) for item_id in ids]
 
 
+def feedback_colors(is_correct: bool) -> tuple[str, str]:
+    return ("#DCFCE7", "#16A34A") if is_correct else ("#FEE2E2", "#DC2626")
+
+
+def inline_feedback(text: str, is_correct: bool) -> ft.Control:
+    bgcolor, color = feedback_colors(is_correct)
+    return ft.Container(
+        content=ft.Text(text, size=12, color=color),
+        bgcolor=bgcolor,
+        border=ft.border.all(1, color),
+        border_radius=8,
+        padding=8,
+    )
+
+
 def build_test_p01(state: dict, refresh_view) -> ft.Control:
     test_data = load_test_data()
     classification = test_data["classification"]
@@ -107,6 +98,27 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
     saved_metadata = state["responses"].get("p01_metadata_answer")
     saved_folder_name = state["responses"].get("p01_folder_name", "")
     saved_files = state["responses"].get("p01_folder_files", [])
+    validated = state["feedback"]["p01"]["ok"] is not None
+
+    expected_classification = {
+        label["id"]: label["expected_category"]
+        for label in classification["labels"]
+    }
+    expected_search_tools = [
+        option["id"] for option in search_tools["options"] if option["expected"]
+    ]
+    expected_metadata = next(
+        option["id"] for option in metadata_question["options"] if option["expected"]
+    )
+    expected_files = [
+        file_item["id"]
+        for file_item in organization["files"]
+        if file_item["expected_in_folder"]
+    ]
+    category_labels = {
+        category["id"]: category["label"]
+        for category in classification["categories"]
+    }
 
     category_options = [
         ft.dropdown.Option(category["id"], category["label"])
@@ -116,17 +128,40 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
     classification_dropdowns = {}
     classification_rows = []
     for label in classification["labels"]:
+        answer = saved_classification.get(label["id"])
+        expected = expected_classification[label["id"]]
+        item_ok = answer == expected
         dropdown = ft.Dropdown(
-            value=saved_classification.get(label["id"]),
+            value=answer,
             options=category_options,
             width=260,
         )
         classification_dropdowns[label["id"]] = dropdown
+        label_control = ft.Text(label["text"])
+        answer_control = dropdown
+        if validated:
+            label_control = ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(label["text"]),
+                        inline_feedback(
+                            (
+                                f"Correcto: corresponde a {category_labels[expected]}."
+                                if item_ok
+                                else f"Correcta: {category_labels[expected]}. Tu respuesta: {category_labels.get(answer, 'sin responder')}."
+                            ),
+                            item_ok,
+                        ),
+                    ],
+                    spacing=6,
+                ),
+                padding=6,
+            )
         classification_rows.append(
             ft.DataRow(
                 cells=[
-                    ft.DataCell(ft.Text(label["text"])),
-                    ft.DataCell(dropdown),
+                    ft.DataCell(label_control),
+                    ft.DataCell(answer_control),
                 ]
             )
         )
@@ -136,6 +171,21 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
     for option in search_tools["options"]:
         checkbox = ft.Checkbox(value=option["id"] in saved_search_tools)
         search_checkboxes[option["id"]] = checkbox
+        expected = option["id"] in expected_search_tools
+        selected = option["id"] in saved_search_tools
+        item_ok = selected == expected
+        feedback = []
+        if validated:
+            feedback.append(
+                inline_feedback(
+                    (
+                        f"Correcta: {option['description']}"
+                        if expected
+                        else f"Incorrecta: {option['description']}"
+                    ),
+                    item_ok,
+                )
+            )
         search_cards.append(
             ft.Container(
                 content=ft.Row(
@@ -145,6 +195,7 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
                             controls=[
                                 ft.Text(option["label"], size=15, weight=ft.FontWeight.BOLD),
                                 ft.Text(option["description"], size=13, color=ft.Colors.GREY_700),
+                                *feedback,
                             ],
                             spacing=2,
                             expand=True,
@@ -155,6 +206,7 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
                 col={"xs": 12, "md": 6},
                 padding=10,
                 border=ft.border.all(1, ft.Colors.GREY_300),
+                bgcolor=feedback_colors(item_ok)[0] if validated else None,
                 border_radius=10,
             )
         )
@@ -163,7 +215,33 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
         value=saved_metadata,
         content=ft.Column(
             controls=[
-                ft.Radio(value=option["id"], label=option["text"])
+                ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.Radio(value=option["id"], label=option["text"]),
+                            *(
+                                [
+                                    inline_feedback(
+                                        (
+                                            "Correcta: los metadatos permiten describir, indexar y recuperar el recurso."
+                                            if option["expected"]
+                                            else "Incorrecta: no describe el contenido educativo con etiquetas recuperables."
+                                        ),
+                                        saved_metadata == option["id"] == expected_metadata
+                                        or (saved_metadata != option["id"] and not option["expected"]),
+                                    )
+                                ]
+                                if validated
+                                else []
+                            ),
+                        ],
+                        spacing=4,
+                    ),
+                    bgcolor=feedback_colors(option["expected"])[0] if validated else None,
+                    border=ft.border.all(1, feedback_colors(option["expected"])[1]) if validated else None,
+                    border_radius=8,
+                    padding=8,
+                )
                 for option in metadata_question["options"]
             ],
             spacing=4,
@@ -175,18 +253,56 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
         value=saved_folder_name,
         hint_text=organization["folder_hint"],
     )
+    folder_feedback = ft.Container()
+    if validated:
+        folder_lower = saved_folder_name.lower()
+        folder_name_ok = any(
+            keyword.lower() in folder_lower
+            for keyword in organization["valid_folder_keywords"]
+        )
+        folder_feedback = inline_feedback(
+            (
+                "Correcto: el nombre se relaciona con la unidad o el contexto docente."
+                if folder_name_ok
+                else f"Debe relacionarse con la unidad. Ejemplo: {organization['folder_hint']}"
+            ),
+            folder_name_ok,
+        )
 
     file_checkboxes = {}
     file_rows = []
     for file_item in organization["files"]:
         checkbox = ft.Checkbox(value=file_item["id"] in saved_files)
         file_checkboxes[file_item["id"]] = checkbox
+        expected = file_item["id"] in expected_files
+        selected = file_item["id"] in saved_files
+        item_ok = selected == expected
+        name_control = ft.Text(file_item["name"])
+        description_control = ft.Text(file_item["description"])
+        if validated:
+            name_control = ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(file_item["name"]),
+                        inline_feedback(
+                            (
+                                "Debe moverse a la carpeta educativa."
+                                if expected
+                                else "Debe quedar fuera: no pertenece a la actividad docente."
+                            ),
+                            item_ok,
+                        ),
+                    ],
+                    spacing=6,
+                ),
+                padding=6,
+            )
         file_rows.append(
             ft.DataRow(
                 cells=[
                     ft.DataCell(checkbox),
-                    ft.DataCell(ft.Text(file_item["name"])),
-                    ft.DataCell(ft.Text(file_item["description"])),
+                    ft.DataCell(name_control),
+                    ft.DataCell(description_control),
                 ]
             )
         )
@@ -214,22 +330,6 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
         state["responses"]["p01_metadata_answer"] = metadata_answer
         state["responses"]["p01_folder_name"] = folder_value
         state["responses"]["p01_folder_files"] = selected_files
-
-        expected_classification = {
-            label["id"]: label["expected_category"]
-            for label in classification["labels"]
-        }
-        expected_search_tools = [
-            option["id"] for option in search_tools["options"] if option["expected"]
-        ]
-        expected_metadata = next(
-            option["id"] for option in metadata_question["options"] if option["expected"]
-        )
-        expected_files = [
-            file_item["id"]
-            for file_item in organization["files"]
-            if file_item["expected_in_folder"]
-        ]
 
         classification_correct = [
             label_id
@@ -272,10 +372,6 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
 
         message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
 
-        category_labels = {
-            category["id"]: category["label"]
-            for category in classification["categories"]
-        }
         label_texts = {
             label["id"]: label["text"]
             for label in classification["labels"]
@@ -444,6 +540,7 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
             section_title(organization["title"]),
             ft.Text(organization["description"], size=14),
             folder_name,
+            folder_feedback,
             ft.DataTable(
                 columns=[
                     ft.DataColumn(ft.Text("Mover")),
