@@ -81,6 +81,39 @@ def inline_feedback(text: str, is_correct: bool) -> ft.Control:
     )
 
 
+def feedback_panel(title: str, rows: list[tuple[bool, str]]) -> ft.Control:
+    if not rows:
+        return ft.Container()
+
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(title, size=14, weight=ft.FontWeight.BOLD),
+                *[
+                    ft.Row(
+                        controls=[
+                            ft.Container(
+                                width=10,
+                                height=10,
+                                border_radius=999,
+                                bgcolor=feedback_colors(ok)[1],
+                            ),
+                            ft.Text(text, size=13, expand=True),
+                        ],
+                        vertical_alignment=ft.CrossAxisAlignment.START,
+                    )
+                    for ok, text in rows
+                ],
+            ],
+            spacing=8,
+        ),
+        bgcolor="#F9FAFB",
+        border=ft.border.all(1, ft.Colors.GREY_300),
+        border_radius=10,
+        padding=12,
+    )
+
+
 def build_checkbox_cards(
     options: list[dict],
     saved_ids: list[str],
@@ -274,28 +307,22 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
         refresh_view()
 
     rows = []
+    resource_feedback_rows = []
     for resource in resources["items"]:
         expected = resource["id"] == resources["expected_id"]
         selected = selected_value == resource["id"]
         item_ok = selected == expected
         title_control = ft.Text(resource["title"])
         if validated:
-            title_control = ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(resource["title"]),
-                        inline_feedback(
-                            (
-                                f"Correcta: {resource['reason']}"
-                                if expected
-                                else f"Incorrecta: {resource['reason']}"
-                            ),
-                            item_ok,
-                        ),
-                    ],
-                    spacing=6,
-                ),
-                padding=6,
+            resource_feedback_rows.append(
+                (
+                    item_ok,
+                    (
+                        f"{resource['id']} · {resource['title']}: opción correcta"
+                        if expected
+                        else f"{resource['id']} · {resource['title']}: {resource['reason']}"
+                    ),
+                )
             )
         rows.append(
             ft.DataRow(
@@ -316,38 +343,7 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
         )
 
     selected_radio.content.controls = [
-        ft.Container(
-            content=ft.Column(
-                controls=[
-                    ft.Radio(value=resource["id"], label=f"{resource['id']} · {resource['title']}"),
-                    *(
-                        [
-                            inline_feedback(
-                                (
-                                    f"Correcta: {resource['reason']}"
-                                    if resource["id"] == resources["expected_id"]
-                                    else f"Incorrecta: {resource['reason']}"
-                                ),
-                                (
-                                    selected_value == resource["id"] == resources["expected_id"]
-                                    or (
-                                        selected_value != resource["id"]
-                                        and resource["id"] != resources["expected_id"]
-                                    )
-                                ),
-                            )
-                        ]
-                        if validated
-                        else []
-                    ),
-                ],
-                spacing=4,
-            ),
-            bgcolor=feedback_colors(resource["id"] == resources["expected_id"])[0] if validated else None,
-            border=ft.border.all(1, feedback_colors(resource["id"] == resources["expected_id"])[1]) if validated else None,
-            border_radius=8,
-            padding=8,
-        )
+        ft.Radio(value=resource["id"], label=f"{resource['id']} · {resource['title']}")
         for resource in resources["items"]
     ]
 
@@ -584,6 +580,7 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
                 ],
                 rows=rows,
             ),
+            feedback_panel("Corrección de recursos", resource_feedback_rows),
             detail_box,
             ft.Container(height=8),
             ft.Text(

@@ -78,6 +78,39 @@ def inline_feedback(text: str, is_correct: bool) -> ft.Control:
     )
 
 
+def feedback_panel(title: str, rows: list[tuple[bool, str]]) -> ft.Control:
+    if not rows:
+        return ft.Container()
+
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(title, size=14, weight=ft.FontWeight.BOLD),
+                *[
+                    ft.Row(
+                        controls=[
+                            ft.Container(
+                                width=10,
+                                height=10,
+                                border_radius=999,
+                                bgcolor=feedback_colors(ok)[1],
+                            ),
+                            ft.Text(text, size=13, expand=True),
+                        ],
+                        vertical_alignment=ft.CrossAxisAlignment.START,
+                    )
+                    for ok, text in rows
+                ],
+            ],
+            spacing=8,
+        ),
+        bgcolor="#F9FAFB",
+        border=ft.border.all(1, ft.Colors.GREY_300),
+        border_radius=10,
+        padding=12,
+    )
+
+
 def build_checkbox_cards(
     options: list[dict],
     saved_ids: list[str],
@@ -322,6 +355,7 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
         )
 
     catalog_rows = []
+    catalog_feedback_rows = []
 
     for resource in cataloging["resources"]:
         saved_resource = saved_catalog.get(resource["id"], {})
@@ -364,17 +398,17 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
             spacing=3,
         )
         if validated:
-            resource_title.controls.append(
-                inline_feedback(
+            catalog_feedback_rows.append(
+                (
+                    resource_ok,
                     (
-                        "Correcta: la catalogación coincide con la ficha revisada."
+                        f"{resource['id']} · {resource['title']}: catalogación correcta"
                         if resource_ok
                         else (
-                            f"Correcta: finalidad {expected['folder']}, "
+                            f"{resource['id']} · {resource['title']}: finalidad {expected['folder']}, "
                             f"dificultad {expected['difficulty']}, etiqueta {expected['tag']}."
                         )
                     ),
-                    resource_ok,
                 )
             )
 
@@ -626,6 +660,7 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
                 ],
                 rows=catalog_rows,
             ),
+            feedback_panel("Corrección de catalogación", catalog_feedback_rows),
             detail_box,
             ft.Divider(height=24),
             section_title(system["title"]),

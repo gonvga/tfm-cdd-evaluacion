@@ -86,6 +86,39 @@ def inline_feedback(text: str, is_correct: bool) -> ft.Control:
     )
 
 
+def feedback_panel(title: str, rows: list[tuple[bool, str]]) -> ft.Control:
+    if not rows:
+        return ft.Container()
+
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(title, size=14, weight=ft.FontWeight.BOLD),
+                *[
+                    ft.Row(
+                        controls=[
+                            ft.Container(
+                                width=10,
+                                height=10,
+                                border_radius=999,
+                                bgcolor=feedback_colors(ok)[1],
+                            ),
+                            ft.Text(text, size=13, expand=True),
+                        ],
+                        vertical_alignment=ft.CrossAxisAlignment.START,
+                    )
+                    for ok, text in rows
+                ],
+            ],
+            spacing=8,
+        ),
+        bgcolor="#F9FAFB",
+        border=ft.border.all(1, ft.Colors.GREY_300),
+        border_radius=10,
+        padding=12,
+    )
+
+
 def build_test_p01(state: dict, refresh_view) -> ft.Control:
     test_data = load_test_data()
     classification = test_data["classification"]
@@ -127,6 +160,7 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
 
     classification_dropdowns = {}
     classification_rows = []
+    classification_feedback_rows = []
     for label in classification["labels"]:
         answer = saved_classification.get(label["id"])
         expected = expected_classification[label["id"]]
@@ -140,22 +174,15 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
         label_control = ft.Text(label["text"])
         answer_control = dropdown
         if validated:
-            label_control = ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(label["text"]),
-                        inline_feedback(
-                            (
-                                f"Correcto: corresponde a {category_labels[expected]}."
-                                if item_ok
-                                else f"Correcta: {category_labels[expected]}. Tu respuesta: {category_labels.get(answer, 'sin responder')}."
-                            ),
-                            item_ok,
-                        ),
-                    ],
-                    spacing=6,
-                ),
-                padding=6,
+            classification_feedback_rows.append(
+                (
+                    item_ok,
+                    (
+                        f"{label['text']}: {category_labels[expected]}"
+                        if item_ok
+                        else f"{label['text']}: correcta {category_labels[expected]}; marcada {category_labels.get(answer, 'sin responder')}"
+                    ),
+                )
             )
         classification_rows.append(
             ft.DataRow(
@@ -271,6 +298,7 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
 
     file_checkboxes = {}
     file_rows = []
+    file_feedback_rows = []
     for file_item in organization["files"]:
         checkbox = ft.Checkbox(value=file_item["id"] in saved_files)
         file_checkboxes[file_item["id"]] = checkbox
@@ -280,22 +308,15 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
         name_control = ft.Text(file_item["name"])
         description_control = ft.Text(file_item["description"])
         if validated:
-            name_control = ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(file_item["name"]),
-                        inline_feedback(
-                            (
-                                "Debe moverse a la carpeta educativa."
-                                if expected
-                                else "Debe quedar fuera: no pertenece a la actividad docente."
-                            ),
-                            item_ok,
-                        ),
-                    ],
-                    spacing=6,
-                ),
-                padding=6,
+            file_feedback_rows.append(
+                (
+                    item_ok,
+                    (
+                        f"{file_item['name']}: mover a la carpeta"
+                        if expected
+                        else f"{file_item['name']}: dejar fuera"
+                    ),
+                )
             )
         file_rows.append(
             ft.DataRow(
@@ -528,6 +549,7 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
                 ],
                 rows=classification_rows,
             ),
+            feedback_panel("Corrección de la clasificación", classification_feedback_rows),
             ft.Divider(height=24),
             section_title(search_tools["title"]),
             ft.Text(search_tools["description"], size=14),
@@ -549,6 +571,7 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
                 ],
                 rows=file_rows,
             ),
+            feedback_panel("Corrección de archivos", file_feedback_rows),
             ft.Container(height=8),
             ft.ElevatedButton("Validar prueba", on_click=validate),
             build_result_box(state["feedback"]["p01"]),
