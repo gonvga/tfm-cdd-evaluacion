@@ -21,22 +21,47 @@ def build_result_box(feedback_data: dict) -> ft.Control:
         return ft.Container()
 
     ok = feedback_data["ok"]
+    controls = [
+        ft.Text(
+            "Resultado de la prueba",
+            size=17,
+            weight=ft.FontWeight.BOLD,
+            color=ft.Colors.WHITE,
+        ),
+        ft.Text(
+            feedback_data["message"],
+            size=14,
+            color=ft.Colors.WHITE,
+        ),
+    ]
+
+    for detail in feedback_data.get("details", []):
+        controls.append(
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(
+                            detail["title"],
+                            size=14,
+                            weight=ft.FontWeight.BOLD,
+                            color=ft.Colors.WHITE,
+                        ),
+                        *[
+                            ft.Text(line, size=13, color=ft.Colors.WHITE)
+                            for line in detail["lines"]
+                        ],
+                    ],
+                    spacing=4,
+                ),
+                bgcolor="#22FFFFFF",
+                border_radius=8,
+                padding=10,
+            )
+        )
 
     return ft.Container(
         content=ft.Column(
-            controls=[
-                ft.Text(
-                    "Resultado de la prueba",
-                    size=17,
-                    weight=ft.FontWeight.BOLD,
-                    color=ft.Colors.WHITE,
-                ),
-                ft.Text(
-                    feedback_data["message"],
-                    size=14,
-                    color=ft.Colors.WHITE,
-                ),
-            ],
+            controls=controls,
             spacing=8,
         ),
         bgcolor=ft.Colors.GREEN if ok else ft.Colors.RED,
@@ -63,6 +88,11 @@ def build_info_panel(title: str, lines: list[str]) -> ft.Control:
         border_radius=12,
         padding=14,
     )
+
+
+def ids_to_labels(items: list[dict], ids: list[str], label_key: str = "label") -> list[str]:
+    labels = {item["id"]: item.get(label_key, item.get("text", item["id"])) for item in items}
+    return [labels.get(item_id, item_id) for item_id in ids]
 
 
 def build_test_p01(state: dict, refresh_view) -> ft.Control:
@@ -242,9 +272,71 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
 
         message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
 
+        category_labels = {
+            category["id"]: category["label"]
+            for category in classification["categories"]
+        }
+        label_texts = {
+            label["id"]: label["text"]
+            for label in classification["labels"]
+        }
+        metadata_texts = {
+            option["id"]: option["text"]
+            for option in metadata_question["options"]
+        }
+        file_names = {
+            file_item["id"]: file_item["name"]
+            for file_item in organization["files"]
+        }
+
+        details = []
+        if not classification_ok:
+            lines = []
+            for label_id, expected in expected_classification.items():
+                answer = classification_answers.get(label_id)
+                status = "Correcta" if answer == expected else "Incorrecta"
+                lines.append(
+                    f"{status}: {label_texts[label_id]} -> {category_labels[expected]}. "
+                    f"Tu respuesta: {category_labels.get(answer, 'sin responder')}. "
+                    "Se clasifica ahí por el tipo de criterio que evalúa."
+                )
+            details.append({"title": "Clasificación de criterios", "lines": lines})
+
+        if not search_ok:
+            correct = ", ".join(ids_to_labels(search_tools["options"], expected_search_tools))
+            lines = [f"Respuesta correcta: {correct}."]
+            for option in search_tools["options"]:
+                expected = option["expected"]
+                prefix = "Correcta" if expected else "Incorrecta"
+                lines.append(f"{prefix}: {option['label']}. {option['description']}")
+            details.append({"title": "Herramientas de búsqueda", "lines": lines})
+
+        if not metadata_ok:
+            lines = [f"Respuesta correcta: {expected_metadata}) {metadata_texts[expected_metadata]}"]
+            for option in metadata_question["options"]:
+                if option["expected"]:
+                    lines.append("Correcta: los metadatos describen el recurso y permiten indexarlo y recuperarlo.")
+                else:
+                    lines.append(
+                        f"Incorrecta: {option['text']} No describe el contenido educativo con etiquetas recuperables."
+                    )
+            details.append({"title": "Pregunta sobre metadatos", "lines": lines})
+
+        if not organization_ok:
+            correct_files = ", ".join(ids_to_labels(organization["files"], expected_files, "name"))
+            lines = [
+                f"Nombre de carpeta esperado: debe relacionarse con la unidad, por ejemplo {organization['folder_hint']}",
+                f"Archivos que deben moverse: {correct_files}.",
+            ]
+            for file_item in organization["files"]:
+                status = "Debe incluirse" if file_item["expected_in_folder"] else "Debe quedar fuera"
+                lines.append(f"{status}: {file_item['name']}. {file_item['description']}")
+            details.append({"title": "Organización de archivos", "lines": lines})
+
         state["feedback"]["p01"] = {
             "ok": ok,
             "message": message,
+            "details": [] if ok else details,
         }
 
         result = {

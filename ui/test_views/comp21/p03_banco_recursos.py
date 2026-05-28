@@ -22,18 +22,43 @@ def build_result_box(feedback_data: dict) -> ft.Control:
         return ft.Container()
 
     ok = feedback_data["ok"]
+    controls = [
+        ft.Text(
+            "Resultado de la prueba",
+            size=17,
+            weight=ft.FontWeight.BOLD,
+            color=ft.Colors.WHITE,
+        ),
+        ft.Text(feedback_data["message"], size=14, color=ft.Colors.WHITE),
+    ]
+
+    for detail in feedback_data.get("details", []):
+        controls.append(
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(
+                            detail["title"],
+                            size=14,
+                            weight=ft.FontWeight.BOLD,
+                            color=ft.Colors.WHITE,
+                        ),
+                        *[
+                            ft.Text(line, size=13, color=ft.Colors.WHITE)
+                            for line in detail["lines"]
+                        ],
+                    ],
+                    spacing=4,
+                ),
+                bgcolor="#22FFFFFF",
+                border_radius=8,
+                padding=10,
+            )
+        )
 
     return ft.Container(
         content=ft.Column(
-            controls=[
-                ft.Text(
-                    "Resultado de la prueba",
-                    size=17,
-                    weight=ft.FontWeight.BOLD,
-                    color=ft.Colors.WHITE,
-                ),
-                ft.Text(feedback_data["message"], size=14, color=ft.Colors.WHITE),
-            ],
+            controls=controls,
             spacing=8,
         ),
         bgcolor=ft.Colors.GREEN if ok else ft.Colors.RED,
@@ -107,6 +132,11 @@ def evaluate_multi_select(options: list[dict], selected_ids: list[str]) -> dict:
         "wrong_ids": wrong,
         "ok": not missing and not wrong,
     }
+
+
+def option_labels(options: list[dict], option_ids: list[str]) -> list[str]:
+    labels = {option["id"]: option["label"] for option in options}
+    return [labels.get(option_id, option_id) for option_id in option_ids]
 
 
 def evaluate_query_tasks(query_tasks: list[dict], query_answers: dict) -> dict:
@@ -369,7 +399,81 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
 
         state["completed"]["p03"] = ok
         message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
-        state["feedback"]["p03"] = {"ok": ok, "message": message}
+
+        details = []
+        if not query_result["ok"]:
+            lines = []
+            for task in queries["tasks"]:
+                task_detail = query_result["details"][task["id"]]
+                if not task_detail["missing_patterns"]:
+                    lines.append(f"Correcta: {task['label']}. La consulta cubre los criterios pedidos.")
+                    continue
+
+                pattern_labels = {
+                    pattern["id"]: pattern["label"]
+                    for pattern in task["required_patterns"]
+                }
+                missing_labels = [
+                    pattern_labels[pattern_id]
+                    for pattern_id in task_detail["missing_patterns"]
+                ]
+                lines.append(
+                    f"Revisa: {task['label']}. Faltaba: {', '.join(missing_labels)}. "
+                    f"Tu consulta: {task_detail['query'] or 'sin responder'}."
+                )
+            details.append({"title": "Consultas de búsqueda", "lines": lines})
+
+        if not review_ok:
+            details.append(
+                {
+                    "title": "Revisión de fichas",
+                    "lines": [
+                        f"Debes abrir al menos {required_review_count} fichas simuladas antes de validar.",
+                        "La revisión permite comprobar autoría, licencia, accesibilidad, compatibilidad y uso didáctico.",
+                    ],
+                }
+            )
+
+        if not catalog_ok:
+            lines = []
+            resource_titles = {
+                resource["id"]: resource["title"]
+                for resource in cataloging["resources"]
+            }
+            for resource_id, expected in expected_catalog.items():
+                answer = catalog_answers[resource_id]
+                if answer == expected:
+                    lines.append(f"Correcta: {resource_id} · {resource_titles[resource_id]}.")
+                else:
+                    lines.append(
+                        f"Revisa: {resource_id} · {resource_titles[resource_id]}. "
+                        f"Respuesta correcta: finalidad {expected['folder']}, "
+                        f"dificultad {expected['difficulty']}, etiqueta {expected['tag']}. "
+                        f"Tu respuesta: finalidad {answer.get('folder') or 'sin responder'}, "
+                        f"dificultad {answer.get('difficulty') or 'sin responder'}, "
+                        f"etiqueta {answer.get('tag') or 'sin responder'}."
+                    )
+            details.append({"title": "Catalogación de recursos", "lines": lines})
+
+        if not systems_result["ok"]:
+            correct = ", ".join(option_labels(system["options"], systems_result["expected_ids"]))
+            lines = [f"Respuesta correcta: {correct}."]
+            for option in system["options"]:
+                if option["expected"]:
+                    lines.append(
+                        f"Correcta: {option['label']}. Permite recuperar recursos por criterios estables."
+                    )
+                else:
+                    lines.append(
+                        f"Incorrecta: {option['label']}. No garantiza una catalogación sistemática ni recuperable."
+                    )
+            details.append({"title": "Sistema de catálogo", "lines": lines})
+
+        state["feedback"]["p03"] = {
+            "ok": ok,
+            "message": message,
+            "details": [] if ok else details,
+        }
 
         result = {
             "test_id": TEST_ID,

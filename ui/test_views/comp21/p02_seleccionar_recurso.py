@@ -21,22 +21,47 @@ def build_result_box(feedback_data: dict) -> ft.Control:
         return ft.Container()
 
     ok = feedback_data["ok"]
+    controls = [
+        ft.Text(
+            "Resultado de la prueba",
+            size=17,
+            weight=ft.FontWeight.BOLD,
+            color=ft.Colors.WHITE,
+        ),
+        ft.Text(
+            feedback_data["message"],
+            size=14,
+            color=ft.Colors.WHITE,
+        ),
+    ]
+
+    for detail in feedback_data.get("details", []):
+        controls.append(
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(
+                            detail["title"],
+                            size=14,
+                            weight=ft.FontWeight.BOLD,
+                            color=ft.Colors.WHITE,
+                        ),
+                        *[
+                            ft.Text(line, size=13, color=ft.Colors.WHITE)
+                            for line in detail["lines"]
+                        ],
+                    ],
+                    spacing=4,
+                ),
+                bgcolor="#22FFFFFF",
+                border_radius=8,
+                padding=10,
+            )
+        )
 
     return ft.Container(
         content=ft.Column(
-            controls=[
-                ft.Text(
-                    "Resultado de la prueba",
-                    size=17,
-                    weight=ft.FontWeight.BOLD,
-                    color=ft.Colors.WHITE,
-                ),
-                ft.Text(
-                    feedback_data["message"],
-                    size=14,
-                    color=ft.Colors.WHITE,
-                ),
-            ],
+            controls=controls,
             spacing=8,
         ),
         bgcolor=ft.Colors.GREEN if ok else ft.Colors.RED,
@@ -122,6 +147,29 @@ def evaluate_multi_select(options: list[dict], selected_ids: list[str]) -> dict:
         "wrong_ids": wrong,
         "ok": not missing and not wrong,
     }
+
+
+def option_labels(options: list[dict], option_ids: list[str]) -> list[str]:
+    labels = {option["id"]: option["label"] for option in options}
+    return [labels.get(option_id, option_id) for option_id in option_ids]
+
+
+def build_multi_select_feedback(title: str, options: list[dict], result: dict) -> dict:
+    correct = ", ".join(option_labels(options, result["expected_ids"]))
+    lines = [f"Respuesta correcta: {correct}."]
+
+    for option in options:
+        status = "Correcta" if option["expected"] else "Incorrecta"
+        explanation = option.get("description")
+        if not explanation:
+            explanation = (
+                "Se ajusta al contexto indicado."
+                if option["expected"]
+                else "No responde a los requisitos del contexto y puede introducir una barrera."
+            )
+        lines.append(f"{status}: {option['label']}. {explanation}")
+
+    return {"title": title, "lines": lines}
 
 
 def build_test_p02(state: dict, refresh_view) -> ft.Control:
@@ -284,9 +332,63 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
         state["completed"]["p02"] = ok
         message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
 
+        details = []
+        if not requirements_result["ok"]:
+            details.append(
+                build_multi_select_feedback(
+                    "Requisitos del contenido",
+                    requirements["options"],
+                    requirements_result,
+                )
+            )
+
+        if not repositories_result["ok"]:
+            details.append(
+                build_multi_select_feedback(
+                    "Repositorios donde buscar",
+                    repositories["options"],
+                    repositories_result,
+                )
+            )
+
+        if not filters_result["ok"]:
+            details.append(
+                build_multi_select_feedback(
+                    "Filtros de búsqueda",
+                    filters["options"],
+                    filters_result,
+                )
+            )
+
+        if not resource_ok:
+            expected_resource = next(
+                resource for resource in resources["items"] if resource["id"] == expected_id
+            )
+            lines = [
+                f"Respuesta correcta: {expected_resource['id']} · {expected_resource['title']}.",
+                f"Por qué es correcta: {expected_resource['reason']}",
+            ]
+            for resource in resources["items"]:
+                status = "Correcta" if resource["id"] == expected_id else "Incorrecta"
+                lines.append(
+                    f"{status}: {resource['id']} · {resource['title']}. {resource['reason']}"
+                )
+            details.append({"title": "Selección del recurso", "lines": lines})
+
+        if not consulted_detail:
+            details.append(
+                {
+                    "title": "Consulta de ficha",
+                    "lines": [
+                        "Antes de decidir conviene abrir la ficha del recurso correcto para comprobar nivel, licencia, accesibilidad, registro y compatibilidad con Moodle."
+                    ],
+                }
+            )
+
         state["feedback"]["p02"] = {
             "ok": ok,
             "message": message,
+            "details": [] if ok else details,
         }
 
         result = {
