@@ -1,12 +1,19 @@
-import flet as ft
+import json
 from datetime import datetime
+from pathlib import Path
+
+import flet as ft
 
 from core.storage import save_result
 from ui.components import question_block
 
 
 TEST_ID = "P02"
-SCENARIO_ID = "comp21_a2_mejor_recurso"
+DATA_PATH = Path("data/p02_comp21_a2.json")
+
+
+def load_test_data() -> dict:
+    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
 def build_result_box(feedback_data: dict) -> ft.Control:
@@ -38,68 +45,115 @@ def build_result_box(feedback_data: dict) -> ft.Control:
     )
 
 
-def build_test_p02(state: dict, refresh_view) -> ft.Control:
-    resources = [
-        {
-            "id": "A",
-            "title": "Documento técnico avanzado",
-            "age": "Bachillerato",
-            "reading_level": "Alto",
-            "license": "CC BY",
-            "format": "PDF",
-            "accessibility": "Texto denso, sin apoyos visuales",
-            "compatibility": "Descargable",
-        },
-        {
-            "id": "B",
-            "title": "Infografía accesible sobre hábitos saludables",
-            "age": "Primaria / primer ciclo ESO",
-            "reading_level": "Básico",
-            "license": "CC BY",
-            "format": "Imagen + texto",
-            "accessibility": "Lectura clara, contraste alto y texto alternativo",
-            "compatibility": "Sin registro",
-        },
-        {
-            "id": "C",
-            "title": "Vídeo motivacional de plataforma privada",
-            "age": "ESO",
-            "reading_level": "Medio",
-            "license": "Copyright completo",
-            "format": "Vídeo",
-            "accessibility": "Sin subtítulos",
-            "compatibility": "Requiere cuenta",
-        },
-        {
-            "id": "D",
-            "title": "Artículo divulgativo extenso",
-            "age": "Adultos",
-            "reading_level": "Alto",
-            "license": "No especificada",
-            "format": "Web",
-            "accessibility": "No indicada",
-            "compatibility": "Con publicidad",
-        },
-        {
-            "id": "E",
-            "title": "Presentación reutilizable",
-            "age": "ESO",
-            "reading_level": "Medio",
-            "license": "CC BY-SA",
-            "format": "Presentación",
-            "accessibility": "Correcta, pero con bastante texto",
-            "compatibility": "Descargable",
-        },
+def section_title(text: str) -> ft.Text:
+    return ft.Text(text, size=18, weight=ft.FontWeight.BOLD)
+
+
+def build_info_panel(title: str, lines: list[str]) -> ft.Control:
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(title, size=15, weight=ft.FontWeight.BOLD),
+                *[ft.Text(line, size=13, color=ft.Colors.GREY_700) for line in lines],
+            ],
+            spacing=4,
+        ),
+        bgcolor=ft.Colors.BLUE_50,
+        border=ft.border.all(1, ft.Colors.BLUE_100),
+        border_radius=12,
+        padding=14,
+    )
+
+
+def build_checkbox_cards(options: list[dict], saved_ids: list[str]) -> tuple[dict, list[ft.Control]]:
+    checkboxes = {}
+    cards = []
+
+    for option in options:
+        checkbox = ft.Checkbox(value=option["id"] in saved_ids)
+        checkboxes[option["id"]] = checkbox
+
+        details = []
+        if option.get("description"):
+            details.append(ft.Text(option["description"], size=13, color=ft.Colors.GREY_700))
+
+        cards.append(
+            ft.Container(
+                content=ft.Row(
+                    controls=[
+                        checkbox,
+                        ft.Column(
+                            controls=[
+                                ft.Text(option["label"], size=15, weight=ft.FontWeight.BOLD),
+                                *details,
+                            ],
+                            spacing=2,
+                            expand=True,
+                        ),
+                    ],
+                    vertical_alignment=ft.CrossAxisAlignment.START,
+                ),
+                col={"xs": 12, "md": 6},
+                padding=10,
+                border=ft.border.all(1, ft.Colors.GREY_300),
+                border_radius=10,
+            )
+        )
+
+    return checkboxes, cards
+
+
+def get_selected_ids(checkboxes: dict) -> list[str]:
+    return [
+        option_id
+        for option_id, checkbox in checkboxes.items()
+        if checkbox.value
     ]
 
-    selected_value = state["responses"].get("p02_selected", None)
+
+def evaluate_multi_select(options: list[dict], selected_ids: list[str]) -> dict:
+    expected_ids = [option["id"] for option in options if option["expected"]]
+    missing = [option_id for option_id in expected_ids if option_id not in selected_ids]
+    wrong = [option_id for option_id in selected_ids if option_id not in expected_ids]
+
+    return {
+        "expected_ids": expected_ids,
+        "missing_ids": missing,
+        "wrong_ids": wrong,
+        "ok": not missing and not wrong,
+    }
+
+
+def build_test_p02(state: dict, refresh_view) -> ft.Control:
+    test_data = load_test_data()
+    requirements = test_data["requirements"]
+    repositories = test_data["repositories"]
+    filters = test_data["filters"]
+    resources = test_data["resources"]
+
+    saved_requirements = state["responses"].get("p02_requirements", [])
+    saved_repositories = state["responses"].get("p02_repositories", [])
+    saved_filters = state["responses"].get("p02_filters", [])
+    selected_value = state["responses"].get("p02_selected")
     opened_details = state["responses"].get("p02_opened_details", [])
+
+    requirement_checkboxes, requirement_cards = build_checkbox_cards(
+        requirements["options"],
+        saved_requirements,
+    )
+    repository_checkboxes, repository_cards = build_checkbox_cards(
+        repositories["options"],
+        saved_repositories,
+    )
+    filter_checkboxes, filter_cards = build_checkbox_cards(
+        filters["options"],
+        saved_filters,
+    )
 
     selected_radio = ft.RadioGroup(
         value=selected_value,
         content=ft.Column(spacing=8),
     )
-
     detail_box = ft.Column(spacing=8)
 
     def show_detail(resource: dict):
@@ -118,12 +172,15 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
                             weight=ft.FontWeight.BOLD,
                         ),
                         ft.Text(f"Título: {resource['title']}"),
+                        ft.Text(f"Repositorio: {resource['repository']}"),
                         ft.Text(f"Edad recomendada: {resource['age']}"),
                         ft.Text(f"Nivel lector: {resource['reading_level']}"),
-                        ft.Text(f"Licencia: {resource['license']}"),
                         ft.Text(f"Formato: {resource['format']}"),
+                        ft.Text(f"Licencia: {resource['license']}"),
                         ft.Text(f"Accesibilidad: {resource['accessibility']}"),
                         ft.Text(f"Compatibilidad: {resource['compatibility']}"),
+                        ft.Text(f"Registro: {resource['registration']}"),
+                        ft.Text(f"Valoración: {resource['reason']}"),
                     ],
                     spacing=5,
                 ),
@@ -135,16 +192,15 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
         refresh_view()
 
     rows = []
-
-    for resource in resources:
+    for resource in resources["items"]:
         rows.append(
             ft.DataRow(
                 cells=[
                     ft.DataCell(ft.Text(resource["id"])),
                     ft.DataCell(ft.Text(resource["title"])),
-                    ft.DataCell(ft.Text(resource["age"])),
-                    ft.DataCell(ft.Text(resource["reading_level"])),
-                    ft.DataCell(ft.Text(resource["license"])),
+                    ft.DataCell(ft.Text(resource["repository"])),
+                    ft.DataCell(ft.Text(resource["format"])),
+                    ft.DataCell(ft.Text(resource["compatibility"])),
                     ft.DataCell(
                         ft.ElevatedButton(
                             "Ver ficha",
@@ -157,44 +213,76 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
 
     selected_radio.content.controls = [
         ft.Radio(value=resource["id"], label=f"{resource['id']} · {resource['title']}")
-        for resource in resources
+        for resource in resources["items"]
     ]
 
     def validate(e):
+        selected_requirements = get_selected_ids(requirement_checkboxes)
+        selected_repositories = get_selected_ids(repository_checkboxes)
+        selected_filters = get_selected_ids(filter_checkboxes)
         selected_id = selected_radio.value
+
+        state["responses"]["p02_requirements"] = selected_requirements
+        state["responses"]["p02_repositories"] = selected_repositories
+        state["responses"]["p02_filters"] = selected_filters
         state["responses"]["p02_selected"] = selected_id
         state["responses"]["p02_opened_details"] = opened_details
 
-        if selected_id is None:
-            state["completed"]["p02"] = False
-            state["feedback"]["p02"] = {
-                "ok": False,
-                "message": "Debes seleccionar un recurso antes de validar la prueba.",
-            }
-            refresh_view()
-            return
+        requirements_result = evaluate_multi_select(
+            requirements["options"],
+            selected_requirements,
+        )
+        repositories_result = evaluate_multi_select(
+            repositories["options"],
+            selected_repositories,
+        )
+        filters_result = evaluate_multi_select(
+            filters["options"],
+            selected_filters,
+        )
 
-        expected_id = "B"
-        selected_ok = selected_id == expected_id
+        expected_id = resources["expected_id"]
+        resource_ok = selected_id == expected_id
         consulted_detail = expected_id in opened_details
 
-        score = 100 if selected_ok and consulted_detail else 85 if selected_ok else 0
-        ok = selected_ok
+        requirements_score = max(
+            0,
+            30
+            - (len(requirements_result["missing_ids"]) * 5)
+            - (len(requirements_result["wrong_ids"]) * 5),
+        )
+        repositories_score = max(
+            0,
+            20
+            - (len(repositories_result["missing_ids"]) * 8)
+            - (len(repositories_result["wrong_ids"]) * 6),
+        )
+        filters_score = max(
+            0,
+            20
+            - (len(filters_result["missing_ids"]) * 4)
+            - (len(filters_result["wrong_ids"]) * 4),
+        )
+        resource_score = 25 if resource_ok else 0
+        detail_score = 5 if consulted_detail else 0
+        score = min(
+            100,
+            requirements_score
+            + repositories_score
+            + filters_score
+            + resource_score
+            + detail_score,
+        )
+
+        ok = (
+            requirements_result["ok"]
+            and repositories_result["ok"]
+            and filters_result["ok"]
+            and resource_ok
+        )
 
         state["completed"]["p02"] = ok
-
-        if selected_ok and consulted_detail:
-            message = (
-                "Prueba superada. Has elegido el recurso más adecuado y has consultado su ficha antes de decidir."
-            )
-        elif selected_ok:
-            message = (
-                "Prueba superada. Has elegido el recurso más adecuado. Como mejora, conviene revisar siempre la ficha completa antes de seleccionarlo."
-            )
-        else:
-            message = (
-                "Prueba no superada. Revisa el nivel lector, la accesibilidad, la licencia y si el recurso requiere registro."
-            )
+        message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
 
         state["feedback"]["p02"] = {
             "ok": ok,
@@ -203,12 +291,24 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
 
         result = {
             "test_id": TEST_ID,
-            "scenario_id": SCENARIO_ID,
-            "scenario_title": "Seleccionar el mejor recurso",
+            "scenario_id": test_data["scenario_id"],
+            "scenario_title": test_data["scenario_title"],
             "timestamp_utc": datetime.utcnow().isoformat(),
             "score_0_100": score,
             "level_hint": "A2" if ok else "A1",
             "payload": {
+                "selected_requirements": selected_requirements,
+                "expected_requirements": requirements_result["expected_ids"],
+                "missing_requirements": requirements_result["missing_ids"],
+                "wrong_requirements": requirements_result["wrong_ids"],
+                "selected_repositories": selected_repositories,
+                "expected_repositories": repositories_result["expected_ids"],
+                "missing_repositories": repositories_result["missing_ids"],
+                "wrong_repositories": repositories_result["wrong_ids"],
+                "selected_filters": selected_filters,
+                "expected_filters": filters_result["expected_ids"],
+                "missing_filters": filters_result["missing_ids"],
+                "wrong_filters": filters_result["wrong_ids"],
                 "selected_id": selected_id,
                 "expected_id": expected_id,
                 "opened_details": opened_details,
@@ -216,17 +316,38 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
             },
             "checks": [
                 {
+                    "check_id": "context_requirements",
+                    "label": "Identifica requisitos del contenido para una situación concreta",
+                    "passed": requirements_result["ok"],
+                    "weight": 30,
+                    "evidence": ", ".join(selected_requirements),
+                },
+                {
+                    "check_id": "institutional_repositories",
+                    "label": "Selecciona repositorios institucionales o empleados por el centro",
+                    "passed": repositories_result["ok"],
+                    "weight": 20,
+                    "evidence": ", ".join(selected_repositories),
+                },
+                {
+                    "check_id": "compatible_search_filters",
+                    "label": "Aplica filtros de búsqueda compatibles con el entorno virtual",
+                    "passed": filters_result["ok"],
+                    "weight": 20,
+                    "evidence": ", ".join(selected_filters),
+                },
+                {
                     "check_id": "best_resource_selected",
-                    "label": "Selecciona el recurso más adecuado al contexto",
-                    "passed": selected_ok,
-                    "weight": 85,
-                    "evidence": selected_id,
+                    "label": "Selecciona el contenido digital más adecuado al contexto",
+                    "passed": resource_ok,
+                    "weight": 25,
+                    "evidence": str(selected_id),
                 },
                 {
                     "check_id": "detail_consulted",
-                    "label": "Consulta la ficha detallada del recurso antes de decidir",
+                    "label": "Consulta la ficha del recurso antes de decidir",
                     "passed": consulted_detail,
-                    "weight": 15,
+                    "weight": 5,
                     "evidence": ", ".join(opened_details),
                 },
             ],
@@ -241,18 +362,35 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
     content = ft.Column(
         controls=[
             ft.Text(
-                "Escenario: debes seleccionar un recurso para un grupo con bajo nivel lector. "
-                "El recurso debe ser comprensible, accesible, reutilizable y no debe exigir registro.",
+                test_data["intro"],
                 size=15,
                 weight=ft.FontWeight.W_600,
             ),
+            build_info_panel(
+                test_data["advisor_note"]["title"],
+                test_data["advisor_note"]["lines"],
+            ),
+            section_title(requirements["title"]),
+            ft.Text(requirements["description"], size=14),
+            ft.ResponsiveRow(controls=requirement_cards, spacing=8, run_spacing=8),
+            ft.Divider(height=24),
+            section_title(repositories["title"]),
+            ft.Text(repositories["description"], size=14),
+            ft.ResponsiveRow(controls=repository_cards, spacing=8, run_spacing=8),
+            ft.Divider(height=24),
+            section_title(filters["title"]),
+            ft.Text(filters["description"], size=14),
+            ft.ResponsiveRow(controls=filter_cards, spacing=8, run_spacing=8),
+            ft.Divider(height=24),
+            section_title(resources["title"]),
+            ft.Text(resources["description"], size=14),
             ft.DataTable(
                 columns=[
                     ft.DataColumn(ft.Text("ID")),
                     ft.DataColumn(ft.Text("Recurso")),
-                    ft.DataColumn(ft.Text("Edad")),
-                    ft.DataColumn(ft.Text("Nivel lector")),
-                    ft.DataColumn(ft.Text("Licencia")),
+                    ft.DataColumn(ft.Text("Repositorio")),
+                    ft.DataColumn(ft.Text("Formato")),
+                    ft.DataColumn(ft.Text("Compatibilidad")),
                     ft.DataColumn(ft.Text("Ficha")),
                 ],
                 rows=rows,
@@ -260,7 +398,7 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
             detail_box,
             ft.Container(height=8),
             ft.Text(
-                "Selecciona el recurso más adecuado:",
+                "Selecciona el contenido más adecuado:",
                 size=16,
                 weight=ft.FontWeight.BOLD,
             ),
@@ -273,10 +411,7 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
     )
 
     return question_block(
-        title="P02 · Seleccionar el mejor recurso",
-        statement=(
-            "Evalúa los indicadores 2.1.A2.1 y 2.1.A2.2 mediante una selección guiada "
-            "de recursos digitales ajustados a un contexto educativo concreto."
-        ),
+        title=test_data["title"],
+        statement=test_data["statement"],
         content=content,
     )

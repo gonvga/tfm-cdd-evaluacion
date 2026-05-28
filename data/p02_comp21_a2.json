@@ -1,0 +1,192 @@
+{
+  "test_id": "P02",
+  "scenario_id": "comp21_a2_requisitos_repositorios",
+  "scenario_title": "Selección guiada de contenidos en repositorios",
+  "title": "P02 · Seleccionar contenidos para una situación concreta",
+  "statement": "Evalúa los indicadores 2.1.A2.1 y 2.1.A2.2 mediante la identificación guiada de requisitos, el uso de repositorios institucionales o del centro, la aplicación de filtros y la selección de un contenido compatible con el entorno virtual establecido.",
+  "intro": "Escenario: con el apoyo de una compañera del departamento, debes localizar un contenido digital para un grupo heterogéneo de 1º de ESO en una unidad sobre alimentación saludable. El centro utiliza un aula virtual Moodle y no permite recursos que obliguen al alumnado a crear cuentas externas.",
+  "advisor_note": {
+    "title": "Asesoramiento recibido",
+    "lines": [
+      "La evaluación diagnóstica muestra nivel lector bajo-medio y necesidad de apoyo visual.",
+      "El recurso debe servir para una actividad breve de introducción y repaso.",
+      "Debe poder integrarse o enlazarse desde Moodle sin registro externo del alumnado.",
+      "Conviene priorizar materiales accesibles, reutilizables y procedentes de repositorios institucionales o del centro."
+    ]
+  },
+  "requirements": {
+    "title": "Fase A · Requisitos del contenido digital",
+    "description": "Marca los requisitos que debe cumplir el contenido para ajustarse al contexto real del alumnado y del centro.",
+    "options": [
+      {
+        "id": "low_reading",
+        "label": "Lenguaje claro y nivel lector bajo-medio",
+        "expected": true
+      },
+      {
+        "id": "visual_support",
+        "label": "Apoyo visual o interactivo para un grupo heterogéneo",
+        "expected": true
+      },
+      {
+        "id": "moodle_compatible",
+        "label": "Compatibilidad con Moodle mediante enlace, paquete o inserción",
+        "expected": true
+      },
+      {
+        "id": "no_external_accounts",
+        "label": "Uso sin cuentas externas del alumnado",
+        "expected": true
+      },
+      {
+        "id": "open_license",
+        "label": "Licencia reutilizable o condiciones claras de uso educativo",
+        "expected": true
+      },
+      {
+        "id": "advanced_theory",
+        "label": "Desarrollo teórico avanzado para Bachillerato",
+        "expected": false
+      },
+      {
+        "id": "commercial_tracking",
+        "label": "Personalización por publicidad y seguimiento comercial",
+        "expected": false
+      }
+    ]
+  },
+  "repositories": {
+    "title": "Fase B · Repositorios donde buscar",
+    "description": "Selecciona las fuentes preferentes para localizar el contenido según el indicador 2.1.A2.2.",
+    "options": [
+      {
+        "id": "ae_repository",
+        "label": "Repositorio institucional de la Administración educativa",
+        "description": "Banco de recursos ofrecido por la A. E. con materiales educativos catalogados.",
+        "expected": true
+      },
+      {
+        "id": "school_repository",
+        "label": "Repositorio o aula virtual del centro",
+        "description": "Espacio validado por el centro para compartir contenidos con el alumnado.",
+        "expected": true
+      },
+      {
+        "id": "random_blog",
+        "label": "Blog personal sin autoría ni licencia visible",
+        "description": "Fuente informal no validada para selección institucional.",
+        "expected": false
+      },
+      {
+        "id": "commercial_platform",
+        "label": "Plataforma comercial que exige cuenta individual",
+        "description": "Servicio externo con registro obligatorio y condiciones no determinadas por el centro.",
+        "expected": false
+      }
+    ]
+  },
+  "filters": {
+    "title": "Fase C · Filtros de búsqueda",
+    "description": "Elige los filtros que aplicarías en el repositorio para encontrar contenidos compatibles con el contexto.",
+    "options": [
+      {
+        "id": "level_eso",
+        "label": "Nivel: 1º de ESO o Educación Secundaria",
+        "expected": true
+      },
+      {
+        "id": "open_license",
+        "label": "Licencia: reutilizable, CC o uso educativo permitido",
+        "expected": true
+      },
+      {
+        "id": "moodle_format",
+        "label": "Formato compatible con Moodle: enlace, H5P, SCORM o PDF accesible",
+        "expected": true
+      },
+      {
+        "id": "accessibility",
+        "label": "Accesibilidad: subtítulos, texto alternativo o lectura clara",
+        "expected": true
+      },
+      {
+        "id": "no_registration",
+        "label": "Acceso sin registro del alumnado",
+        "expected": true
+      },
+      {
+        "id": "most_downloaded",
+        "label": "Ordenar solo por más descargados, sin revisar contexto",
+        "expected": false
+      },
+      {
+        "id": "paid_only",
+        "label": "Mostrar únicamente recursos de pago",
+        "expected": false
+      }
+    ]
+  },
+  "resources": {
+    "title": "Fase D · Selección del contenido",
+    "description": "Tras aplicar los filtros, revisa las fichas y selecciona el contenido más adecuado.",
+    "expected_id": "B",
+    "items": [
+      {
+        "id": "A",
+        "title": "Artículo técnico sobre nutrición metabólica",
+        "repository": "Repositorio universitario abierto",
+        "age": "Bachillerato",
+        "reading_level": "Alto",
+        "format": "PDF",
+        "license": "CC BY",
+        "accessibility": "Texto largo sin apoyos visuales",
+        "compatibility": "Descargable, pero poco adecuado para Moodle como actividad breve",
+        "registration": "No requiere registro",
+        "reason": "Fuente fiable, pero no se ajusta al nivel ni al objetivo de aprendizaje."
+      },
+      {
+        "id": "B",
+        "title": "Actividad interactiva: plato saludable",
+        "repository": "Repositorio institucional de la A. E.",
+        "age": "1º ESO",
+        "reading_level": "Bajo-medio",
+        "format": "H5P enlazable",
+        "license": "CC BY-SA",
+        "accessibility": "Contraste alto, instrucciones claras y alternativa textual",
+        "compatibility": "Compatible con Moodle mediante enlace o inserción",
+        "registration": "No requiere cuentas externas",
+        "reason": "Cumple los requisitos del contexto, del centro y de reutilización."
+      },
+      {
+        "id": "C",
+        "title": "Vídeo comercial de retos saludables",
+        "repository": "Plataforma privada",
+        "age": "ESO",
+        "reading_level": "Medio",
+        "format": "Vídeo",
+        "license": "Copyright completo",
+        "accessibility": "Sin subtítulos",
+        "compatibility": "Inserción bloqueada fuera de la plataforma",
+        "registration": "Requiere cuenta del alumnado",
+        "reason": "Presenta barreras legales, técnicas y de acceso."
+      },
+      {
+        "id": "D",
+        "title": "Infografía sobre alimentación equilibrada",
+        "repository": "Blog educativo externo",
+        "age": "Primaria",
+        "reading_level": "Bajo",
+        "format": "Imagen",
+        "license": "No especificada",
+        "accessibility": "Sin texto alternativo",
+        "compatibility": "Puede enlazarse, pero la fuente no garantiza reutilización",
+        "registration": "No requiere registro",
+        "reason": "Es comprensible, pero falla en licencia, accesibilidad y repositorio."
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has establecido requisitos con apoyo, usado repositorios adecuados, aplicado filtros compatibles con el entorno virtual y seleccionado el recurso más ajustado.",
+    "failure": "Prueba no superada. Revisa los requisitos del contexto, la prioridad de repositorios institucionales o del centro, los filtros técnicos y la compatibilidad con Moodle."
+  }
+}
