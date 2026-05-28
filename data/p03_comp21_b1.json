@@ -1,0 +1,237 @@
+{
+  "test_id": "P03",
+  "scenario_id": "comp21_b1_busqueda_catalogo_practico",
+  "scenario_title": "Búsqueda práctica y catalogación autónoma",
+  "title": "P03 · Búsqueda y catálogo práctico B1",
+  "statement": "Evalúa los indicadores 2.1.B1.1, 2.1.B1.2 y 2.1.B1.3 mediante consultas de búsqueda, revisión de fichas simuladas y catalogación sistemática de contenidos educativos digitales.",
+  "intro": "Escenario: preparas una situación de aprendizaje sobre cambio climático para 2º de ESO. El grupo es heterogéneo: parte del alumnado necesita refuerzo visual, otro grupo demanda ampliación y también quieres incluir una actividad común que favorezca motivación, implicación y participación.",
+  "diagnosis": {
+    "title": "Contexto del alumnado",
+    "lines": [
+      "Conocimientos previos desiguales sobre causas y consecuencias del cambio climático.",
+      "Preferencia por vídeos breves, recursos interactivos e imágenes explicativas.",
+      "Necesidad de materiales accesibles y reutilizables desde el aula virtual del centro.",
+      "El equipo docente quiere conservar los recursos en un catálogo común por tema, nivel, área, finalidad y formato."
+    ]
+  },
+  "queries": {
+    "title": "Fase A · Construcción de búsquedas",
+    "description": "Escribe consultas que usarías para localizar contenidos digitales. No se realiza una búsqueda real en Internet: la prueba valida si aplicas operadores y criterios eficaces.",
+    "tasks": [
+      {
+        "id": "pdf_institutional",
+        "label": "PDF fiable para refuerzo o lectura guiada",
+        "hint": "Debe acotar formato y fuente educativa o institucional.",
+        "required_patterns": [
+          {
+            "id": "filetype_pdf",
+            "label": "Incluye filetype:pdf",
+            "regex": "(?i)\\bfiletype\\s*:\\s*pdf\\b"
+          },
+          {
+            "id": "site_filter",
+            "label": "Incluye site: para acotar la fuente",
+            "regex": "(?i)\\bsite\\s*:\\s*\\S+"
+          },
+          {
+            "id": "topic",
+            "label": "Incluye cambio climático o sostenibilidad",
+            "regex": "(?i)cambio\\s+clim[aá]tico|sostenibilidad"
+          }
+        ]
+      },
+      {
+        "id": "video_accessible",
+        "label": "Vídeo accesible para introducir la actividad",
+        "hint": "Debe buscar vídeo y contemplar subtítulos o transcripción.",
+        "required_patterns": [
+          {
+            "id": "video",
+            "label": "Incluye vídeo o video",
+            "regex": "(?i)v[ií]deo|video"
+          },
+          {
+            "id": "accessibility",
+            "label": "Incluye subtitulado, subtítulos o transcripción",
+            "regex": "(?i)subtitulado|subt[ií]tulos|transcripci[oó]n"
+          },
+          {
+            "id": "topic",
+            "label": "Incluye cambio climático o huella de carbono",
+            "regex": "(?i)cambio\\s+clim[aá]tico|huella\\s+de\\s+carbono"
+          }
+        ]
+      },
+      {
+        "id": "image_reusable",
+        "label": "Imagen o infografía reutilizable",
+        "hint": "Debe localizar imagen/infografía y tener en cuenta licencia.",
+        "required_patterns": [
+          {
+            "id": "image_format",
+            "label": "Incluye imagen o infografía",
+            "regex": "(?i)imagen|infograf[ií]a"
+          },
+          {
+            "id": "license",
+            "label": "Incluye licencia, Creative Commons o CC",
+            "regex": "(?i)licencia|creative\\s+commons|\\bcc\\b"
+          },
+          {
+            "id": "topic",
+            "label": "Incluye cambio climático o sostenibilidad",
+            "regex": "(?i)cambio\\s+clim[aá]tico|sostenibilidad"
+          }
+        ]
+      },
+      {
+        "id": "interactive_activity",
+        "label": "Actividad interactiva para participación común",
+        "hint": "Debe buscar un recurso interactivo o H5P compatible con el aula virtual.",
+        "required_patterns": [
+          {
+            "id": "interactive",
+            "label": "Incluye H5P, interactivo o simulación",
+            "regex": "(?i)h5p|interactiv[oa]|simulaci[oó]n"
+          },
+          {
+            "id": "participation",
+            "label": "Incluye actividad, participación o alumnado",
+            "regex": "(?i)actividad|participaci[oó]n|alumnado"
+          },
+          {
+            "id": "topic",
+            "label": "Incluye cambio climático o huella de carbono",
+            "regex": "(?i)cambio\\s+clim[aá]tico|huella\\s+de\\s+carbono"
+          }
+        ]
+      }
+    ],
+    "recommended_patterns": [
+      {
+        "id": "quotes",
+        "label": "Usa comillas para frase exacta",
+        "regex": "\"[^\"]+\""
+      },
+      {
+        "id": "minus",
+        "label": "Excluye algún término con -palabra",
+        "regex": "(?i)(\\s|^)\\-[a-záéíóúñ0-9]+"
+      }
+    ]
+  },
+  "cataloging": {
+    "title": "Fase B · Revisión de fichas y catalogación",
+    "description": "Abre las fichas simuladas, revisa sus metadatos y cataloga cada recurso para que el equipo docente pueda recuperarlo por finalidad, dificultad y etiqueta.",
+    "folder_options": [
+      "Refuerzo",
+      "Ampliación",
+      "Profundización",
+      "Actividad común",
+      "No válido"
+    ],
+    "difficulty_options": [
+      "Básica",
+      "Media",
+      "Alta",
+      "No aplica"
+    ],
+    "tag_options": [
+      "clima",
+      "2ESO",
+      "ciencias",
+      "refuerzo",
+      "ampliación",
+      "profundización",
+      "participación",
+      "accesibilidad",
+      "no válido"
+    ],
+    "resources": [
+      {
+        "id": "R1",
+        "title": "Vídeo subtitulado: causas del cambio climático",
+        "format": "Vídeo",
+        "file_path": "assets/simulated_resources/comp21_p03/R1_video_subtitulado.md",
+        "expected_folder": "Refuerzo",
+        "expected_difficulty": "Básica",
+        "expected_tag": "refuerzo"
+      },
+      {
+        "id": "R2",
+        "title": "Simulación H5P: calcula tu huella de carbono",
+        "format": "Interactivo",
+        "file_path": "assets/simulated_resources/comp21_p03/R2_simulacion_h5p.md",
+        "expected_folder": "Actividad común",
+        "expected_difficulty": "Media",
+        "expected_tag": "participación"
+      },
+      {
+        "id": "R3",
+        "title": "Informe científico resumido sobre escenarios climáticos",
+        "format": "Web/PDF",
+        "file_path": "assets/simulated_resources/comp21_p03/R3_informe_cientifico.md",
+        "expected_folder": "Profundización",
+        "expected_difficulty": "Alta",
+        "expected_tag": "profundización"
+      },
+      {
+        "id": "R4",
+        "title": "Infografía accesible: acciones cotidianas sostenibles",
+        "format": "Imagen + texto",
+        "file_path": "assets/simulated_resources/comp21_p03/R4_infografia_accesible.md",
+        "expected_folder": "Refuerzo",
+        "expected_difficulty": "Básica",
+        "expected_tag": "accesibilidad"
+      },
+      {
+        "id": "R5",
+        "title": "Artículo divulgativo avanzado sobre modelos climáticos",
+        "format": "Web",
+        "file_path": "assets/simulated_resources/comp21_p03/R5_articulo_avanzado.md",
+        "expected_folder": "Ampliación",
+        "expected_difficulty": "Alta",
+        "expected_tag": "ampliación"
+      },
+      {
+        "id": "R6",
+        "title": "Imagen viral sin autoría sobre calentamiento global",
+        "format": "Imagen",
+        "file_path": "assets/simulated_resources/comp21_p03/R6_imagen_sin_licencia.md",
+        "expected_folder": "No válido",
+        "expected_difficulty": "No aplica",
+        "expected_tag": "no válido"
+      }
+    ]
+  },
+  "system": {
+    "title": "Fase C · Sistema de catálogo",
+    "description": "Selecciona el sistema que usarías de forma sistemática para acceder rápidamente a los recursos según distintos criterios.",
+    "options": [
+      {
+        "id": "shared_catalog",
+        "label": "Catálogo compartido en la nube con campos de tema, nivel, área, dificultad, formato, licencia y finalidad",
+        "expected": true
+      },
+      {
+        "id": "browser_folders",
+        "label": "Carpetas de favoritos por tema, nivel y finalidad, mantenidas con criterios comunes",
+        "expected": true
+      },
+      {
+        "id": "random_downloads",
+        "label": "Carpeta de descargas sin nombres normalizados ni etiquetas",
+        "expected": false
+      },
+      {
+        "id": "chat_links",
+        "label": "Enlaces dispersos en conversaciones de mensajería",
+        "expected": false
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has construido búsquedas eficaces, revisado fichas simuladas y organizado los recursos en un catálogo recuperable por criterios didácticos, técnicos y científicos.",
+    "failure": "Prueba no superada. Revisa las consultas de búsqueda, abre las fichas simuladas y completa la catalogación por finalidad, dificultad y etiqueta."
+  }
+}

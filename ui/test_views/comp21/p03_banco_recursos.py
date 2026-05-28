@@ -1,12 +1,20 @@
-import flet as ft
+import json
+import re
 from datetime import datetime
+from pathlib import Path
+
+import flet as ft
 
 from core.storage import save_result
 from ui.components import question_block
 
 
 TEST_ID = "P03"
-SCENARIO_ID = "comp21_b1_banco_recursos"
+DATA_PATH = Path("data/p03_comp21_b1.json")
+
+
+def load_test_data() -> dict:
+    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
 def build_result_box(feedback_data: dict) -> ft.Control:
@@ -18,7 +26,12 @@ def build_result_box(feedback_data: dict) -> ft.Control:
     return ft.Container(
         content=ft.Column(
             controls=[
-                ft.Text("Resultado de la prueba", size=17, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
+                ft.Text(
+                    "Resultado de la prueba",
+                    size=17,
+                    weight=ft.FontWeight.BOLD,
+                    color=ft.Colors.WHITE,
+                ),
                 ft.Text(feedback_data["message"], size=14, color=ft.Colors.WHITE),
             ],
             spacing=8,
@@ -29,106 +42,386 @@ def build_result_box(feedback_data: dict) -> ft.Control:
     )
 
 
-def build_test_p03(state: dict, refresh_view) -> ft.Control:
-    resources = [
-        ("R1", "Ficha breve de repaso.pdf"),
-        ("R2", "Vídeo introductorio subtitulado.mp4"),
-        ("R3", "Lectura ampliada avanzada.pdf"),
-        ("R4", "Cuestionario final.json"),
-        ("R5", "Imagen sin licencia.jpg"),
-        ("R6", "Actividad interactiva con registro obligatorio"),
-        ("R7", "Rúbrica de evaluación CC BY.pdf"),
-        ("R8", "Guía docente de profundización.pdf"),
+def section_title(text: str) -> ft.Text:
+    return ft.Text(text, size=18, weight=ft.FontWeight.BOLD)
+
+
+def build_info_panel(title: str, lines: list[str]) -> ft.Control:
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(title, size=15, weight=ft.FontWeight.BOLD),
+                *[ft.Text(line, size=13, color=ft.Colors.GREY_700) for line in lines],
+            ],
+            spacing=4,
+        ),
+        bgcolor=ft.Colors.BLUE_50,
+        border=ft.border.all(1, ft.Colors.BLUE_100),
+        border_radius=12,
+        padding=14,
+    )
+
+
+def build_checkbox_cards(options: list[dict], saved_ids: list[str]) -> tuple[dict, list[ft.Control]]:
+    checkboxes = {}
+    cards = []
+
+    for option in options:
+        checkbox = ft.Checkbox(value=option["id"] in saved_ids)
+        checkboxes[option["id"]] = checkbox
+        cards.append(
+            ft.Container(
+                content=ft.Row(
+                    controls=[
+                        checkbox,
+                        ft.Text(option["label"], size=15, weight=ft.FontWeight.W_600, expand=True),
+                    ],
+                    vertical_alignment=ft.CrossAxisAlignment.START,
+                ),
+                col={"xs": 12, "md": 6},
+                padding=10,
+                border=ft.border.all(1, ft.Colors.GREY_300),
+                border_radius=10,
+            )
+        )
+
+    return checkboxes, cards
+
+
+def get_selected_ids(checkboxes: dict) -> list[str]:
+    return [
+        option_id
+        for option_id, checkbox in checkboxes.items()
+        if checkbox.value
     ]
 
-    expected = {
-        "R1": "Refuerzo",
-        "R2": "Refuerzo",
-        "R3": "Ampliación",
-        "R4": "Evaluación",
-        "R5": "No válido",
-        "R6": "No válido",
-        "R7": "Evaluación",
-        "R8": "Ampliación",
+
+def evaluate_multi_select(options: list[dict], selected_ids: list[str]) -> dict:
+    expected_ids = [option["id"] for option in options if option["expected"]]
+    missing = [option_id for option_id in expected_ids if option_id not in selected_ids]
+    wrong = [option_id for option_id in selected_ids if option_id not in expected_ids]
+
+    return {
+        "expected_ids": expected_ids,
+        "missing_ids": missing,
+        "wrong_ids": wrong,
+        "ok": not missing and not wrong,
     }
 
-    saved = state["responses"].get("p03_classification", {})
-    dropdowns = {}
 
-    rows = []
-    for rid, title in resources:
-        dd = ft.Dropdown(
-            value=saved.get(rid),
-            width=190,
-            options=[
-                ft.dropdown.Option("Refuerzo"),
-                ft.dropdown.Option("Ampliación"),
-                ft.dropdown.Option("Evaluación"),
-                ft.dropdown.Option("No válido"),
-            ],
+def evaluate_query_tasks(query_tasks: list[dict], query_answers: dict) -> dict:
+    details = {}
+    passed_task_ids = []
+
+    for task in query_tasks:
+        query = query_answers.get(task["id"], "")
+        passed_patterns = []
+        missing_patterns = []
+
+        for pattern in task["required_patterns"]:
+            if re.search(pattern["regex"], query):
+                passed_patterns.append(pattern["id"])
+            else:
+                missing_patterns.append(pattern["id"])
+
+        if not missing_patterns:
+            passed_task_ids.append(task["id"])
+
+        details[task["id"]] = {
+            "query": query,
+            "passed_patterns": passed_patterns,
+            "missing_patterns": missing_patterns,
+        }
+
+    return {
+        "details": details,
+        "passed_task_ids": passed_task_ids,
+        "ok": len(passed_task_ids) == len(query_tasks),
+    }
+
+
+def dropdown_options(values: list[str]) -> list[ft.dropdown.Option]:
+    return [ft.dropdown.Option(value) for value in values]
+
+
+def read_markdown(path: str) -> str:
+    file_path = Path(path)
+    if not file_path.exists():
+        return "No se ha encontrado la ficha simulada."
+
+    return file_path.read_text(encoding="utf-8")
+
+
+def build_test_p03(state: dict, refresh_view) -> ft.Control:
+    test_data = load_test_data()
+    queries = test_data["queries"]
+    cataloging = test_data["cataloging"]
+    system = test_data["system"]
+
+    saved_queries = state["responses"].get("p03_queries", {})
+    saved_catalog = state["responses"].get("p03_catalog", {})
+    saved_systems = state["responses"].get("p03_systems", [])
+    opened_resources = state["responses"].get("p03_opened_resources", [])
+    active_resource_id = state["responses"].get("p03_active_resource")
+
+    query_fields = {}
+    query_controls = []
+
+    for task in queries["tasks"]:
+        field = ft.TextField(
+            label=task["label"],
+            value=saved_queries.get(task["id"], ""),
+            hint_text=task["hint"],
+            multiline=True,
+            min_lines=1,
+            max_lines=2,
         )
-        dropdowns[rid] = dd
+        query_fields[task["id"]] = field
+        query_controls.append(
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(task["label"], size=15, weight=ft.FontWeight.BOLD),
+                        ft.Text(task["hint"], size=13, color=ft.Colors.GREY_700),
+                        field,
+                    ],
+                    spacing=6,
+                ),
+                padding=12,
+                border=ft.border.all(1, ft.Colors.GREY_300),
+                border_radius=10,
+            )
+        )
 
-        rows.append(
+    system_checkboxes, system_cards = build_checkbox_cards(
+        system["options"],
+        saved_systems,
+    )
+
+    folder_options = dropdown_options(cataloging["folder_options"])
+    difficulty_options = dropdown_options(cataloging["difficulty_options"])
+    tag_options = dropdown_options(cataloging["tag_options"])
+
+    catalog_controls = {}
+
+    def show_resource(resource: dict):
+        if resource["id"] not in opened_resources:
+            opened_resources.append(resource["id"])
+
+        state["responses"]["p03_opened_resources"] = opened_resources
+        state["responses"]["p03_active_resource"] = resource["id"]
+        refresh_view()
+
+    active_resource = next(
+        (
+            resource
+            for resource in cataloging["resources"]
+            if resource["id"] == active_resource_id
+        ),
+        None,
+    )
+
+    if active_resource:
+        detail_box = ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Text(
+                        f"Ficha simulada · {active_resource['id']}",
+                        size=16,
+                        weight=ft.FontWeight.BOLD,
+                    ),
+                    ft.Markdown(
+                        read_markdown(active_resource["file_path"]),
+                        selectable=True,
+                    ),
+                ],
+                spacing=8,
+            ),
+            bgcolor=ft.Colors.BLUE_50,
+            border_radius=12,
+            padding=15,
+        )
+    else:
+        detail_box = build_info_panel(
+            "Ficha simulada",
+            ["Abre una ficha para revisar autoría, licencia, formato, accesibilidad y uso didáctico antes de catalogar."],
+        )
+
+    catalog_rows = []
+
+    for resource in cataloging["resources"]:
+        saved_resource = saved_catalog.get(resource["id"], {})
+        folder_dropdown = ft.Dropdown(
+            value=saved_resource.get("folder"),
+            width=180,
+            options=folder_options,
+        )
+        difficulty_dropdown = ft.Dropdown(
+            value=saved_resource.get("difficulty"),
+            width=150,
+            options=difficulty_options,
+        )
+        tag_dropdown = ft.Dropdown(
+            value=saved_resource.get("tag"),
+            width=170,
+            options=tag_options,
+        )
+
+        catalog_controls[resource["id"]] = {
+            "folder": folder_dropdown,
+            "difficulty": difficulty_dropdown,
+            "tag": tag_dropdown,
+        }
+
+        reviewed_label = "Revisada" if resource["id"] in opened_resources else "Pendiente"
+        reviewed_color = ft.Colors.GREEN_700 if resource["id"] in opened_resources else ft.Colors.ORANGE_700
+
+        catalog_rows.append(
             ft.DataRow(
                 cells=[
-                    ft.DataCell(ft.Text(rid)),
-                    ft.DataCell(ft.Text(title)),
-                    ft.DataCell(dd),
+                    ft.DataCell(ft.Text(resource["id"])),
+                    ft.DataCell(
+                        ft.Column(
+                            controls=[
+                                ft.Text(resource["title"], weight=ft.FontWeight.W_600),
+                                ft.Text(resource["format"], size=12, color=ft.Colors.GREY_700),
+                                ft.Text(reviewed_label, size=12, color=reviewed_color),
+                            ],
+                            spacing=3,
+                        )
+                    ),
+                    ft.DataCell(
+                        ft.ElevatedButton(
+                            "Ver ficha",
+                            on_click=lambda e, r=resource: show_resource(r),
+                        )
+                    ),
+                    ft.DataCell(folder_dropdown),
+                    ft.DataCell(difficulty_dropdown),
+                    ft.DataCell(tag_dropdown),
                 ]
             )
         )
 
     def validate(e):
-        answers = {rid: dd.value for rid, dd in dropdowns.items()}
-        state["responses"]["p03_classification"] = answers
-
-        if any(value is None for value in answers.values()):
-            state["completed"]["p03"] = False
-            state["feedback"]["p03"] = {
-                "ok": False,
-                "message": "Debes clasificar los ocho recursos antes de validar la prueba.",
+        query_answers = {
+            task_id: (field.value or "").strip()
+            for task_id, field in query_fields.items()
+        }
+        selected_systems = get_selected_ids(system_checkboxes)
+        catalog_answers = {
+            resource_id: {
+                "folder": controls["folder"].value,
+                "difficulty": controls["difficulty"].value,
+                "tag": controls["tag"].value,
             }
-            refresh_view()
-            return
+            for resource_id, controls in catalog_controls.items()
+        }
 
-        correct = [rid for rid, value in answers.items() if expected[rid] == value]
-        wrong = [rid for rid, value in answers.items() if expected[rid] != value]
+        state["responses"]["p03_queries"] = query_answers
+        state["responses"]["p03_catalog"] = catalog_answers
+        state["responses"]["p03_systems"] = selected_systems
+        state["responses"]["p03_opened_resources"] = opened_resources
 
-        score = round((len(correct) / len(expected)) * 100)
-        ok = score >= 87  # mínimo 7/8
+        query_result = evaluate_query_tasks(queries["tasks"], query_answers)
+        systems_result = evaluate_multi_select(system["options"], selected_systems)
+
+        expected_catalog = {
+            resource["id"]: {
+                "folder": resource["expected_folder"],
+                "difficulty": resource["expected_difficulty"],
+                "tag": resource["expected_tag"],
+            }
+            for resource in cataloging["resources"]
+        }
+
+        catalog_correct_fields = []
+        catalog_wrong_fields = []
+
+        for resource_id, expected in expected_catalog.items():
+            answer = catalog_answers[resource_id]
+            for field, expected_value in expected.items():
+                field_id = f"{resource_id}.{field}"
+                if answer.get(field) == expected_value:
+                    catalog_correct_fields.append(field_id)
+                else:
+                    catalog_wrong_fields.append(field_id)
+
+        total_catalog_fields = len(expected_catalog) * 3
+        catalog_score_raw = len(catalog_correct_fields) / total_catalog_fields
+        catalog_ok = catalog_score_raw >= 0.83
+
+        required_review_count = min(4, len(cataloging["resources"]))
+        review_ok = len(opened_resources) >= required_review_count
+
+        query_score = round((len(query_result["passed_task_ids"]) / len(queries["tasks"])) * 35)
+        review_score = 10 if review_ok else len(opened_resources) * 2
+        catalog_score = round(catalog_score_raw * 40)
+        systems_score = max(
+            0,
+            15
+            - (len(systems_result["missing_ids"]) * 6)
+            - (len(systems_result["wrong_ids"]) * 5),
+        )
+        score = min(100, query_score + review_score + catalog_score + systems_score)
+
+        ok = query_result["ok"] and review_ok and catalog_ok and systems_result["ok"]
 
         state["completed"]["p03"] = ok
-
-        message = (
-            "Prueba superada. Has organizado el banco de recursos de forma coherente y has separado los recursos no válidos."
-            if ok
-            else "Prueba no superada. Revisa especialmente los recursos sin licencia o con registro obligatorio."
-        )
-
+        message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
         state["feedback"]["p03"] = {"ok": ok, "message": message}
 
         result = {
             "test_id": TEST_ID,
-            "scenario_id": SCENARIO_ID,
-            "scenario_title": "Organizar un banco de recursos",
+            "scenario_id": test_data["scenario_id"],
+            "scenario_title": test_data["scenario_title"],
             "timestamp_utc": datetime.utcnow().isoformat(),
             "score_0_100": score,
             "level_hint": "B1" if ok else "A2",
             "payload": {
-                "answers": answers,
-                "expected": expected,
-                "correct_ids": correct,
-                "wrong_ids": wrong,
+                "query_answers": query_answers,
+                "query_details": query_result["details"],
+                "passed_query_task_ids": query_result["passed_task_ids"],
+                "opened_resources": opened_resources,
+                "required_review_count": required_review_count,
+                "catalog_answers": catalog_answers,
+                "expected_catalog": expected_catalog,
+                "catalog_correct_fields": catalog_correct_fields,
+                "catalog_wrong_fields": catalog_wrong_fields,
+                "selected_systems": selected_systems,
+                "expected_systems": systems_result["expected_ids"],
+                "missing_systems": systems_result["missing_ids"],
+                "wrong_systems": systems_result["wrong_ids"],
             },
             "checks": [
                 {
-                    "check_id": "resource_bank_classification",
-                    "label": "Clasifica recursos por finalidad educativa y validez",
-                    "passed": ok,
-                    "weight": 100,
-                    "evidence": str(answers),
-                }
+                    "check_id": "search_query_construction",
+                    "label": "Construye búsquedas con operadores y criterios de formato, fuente, licencia o accesibilidad",
+                    "passed": query_result["ok"],
+                    "weight": 35,
+                    "evidence": str(query_answers),
+                },
+                {
+                    "check_id": "simulated_resource_review",
+                    "label": "Revisa fichas simuladas antes de catalogar",
+                    "passed": review_ok,
+                    "weight": 10,
+                    "evidence": ", ".join(opened_resources),
+                },
+                {
+                    "check_id": "systematic_cataloging",
+                    "label": "Cataloga contenidos por finalidad, dificultad y etiquetas",
+                    "passed": catalog_ok,
+                    "weight": 40,
+                    "evidence": str(catalog_answers),
+                },
+                {
+                    "check_id": "catalog_system_choice",
+                    "label": "Selecciona un sistema de organización recuperable y compartible",
+                    "passed": systems_result["ok"],
+                    "weight": 15,
+                    "evidence": ", ".join(selected_systems),
+                },
             ],
             "notes": [message],
         }
@@ -141,22 +434,36 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
     content = ft.Column(
         controls=[
             ft.Text(
-                "Escenario: has reunido ocho recursos digitales y debes organizarlos para reutilizarlos en una situación de aprendizaje.",
+                test_data["intro"],
                 size=15,
                 weight=ft.FontWeight.W_600,
             ),
-            ft.Text(
-                "Clasifica cada recurso en la carpeta más adecuada. Los recursos sin licencia clara o con barreras de acceso deben ir a “No válido”.",
-                size=14,
+            build_info_panel(
+                test_data["diagnosis"]["title"],
+                test_data["diagnosis"]["lines"],
             ),
+            section_title(queries["title"]),
+            ft.Text(queries["description"], size=14),
+            *query_controls,
+            ft.Divider(height=24),
+            section_title(cataloging["title"]),
+            ft.Text(cataloging["description"], size=14),
             ft.DataTable(
                 columns=[
                     ft.DataColumn(ft.Text("ID")),
                     ft.DataColumn(ft.Text("Recurso")),
-                    ft.DataColumn(ft.Text("Carpeta")),
+                    ft.DataColumn(ft.Text("Ficha")),
+                    ft.DataColumn(ft.Text("Finalidad")),
+                    ft.DataColumn(ft.Text("Dificultad")),
+                    ft.DataColumn(ft.Text("Etiqueta")),
                 ],
-                rows=rows,
+                rows=catalog_rows,
             ),
+            detail_box,
+            ft.Divider(height=24),
+            section_title(system["title"]),
+            ft.Text(system["description"], size=14),
+            ft.ResponsiveRow(controls=system_cards, spacing=8, run_spacing=8),
             ft.Container(height=8),
             ft.ElevatedButton("Validar prueba", on_click=validate),
             build_result_box(state["feedback"]["p03"]),
@@ -165,10 +472,7 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
     )
 
     return question_block(
-        title="P03 · Organizar un banco de recursos",
-        statement=(
-            "Evalúa los indicadores 2.1.B1.1, 2.1.B1.2 y 2.1.B1.3 mediante la organización autónoma "
-            "de contenidos digitales según criterios didácticos, técnicos y de reutilización."
-        ),
+        title=test_data["title"],
+        statement=test_data["statement"],
         content=content,
     )
