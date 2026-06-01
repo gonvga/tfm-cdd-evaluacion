@@ -40,7 +40,7 @@ def build_choice_card(
 ) -> ft.Control:
     selected = selected_id == option["id"]
     option_ok = bool(option["expected"])
-    show_feedback = validated and (option_ok or selected)
+    show_feedback = validated
     if show_feedback:
         bgcolor, border_color = feedback_colors(option_ok)
     else:
@@ -250,7 +250,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
             accessibility_feedback_rows.append(
                 (
                     option_ok,
-                    f"{option['label']}: {'aplicar' if option['expected'] else 'evitar'}. {option['feedback']}",
+                    f"{option['label']}: {'Correcta' if option_ok else 'Incorrecta'}. {option['feedback']}",
                 )
             )
         accessibility_cards.append(
@@ -275,7 +275,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
                             [
                                 inline_feedback(
                                     f"{'Correcta' if option_ok else 'Incorrecta'}. "
-                                    f"{'Aplicar' if option['expected'] else 'Evitar'}.",
+                                    f"{option['feedback']}",
                                     option_ok,
                                 )
                             ]

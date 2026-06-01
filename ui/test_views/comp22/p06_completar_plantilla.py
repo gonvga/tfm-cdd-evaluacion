@@ -67,7 +67,7 @@ def build_option_card(
 ) -> ft.Control:
     selected = selected_option == option["id"]
     option_ok = bool(option["expected"])
-    show_feedback = validated and (option_ok or selected)
+    show_feedback = validated
     if show_feedback:
         bgcolor, border_color = feedback_colors(option_ok)
     else:
