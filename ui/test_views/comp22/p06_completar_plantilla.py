@@ -1,12 +1,19 @@
-import flet as ft
+import json
 from datetime import datetime
+from pathlib import Path
+
+import flet as ft
 
 from core.storage import save_result
 from ui.components import question_block
 
 
 TEST_ID = "P06"
-SCENARIO_ID = "comp22_a2_configurar_plantilla"
+DATA_PATH = Path("data/p06_comp22_a2.json")
+
+
+def load_test_data() -> dict:
+    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
 def build_result_box(feedback_data: dict) -> ft.Control:
@@ -38,227 +45,80 @@ def build_result_box(feedback_data: dict) -> ft.Control:
     )
 
 
-def build_option_card(content: ft.Control) -> ft.Control:
+def feedback_colors(is_correct: bool) -> tuple[str, str]:
+    return ("#DCFCE7", "#16A34A") if is_correct else ("#FEE2E2", "#DC2626")
+
+
+def inline_feedback(text: str, is_correct: bool) -> ft.Control:
+    bgcolor, color = feedback_colors(is_correct)
     return ft.Container(
-        content=content,
-        border=ft.border.all(1, "#E5E7EB"),
-        border_radius=14,
-        bgcolor="#FFFFFF",
-        padding=14,
+        content=ft.Text(text, size=12, color=color),
+        bgcolor=bgcolor,
+        border=ft.border.all(1, color),
+        border_radius=8,
+        padding=8,
+    )
+
+
+def build_option_card(
+    option: dict,
+    selected_option: str | None,
+    validated: bool,
+) -> ft.Control:
+    selected = selected_option == option["id"]
+    show_feedback = validated and selected
+    option_ok = bool(option["expected"])
+    bgcolor = feedback_colors(option_ok)[0] if show_feedback else "#F9FAFB"
+    border_color = feedback_colors(option_ok)[1] if show_feedback else "#E5E7EB"
+
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Radio(value=option["id"], label=option["label"]),
+                *(
+                    [inline_feedback(option["feedback"], option_ok)]
+                    if show_feedback
+                    else []
+                ),
+            ],
+            spacing=6,
+        ),
+        bgcolor=bgcolor,
+        border=ft.border.all(1, border_color),
+        border_radius=10,
+        padding=12,
     )
 
 
 def build_test_p06(state: dict, refresh_view) -> ft.Control:
-    saved_accessibility = state["responses"].get("p06_accessibility")
-    saved_tool = state["responses"].get("p06_tool")
-    saved_layout = state["responses"].get("p06_layout")
-    saved_navigation = state["responses"].get("p06_navigation")
-    saved_adaptation = state["responses"].get("p06_adaptation")
+    test_data = load_test_data()
+    questions = test_data["questions"]
+    saved_answers = state["responses"].get("p06_answers", {})
 
-    accessibility_radio = ft.RadioGroup(
-        value=saved_accessibility,
-        content=ft.Column(
-            controls=[
-                ft.Radio(
-                    value="A",
-                    label="Añadir encabezados claros y mantener alto contraste",
-                ),
-                ft.Radio(
-                    value="B",
-                    label="Reducir el tamaño del texto principal",
-                ),
-                ft.Radio(
-                    value="C",
-                    label="Eliminar subtítulos y ayudas visuales",
-                ),
-                ft.Radio(
-                    value="D",
-                    label="Ocultar botones de navegación",
-                ),
-            ],
-            spacing=8,
-        ),
-    )
+    question_controls: dict[str, ft.RadioGroup] = {}
+    p06_feedback = state["feedback"].get("p06", {"ok": None, "message": ""})
+    validated = p06_feedback["ok"] is not None
 
-    tool_radio = ft.RadioGroup(
-        value=saved_tool,
-        content=ft.Column(
-            controls=[
-                ft.Radio(
-                    value="A",
-                    label="Plataforma educativa institucional del centro",
-                ),
-                ft.Radio(
-                    value="B",
-                    label="Aplicación externa no autorizada",
-                ),
-                ft.Radio(
-                    value="C",
-                    label="Red social pública para alumnado",
-                ),
-                ft.Radio(
-                    value="D",
-                    label="Programa descargado sin licencia",
-                ),
-            ],
-            spacing=8,
-        ),
-    )
-
-    layout_radio = ft.RadioGroup(
-        value=saved_layout,
-        content=ft.Column(
-            controls=[
-                build_option_card(
-                    ft.Row(
-                        controls=[
-                            ft.Radio(value="A"),
-                            ft.Container(
-                                expand=True,
-                                content=ft.Column(
-                                    controls=[
-                                        ft.Text(
-                                            "Interfaz limpia y organizada",
-                                            weight=ft.FontWeight.BOLD,
-                                        ),
-                                        ft.Text(
-                                            "Bloques cortos, iconos claros y distribución sencilla.",
-                                            size=13,
-                                            color="#4B5563",
-                                        ),
-                                    ],
-                                    spacing=4,
-                                ),
-                            ),
-                        ],
-                        vertical_alignment=ft.CrossAxisAlignment.START,
-                    )
-                ),
-                build_option_card(
-                    ft.Row(
-                        controls=[
-                            ft.Radio(value="B"),
-                            ft.Container(
-                                expand=True,
-                                content=ft.Column(
-                                    controls=[
-                                        ft.Text(
-                                            "Pantalla saturada",
-                                            weight=ft.FontWeight.BOLD,
-                                        ),
-                                        ft.Text(
-                                            "Muchos elementos simultáneos y exceso de texto.",
-                                            size=13,
-                                            color="#4B5563",
-                                        ),
-                                    ],
-                                    spacing=4,
-                                ),
-                            ),
-                        ],
-                        vertical_alignment=ft.CrossAxisAlignment.START,
-                    )
-                ),
-                build_option_card(
-                    ft.Row(
-                        controls=[
-                            ft.Radio(value="C"),
-                            ft.Container(
-                                expand=True,
-                                content=ft.Column(
-                                    controls=[
-                                        ft.Text(
-                                            "Diseño universitario técnico",
-                                            weight=ft.FontWeight.BOLD,
-                                        ),
-                                        ft.Text(
-                                            "Lenguaje formal y navegación compleja.",
-                                            size=13,
-                                            color="#4B5563",
-                                        ),
-                                    ],
-                                    spacing=4,
-                                ),
-                            ),
-                        ],
-                        vertical_alignment=ft.CrossAxisAlignment.START,
-                    )
-                ),
-            ],
-            spacing=10,
-        ),
-    )
-
-    navigation_radio = ft.RadioGroup(
-        value=saved_navigation,
-        content=ft.Column(
-            controls=[
-                ft.Radio(
-                    value="A",
-                    label="Menú visible y botones claramente identificados",
-                ),
-                ft.Radio(
-                    value="B",
-                    label="Navegación oculta mediante iconos sin texto",
-                ),
-                ft.Radio(
-                    value="C",
-                    label="Ocho submenús simultáneos",
-                ),
-                ft.Radio(
-                    value="D",
-                    label="Acceso solo mediante atajos avanzados",
-                ),
-            ],
-            spacing=8,
-        ),
-    )
-
-    adaptation_radio = ft.RadioGroup(
-        value=saved_adaptation,
-        content=ft.Column(
-            controls=[
-                ft.Radio(
-                    value="A",
-                    label="Dividir el contenido en bloques breves y visuales",
-                ),
-                ft.Radio(
-                    value="B",
-                    label="Añadir párrafos técnicos largos",
-                ),
-                ft.Radio(
-                    value="C",
-                    label="Eliminar ejemplos visuales",
-                ),
-                ft.Radio(
-                    value="D",
-                    label="Usar vocabulario universitario especializado",
-                ),
-            ],
-            spacing=8,
-        ),
-    )
+    for question in questions:
+        selected = saved_answers.get(question["id"])
+        question_controls[question["id"]] = ft.RadioGroup(
+            value=selected,
+            content=ft.Column(
+                controls=[
+                    build_option_card(option, selected, validated)
+                    for option in question["options"]
+                ],
+                spacing=8,
+            ),
+        )
 
     def validate(e):
-        selected_accessibility = accessibility_radio.value
-        selected_tool = tool_radio.value
-        selected_layout = layout_radio.value
-        selected_navigation = navigation_radio.value
-        selected_adaptation = adaptation_radio.value
+        selected_answers = {
+            qid: control.value for qid, control in question_controls.items()
+        }
+        state["responses"]["p06_answers"] = selected_answers
 
-        state["responses"]["p06_accessibility"] = selected_accessibility
-        state["responses"]["p06_tool"] = selected_tool
-        state["responses"]["p06_layout"] = selected_layout
-        state["responses"]["p06_navigation"] = selected_navigation
-        state["responses"]["p06_adaptation"] = selected_adaptation
-
-        if (
-            selected_accessibility is None
-            or selected_tool is None
-            or selected_layout is None
-            or selected_navigation is None
-            or selected_adaptation is None
-        ):
+        if any(value is None for value in selected_answers.values()):
             state["completed"]["p06"] = False
             state["feedback"]["p06"] = {
                 "ok": False,
@@ -267,174 +127,96 @@ def build_test_p06(state: dict, refresh_view) -> ft.Control:
             refresh_view()
             return
 
-        accessibility_ok = selected_accessibility == "A"
-        tool_ok = selected_tool == "A"
-        layout_ok = selected_layout == "A"
-        navigation_ok = selected_navigation == "A"
-        adaptation_ok = selected_adaptation == "A"
-
         score = 0
+        checks = []
 
-        if accessibility_ok:
-            score += 20
-
-        if tool_ok:
-            score += 20
-
-        if layout_ok:
-            score += 20
-
-        if navigation_ok:
-            score += 20
-
-        if adaptation_ok:
-            score += 20
+        for question in questions:
+            selected = selected_answers[question["id"]]
+            option = next(
+                (opt for opt in question["options"] if opt["id"] == selected),
+                None,
+            )
+            ok = bool(option and option["expected"])
+            score += 20 if ok else 0
+            checks.append(
+                {
+                    "check_id": f"{question['id']}_selection",
+                    "label": question["title"],
+                    "passed": ok,
+                    "weight": 20,
+                    "evidence": selected,
+                }
+            )
 
         ok = score >= 80
-
         state["completed"]["p06"] = ok
-
-        message = (
-            "Prueba superada. Has configurado correctamente una plantilla educativa aplicando criterios didácticos, técnicos y de accesibilidad."
-            if ok
-            else "Prueba no superada. Revisa las decisiones relacionadas con accesibilidad, adaptación didáctica, navegación y herramientas autorizadas."
-        )
-
         state["feedback"]["p06"] = {
             "ok": ok,
-            "message": message,
+            "message": test_data["feedback"]["success"]
+            if ok
+            else test_data["feedback"]["failure"],
         }
 
         result = {
             "test_id": TEST_ID,
-            "scenario_id": SCENARIO_ID,
-            "scenario_title": "Configurar plantilla didáctica",
+            "scenario_id": test_data["scenario_id"],
+            "scenario_title": test_data["scenario_title"],
             "timestamp_utc": datetime.utcnow().isoformat(),
             "score_0_100": score,
             "level_hint": "A2" if ok else "A1",
             "payload": {
-                "selected_accessibility": selected_accessibility,
-                "selected_tool": selected_tool,
-                "selected_layout": selected_layout,
-                "selected_navigation": selected_navigation,
-                "selected_adaptation": selected_adaptation,
+                "selected_answers": selected_answers,
                 "expected_answers": {
-                    "accessibility": "A",
-                    "tool": "A",
-                    "layout": "A",
-                    "navigation": "A",
-                    "adaptation": "A",
+                    question["id"]: next(
+                        (opt["id"] for opt in question["options"] if opt["expected"]),
+                        None,
+                    )
+                    for question in questions
                 },
             },
-            "checks": [
-                {
-                    "check_id": "accessibility_configuration",
-                    "label": "Selecciona configuraciones accesibles",
-                    "passed": accessibility_ok,
-                    "weight": 20,
-                    "evidence": selected_accessibility,
-                },
-                {
-                    "check_id": "authorized_tool_selected",
-                    "label": "Selecciona una herramienta autorizada",
-                    "passed": tool_ok,
-                    "weight": 20,
-                    "evidence": selected_tool,
-                },
-                {
-                    "check_id": "didactic_layout_selected",
-                    "label": "Selecciona una distribución adecuada para ESO",
-                    "passed": layout_ok,
-                    "weight": 20,
-                    "evidence": selected_layout,
-                },
-                {
-                    "check_id": "clear_navigation_selected",
-                    "label": "Selecciona una navegación clara y sencilla",
-                    "passed": navigation_ok,
-                    "weight": 20,
-                    "evidence": selected_navigation,
-                },
-                {
-                    "check_id": "adapted_content_selected",
-                    "label": "Selecciona una adaptación didáctica adecuada",
-                    "passed": adaptation_ok,
-                    "weight": 20,
-                    "evidence": selected_adaptation,
-                },
-            ],
-            "notes": [message],
+            "checks": checks,
+            "notes": [state["feedback"]["p06"]["message"]],
         }
 
         saved_path = save_result(result)
         state["responses"]["p06_saved_path"] = str(saved_path)
-
         refresh_view()
 
     content = ft.Column(
         controls=[
-            ft.Text(
-                "Escenario: estás configurando una plantilla educativa digital para alumnado de 1.º de ESO utilizando una herramienta institucional del centro.",
-                size=15,
-                weight=ft.FontWeight.W_600,
-            ),
-            ft.Text(
-                "Debes seleccionar las opciones más adecuadas para adaptar el recurso a las características del alumnado y garantizar una configuración accesible y compatible con el entorno educativo.",
-                size=14,
-            ),
-
-            ft.Text(
-                "1. ¿Qué configuración mejora la accesibilidad del recurso?",
-                size=15,
-                weight=ft.FontWeight.BOLD,
-            ),
-            accessibility_radio,
-
-            ft.Text(
-                "2. ¿Qué herramienta debería utilizar el docente?",
-                size=15,
-                weight=ft.FontWeight.BOLD,
-            ),
-            tool_radio,
-
-            ft.Text(
-                "3. ¿Qué distribución visual es más adecuada para 1.º de ESO?",
-                size=15,
-                weight=ft.FontWeight.BOLD,
-            ),
-            layout_radio,
-
-            ft.Text(
-                "4. ¿Qué configuración favorece una navegación clara?",
-                size=15,
-                weight=ft.FontWeight.BOLD,
-            ),
-            navigation_radio,
-
-            ft.Text(
-                "5. ¿Qué adaptación didáctica es más adecuada?",
-                size=15,
-                weight=ft.FontWeight.BOLD,
-            ),
-            adaptation_radio,
-
-            ft.Container(height=8),
-
-            ft.ElevatedButton(
-                "Validar prueba",
-                on_click=validate,
-            ),
-
+            ft.Text(test_data["intro"], size=15, weight=ft.FontWeight.W_600),
+            ft.Text(test_data["description"], size=14),
+            *[
+                ft.Column(
+                    controls=[
+                        ft.Text(question["title"], size=15, weight=ft.FontWeight.BOLD),
+                        ft.Text(question["description"], size=14, color=ft.Colors.GREY_700),
+                        question_controls[question["id"]],
+                        *(
+                            [
+                                inline_feedback(
+                                    "Selecciona una opcion antes de validar esta pregunta.",
+                                    False,
+                                )
+                            ]
+                            if validated
+                            and saved_answers.get(question["id"]) is None
+                            else []
+                        ),
+                        ft.Divider(height=16),
+                    ],
+                    spacing=8,
+                )
+                for question in questions
+            ],
+            ft.ElevatedButton("Validar prueba", on_click=validate),
             build_result_box(state["feedback"]["p06"]),
         ],
         spacing=14,
     )
 
     return question_block(
-        title="P06 · Configurar plantilla didáctica",
-        statement=(
-            "Evalúa los indicadores 2.2.A2.1, 2.2.A2.2 y 2.2.A2.3 mediante una tarea guiada "
-            "de configuración y adaptación de un contenido digital educativo."
-        ),
+        title=test_data["title"],
+        statement=test_data["statement"],
         content=content,
     )

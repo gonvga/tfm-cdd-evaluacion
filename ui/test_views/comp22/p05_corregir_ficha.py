@@ -1,12 +1,68 @@
-import flet as ft
+import json
+import re
 from datetime import datetime
+from pathlib import Path
+
+import flet as ft
 
 from core.storage import save_result
 from ui.components import question_block
 
 
 TEST_ID = "P05"
-SCENARIO_ID = "comp22_a1_corregir_ficha"
+DATA_PATH = Path("data/p05_comp22_a1.json")
+
+
+def load_test_data() -> dict:
+    return json.loads(DATA_PATH.read_text(encoding="utf-8"))
+
+
+def feedback_colors(is_correct: bool) -> tuple[str, str]:
+    return ("#DCFCE7", "#16A34A") if is_correct else ("#FEE2E2", "#DC2626")
+
+
+def inline_feedback(text: str, is_correct: bool) -> ft.Control:
+    bgcolor, color = feedback_colors(is_correct)
+    return ft.Container(
+        content=ft.Text(text, size=12, color=color),
+        bgcolor=bgcolor,
+        border=ft.border.all(1, color),
+        border_radius=8,
+        padding=8,
+    )
+
+
+def feedback_panel(title: str, rows: list[tuple[bool, str]]) -> ft.Control:
+    if not rows:
+        return ft.Container()
+
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(title, size=14, weight=ft.FontWeight.BOLD),
+                *[
+                    ft.Row(
+                        controls=[
+                            ft.Container(
+                                width=10,
+                                height=10,
+                                border_radius=999,
+                                bgcolor=feedback_colors(ok)[1],
+                            ),
+                            ft.Text(text, size=13, expand=True),
+                        ],
+                        vertical_alignment=ft.CrossAxisAlignment.START,
+                    )
+                    for ok, text in rows
+                ],
+            ],
+            spacing=8,
+        ),
+        bgcolor="#F9FAFB",
+        border=ft.border.all(1, ft.Colors.GREY_300),
+        border_radius=10,
+        padding=12,
+    )
 
 
 def build_result_box(feedback_data: dict) -> ft.Control:
@@ -24,11 +80,7 @@ def build_result_box(feedback_data: dict) -> ft.Control:
                     weight=ft.FontWeight.BOLD,
                     color=ft.Colors.WHITE,
                 ),
-                ft.Text(
-                    feedback_data["message"],
-                    size=14,
-                    color=ft.Colors.WHITE,
-                ),
+                ft.Text(feedback_data["message"], size=14, color=ft.Colors.WHITE),
             ],
             spacing=8,
         ),
@@ -38,284 +90,442 @@ def build_result_box(feedback_data: dict) -> ft.Control:
     )
 
 
-def build_document_image() -> ft.Control:
+def section_title(text: str) -> ft.Text:
+    return ft.Text(text, size=18, weight=ft.FontWeight.BOLD)
+
+
+def build_info_panel(title: str, lines: list[str]) -> ft.Control:
     return ft.Container(
         content=ft.Column(
             controls=[
-                ft.Text(
-                    "Ficha educativa",
-                    size=20,
-                    weight=ft.FontWeight.BOLD,
-                    color="#111827",
-                ),
-                ft.Text(
-                    "Analiza el documento y responde a las preguntas de corrección.",
-                    size=14,
-                    color="#4B5563",
-                ),
-                ft.Container(
-                    content=ft.Image(
-                        src="ficha_p05.png",
-                        fit="contain",
-                    ),
-                    bgcolor="#FFFFFF",
-                    border=ft.border.all(1, "#D1D5DB"),
-                    border_radius=16,
-                    padding=10,
-                ),
+                ft.Text(title, size=15, weight=ft.FontWeight.BOLD),
+                *[ft.Text(line, size=13, color=ft.Colors.GREY_700) for line in lines],
             ],
-            spacing=12,
+            spacing=4,
         ),
-        bgcolor="#F9FAFB",
-        border=ft.border.all(1, "#E5E7EB"),
-        border_radius=18,
-        padding=22,
+        bgcolor=ft.Colors.BLUE_50,
+        border=ft.border.all(1, ft.Colors.BLUE_100),
+        border_radius=12,
+        padding=14,
     )
+
+
+def get_selected_ids(checkboxes: dict) -> list[str]:
+    return [key for key, checkbox in checkboxes.items() if checkbox.value]
+
+
+def validate_patterns(text: str, patterns: list[dict]) -> dict:
+    missing = [
+        pattern["id"]
+        for pattern in patterns
+        if not re.search(pattern["regex"], text or "")
+    ]
+    return {"ok": not missing, "missing": missing}
 
 
 def build_test_p05(state: dict, refresh_view) -> ft.Control:
-    saved_license = state["responses"].get("p05_license")
-    saved_apa = state["responses"].get("p05_apa")
-    saved_content = state["responses"].get("p05_content")
-    saved_accessibility = state["responses"].get("p05_accessibility", [])
+    test_data = load_test_data()
+    license_data = test_data["license"]
+    accessibility = test_data["accessibility"]
+    content_data = test_data["content"]
+    tools = test_data["tools"]
 
+    saved_license = state["responses"].get("p05_license")
+    saved_apa = state["responses"].get("p05_apa_option")
+    saved_accessibility = state["responses"].get("p05_accessibility", [])
+    saved_alt_text = state["responses"].get("p05_alt_text_option")
+    saved_content = state["responses"].get("p05_content_option")
+    saved_tools = state["responses"].get("p05_tools", {})
+    validated = state["feedback"]["p05"]["ok"] is not None
+
+    expected_license_ids = [
+        option["id"] for option in license_data["options"] if option["expected"]
+    ]
+    license_options = [
+        ft.dropdown.Option(option["id"], option["label"])
+        for option in license_data["options"]
+    ]
     license_dropdown = ft.Dropdown(
-        label="Elegir licencia",
+        label="Licencia",
         value=saved_license,
-        width=320,
-        options=[
-            ft.dropdown.Option("Copyright"),
-            ft.dropdown.Option("Sin licencia"),
-            ft.dropdown.Option("CC BY"),
-            ft.dropdown.Option("CC BY-SA"),
-        ],
+        options=license_options,
+        width=280,
     )
+    license_feedback = ft.Container()
+    if validated:
+        license_ok = saved_license in expected_license_ids
+        selected_option = next(
+            (option for option in license_data["options"] if option["id"] == saved_license),
+            None,
+        )
+        license_feedback = inline_feedback(
+            (
+                selected_option["feedback"]
+                if selected_option
+                else "Selecciona una licencia que permita reutilizar y adaptar."
+            ),
+            license_ok,
+        )
 
     apa_radio = ft.RadioGroup(
         value=saved_apa,
         content=ft.Column(
             controls=[
-                ft.Radio(
-                    value="A",
-                    label="ministerio educacion guia saludable 2024",
-                ),
-                ft.Radio(
-                    value="B",
-                    label="Ministerio de Educación. (2024). Guía de hábitos saludables. Madrid: MEC.",
-                ),
-                ft.Radio(
-                    value="C",
-                    label="Guía saludable, recuperado de internet.",
-                ),
+                ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.Radio(value=option["id"], label=option["text"]),
+                            *([
+                                inline_feedback(
+                                    option["feedback"],
+                                    option["expected"],
+                                )
+                                for option in license_data["apa_options"]
+                                if validated and option["id"] == saved_apa
+                            ] if validated else []),
+                        ],
+                        spacing=6,
+                    ),
+                    bgcolor="#F9FAFB",
+                    border=ft.border.all(1, ft.Colors.GREY_300),
+                    border_radius=10,
+                    padding=12,
+                )
+                for option in license_data["apa_options"]
             ],
             spacing=8,
         ),
     )
+    apa_feedback = ft.Container()
+    if validated:
+        selected_option = next(
+            (option for option in license_data["apa_options"] if option["id"] == saved_apa),
+            None,
+        )
+        apa_feedback = inline_feedback(
+            selected_option["feedback"]
+            if selected_option
+            else "Selecciona la referencia APA correcta.",
+            bool(selected_option and selected_option["expected"]),
+        )
 
-    accessibility_options = {
-        "alt_text": ft.Checkbox(
-            label="Añadir texto alternativo a las imágenes",
-            value="alt_text" in saved_accessibility,
-        ),
-        "remove_subtitles": ft.Checkbox(
-            label="Eliminar subtítulos del recurso",
-            value="remove_subtitles" in saved_accessibility,
-        ),
-        "document_styles": ft.Checkbox(
-            label="Usar estilos del documento para títulos y apartados",
-            value="document_styles" in saved_accessibility,
-        ),
-        "low_contrast": ft.Checkbox(
-            label="Reducir el contraste del texto",
-            value="low_contrast" in saved_accessibility,
-        ),
-    }
+    accessibility_checkboxes = {}
+    accessibility_cards = []
+    accessibility_feedback_rows = []
+    expected_accessibility = [
+        option["id"] for option in accessibility["options"] if option["expected"]
+    ]
+    for option in accessibility["options"]:
+        checkbox = ft.Checkbox(value=option["id"] in saved_accessibility)
+        accessibility_checkboxes[option["id"]] = checkbox
+        selected = option["id"] in saved_accessibility
+        option_ok = selected == option["expected"]
+        if validated:
+            accessibility_feedback_rows.append(
+                (
+                    option_ok,
+                    f"{option['label']}: {'aplicar' if option['expected'] else 'evitar'}. {option['feedback']}",
+                )
+            )
+        accessibility_cards.append(
+            ft.Container(
+                content=ft.Row(
+                    controls=[
+                        checkbox,
+                        ft.Column(
+                            controls=[
+                                ft.Text(option["label"], size=15, weight=ft.FontWeight.BOLD),
+                                ft.Text(option["feedback"], size=13, color=ft.Colors.GREY_700),
+                            ],
+                            spacing=4,
+                            expand=True,
+                        ),
+                    ],
+                    vertical_alignment=ft.CrossAxisAlignment.START,
+                ),
+                col={"xs": 12, "md": 6},
+                bgcolor=feedback_colors(option_ok)[0] if validated else "#F9FAFB",
+                border=ft.border.all(1, feedback_colors(option_ok)[1] if validated else "#E5E7EB"),
+                border_radius=10,
+                padding=12,
+            )
+        )
 
+    alt_text_radio = ft.RadioGroup(
+        value=saved_alt_text,
+        content=ft.Column(
+            controls=[
+                ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.Radio(value=option["id"], label=option["text"]),
+                            *([
+                                inline_feedback(
+                                    option["feedback"],
+                                    option["expected"],
+                                )
+                                for option in accessibility["alt_text_options"]
+                                if validated and option["id"] == saved_alt_text
+                            ] if validated else []),
+                        ],
+                        spacing=6,
+                    ),
+                    bgcolor="#F9FAFB",
+                    border=ft.border.all(1, ft.Colors.GREY_300),
+                    border_radius=10,
+                    padding=12,
+                )
+                for option in accessibility["alt_text_options"]
+            ],
+            spacing=8,
+        ),
+    )
+    image_panel = ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(
+                    "Imagen en la ficha: alumnado comiendo una merienda saludable",
+                    size=14,
+                    weight=ft.FontWeight.BOLD,
+                ),
+                ft.Container(
+                    content=ft.Image(
+                        src="assets/ficha_p05.png",
+                        width=320,
+                        height=180,
+                        fit="contain",
+                    ),
+                    alignment=ft.Alignment.CENTER,
+                    height=200,
+                    bgcolor="#E5E7EB",
+                    border=ft.border.all(1, ft.Colors.GREY_300),
+                    border_radius=12,
+                    padding=12,
+                ),
+                ft.Text(
+                    "¿Cuál sería el mejor texto alternativo para esta imagen?",
+                    size=14,
+                    weight=ft.FontWeight.BOLD,
+                ),
+            ],
+            spacing=8,
+        ),
+        bgcolor="#F3F4F6",
+        border=ft.border.all(1, ft.Colors.GREY_300),
+        border_radius=12,
+        padding=12,
+    )
+    alt_feedback = ft.Container()
+    if validated:
+        selected_option = next(
+            (option for option in accessibility["alt_text_options"] if option["id"] == saved_alt_text),
+            None,
+        )
+        alt_feedback = inline_feedback(
+            selected_option["feedback"]
+            if selected_option
+            else "Selecciona el texto alternativo más adecuado.",
+            bool(selected_option and selected_option["expected"]),
+        )
+
+    expected_content = next(
+        option["id"] for option in content_data["options"] if option["expected"]
+    )
     content_radio = ft.RadioGroup(
         value=saved_content,
         content=ft.Column(
             controls=[
                 ft.Container(
-                    content=ft.Row(
+                    content=ft.Column(
                         controls=[
-                            ft.Radio(value="A"),
-                            ft.Container(
-                                expand=True,
-                                content=ft.Text(
-                                    "Los hábitos saludables constituyen un conjunto "
-                                    "de conductas adquiridas que favorecen el "
-                                    "mantenimiento de la homeostasis fisiológica "
-                                    "y psicológica del organismo.",
-                                    size=14,
-                                    selectable=False,
-                                ),
+                            ft.Radio(value=option["id"], label=option["text"]),
+                            *(
+                                [
+                                    inline_feedback(
+                                        (
+                                            f"Correcta: {option['feedback']}"
+                                            if option["expected"]
+                                            else f"Incorrecta: {option['feedback']}"
+                                        ),
+                                        (
+                                            saved_content == option["id"] == expected_content
+                                            or (
+                                                saved_content != option["id"]
+                                                and option["id"] != expected_content
+                                            )
+                                        ),
+                                    )
+                                ]
+                                if validated
+                                else []
                             ),
                         ],
-                        vertical_alignment=ft.CrossAxisAlignment.START,
+                        spacing=6,
                     ),
-                    border=ft.border.all(1, "#E5E7EB"),
-                    border_radius=12,
+                    bgcolor=feedback_colors(option["expected"])[0] if validated else "#F9FAFB",
+                    border=ft.border.all(1, feedback_colors(option["expected"])[1] if validated else "#E5E7EB"),
+                    border_radius=10,
                     padding=12,
-                ),
-
-                ft.Container(
-                    content=ft.Row(
-                        controls=[
-                            ft.Radio(value="B"),
-                            ft.Container(
-                                expand=True,
-                                content=ft.Text(
-                                    "Los hábitos saludables son aquellas conductas "
-                                    "que realizamos de forma habitual y que "
-                                    "contribuyen a mantener nuestro cuerpo y "
-                                    "nuestra mente en buen estado.",
-                                    size=14,
-                                    selectable=False,
-                                ),
-                            ),
-                        ],
-                        vertical_alignment=ft.CrossAxisAlignment.START,
-                    ),
-                    border=ft.border.all(1, "#E5E7EB"),
-                    border_radius=12,
-                    padding=12,
-                ),
-
-                ft.Container(
-                    content=ft.Row(
-                        controls=[
-                            ft.Radio(value="C"),
-                            ft.Container(
-                                expand=True,
-                                content=ft.Text(
-                                    "Los hábitos saludables son cosas buenas "
-                                    "que hacemos para cuidar nuestro cuerpo "
-                                    "y sentirnos bien.",
-                                    size=14,
-                                    selectable=False,
-                                ),
-                            ),
-                        ],
-                        vertical_alignment=ft.CrossAxisAlignment.START,
-                    ),
-                    border=ft.border.all(1, "#E5E7EB"),
-                    border_radius=12,
-                    padding=12,
-                ),
+                )
+                for option in content_data["options"]
             ],
-            spacing=10,
+            spacing=8,
         ),
     )
+
+    tool_controls = {}
+    tool_cards = []
+    tool_feedback_rows = []
+    for task in tools["tasks"]:
+        dropdown = ft.Dropdown(
+            label="Herramienta",
+            value=saved_tools.get(task["id"]),
+            options=[ft.dropdown.Option(option) for option in task["options"]],
+            width=260,
+        )
+        tool_controls[task["id"]] = dropdown
+        tool_ok = saved_tools.get(task["id"]) == task["expected"]
+        if validated:
+            tool_feedback_rows.append(
+                (
+                    tool_ok,
+                    f"{task['label']}: {task['expected']}",
+                )
+            )
+        tool_cards.append(
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(task["label"], size=15, weight=ft.FontWeight.BOLD),
+                        dropdown,
+                    ],
+                    spacing=8,
+                ),
+                bgcolor="#F9FAFB",
+                border=ft.border.all(1, "#E5E7EB"),
+                border_radius=10,
+                padding=12,
+            )
+        )
 
     def validate(e):
         selected_license = license_dropdown.value
         selected_apa = apa_radio.value
+        selected_accessibility = get_selected_ids(accessibility_checkboxes)
+        selected_alt_text = alt_text_radio.value
         selected_content = content_radio.value
-
-        selected_accessibility = [
-            key
-            for key, checkbox in accessibility_options.items()
-            if checkbox.value
-        ]
+        selected_tools = {
+            task_id: dropdown.value
+            for task_id, dropdown in tool_controls.items()
+        }
 
         state["responses"]["p05_license"] = selected_license
-        state["responses"]["p05_apa"] = selected_apa
-        state["responses"]["p05_content"] = selected_content
+        state["responses"]["p05_apa_option"] = selected_apa
         state["responses"]["p05_accessibility"] = selected_accessibility
+        state["responses"]["p05_alt_text_option"] = selected_alt_text
+        state["responses"]["p05_content_option"] = selected_content
+        state["responses"]["p05_tools"] = selected_tools
 
-        if (
-            selected_license is None
-            or selected_apa is None
-            or selected_content is None
-        ):
-            state["completed"]["p05"] = False
-            state["feedback"]["p05"] = {
-                "ok": False,
-                "message": "Debes completar todos los apartados antes de validar la prueba.",
-            }
-            refresh_view()
-            return
-
-        expected_accessibility = {"alt_text", "document_styles"}
-
-        license_ok = selected_license in ["CC BY", "CC BY-SA"]
-        apa_ok = selected_apa == "B"
-        accessibility_ok = set(selected_accessibility) == expected_accessibility
-        content_ok = selected_content == "B"
-
-        score = 0
-
-        if license_ok:
-            score += 30
-        if apa_ok:
-            score += 25
-        if accessibility_ok:
-            score += 25
-        if content_ok:
-            score += 20
-
-        ok = score >= 80
-
-        state["completed"]["p05"] = ok
-
-        message = (
-            "Prueba superada. Has revisado correctamente la ficha aplicando criterios básicos "
-            "de licencia, referencia, accesibilidad y adecuación didáctica."
-            if ok
-            else "Prueba no superada. Revisa la licencia, la referencia APA, la accesibilidad "
-            "y la adecuación del contenido al alumnado de secundaria."
+        license_ok = selected_license in expected_license_ids
+        apa_option = next(
+            (option for option in license_data["apa_options"] if option["id"] == selected_apa),
+            None,
+        )
+        apa_ok = bool(apa_option and apa_option["expected"])
+        accessibility_actions_ok = set(selected_accessibility) == set(expected_accessibility)
+        alt_option = next(
+            (option for option in accessibility["alt_text_options"] if option["id"] == selected_alt_text),
+            None,
+        )
+        alt_ok = bool(alt_option and alt_option["expected"])
+        accessibility_ok = accessibility_actions_ok and alt_ok
+        content_ok = selected_content == expected_content
+        tools_ok = all(
+            selected_tools[task["id"]] == task["expected"]
+            for task in tools["tasks"]
         )
 
-        state["feedback"]["p05"] = {
-            "ok": ok,
-            "message": message,
-        }
+        score = 0
+        score += 20 if license_ok else 0
+        score += 20 if apa_ok else 0
+        score += 20 if accessibility_ok else 10 if accessibility_actions_ok or alt_ok else 0
+        score += 20 if content_ok else 0
+        score += 20 if tools_ok else round(
+            sum(
+                1
+                for task in tools["tasks"]
+                if selected_tools[task["id"]] == task["expected"]
+            )
+            / len(tools["tasks"])
+            * 20
+        )
+
+        ok = score >= 80
+        state["completed"]["p05"] = ok
+        message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
+        state["feedback"]["p05"] = {"ok": ok, "message": message}
 
         result = {
             "test_id": TEST_ID,
-            "scenario_id": SCENARIO_ID,
-            "scenario_title": "Corregir una ficha educativa",
+            "scenario_id": test_data["scenario_id"],
+            "scenario_title": test_data["scenario_title"],
             "timestamp_utc": datetime.utcnow().isoformat(),
             "score_0_100": score,
             "level_hint": "A1" if ok else "A0",
             "payload": {
                 "selected_license": selected_license,
+                "expected_license_ids": expected_license_ids,
                 "selected_apa_option": selected_apa,
+                "expected_apa_option": next(
+                    (option["id"] for option in license_data["apa_options"] if option["expected"]),
+                    None,
+                ),
                 "selected_accessibility": selected_accessibility,
+                "expected_accessibility": expected_accessibility,
+                "selected_alt_text_option": selected_alt_text,
+                "expected_alt_text_option": next(
+                    (option["id"] for option in accessibility["alt_text_options"] if option["expected"]),
+                    None,
+                ),
                 "selected_content_option": selected_content,
-                "expected_license": ["CC BY", "CC BY-SA"],
-                "expected_apa_option": "B",
-                "expected_accessibility": sorted(expected_accessibility),
-                "expected_content_option": "B",
+                "expected_content_option": expected_content,
+                "selected_tools": selected_tools,
             },
             "checks": [
                 {
-                    "check_id": "open_license_selected",
-                    "label": "Selecciona una licencia abierta adecuada",
+                    "check_id": "license_for_adaptation",
+                    "label": "Selecciona una licencia que permita reutilización y adaptación",
                     "passed": license_ok,
-                    "weight": 30,
-                    "evidence": selected_license,
+                    "weight": 20,
+                    "evidence": str(selected_license),
                 },
                 {
-                    "check_id": "apa_reference_selected",
-                    "label": "Selecciona la referencia APA correcta",
+                    "check_id": "apa_reference",
+                    "label": "Selecciona la referencia APA básica correcta",
                     "passed": apa_ok,
-                    "weight": 25,
-                    "evidence": selected_apa,
+                    "weight": 20,
+                    "evidence": str(selected_apa),
                 },
                 {
-                    "check_id": "accessibility_actions_selected",
-                    "label": "Selecciona acciones correctas de accesibilidad",
+                    "check_id": "accessible_document_actions",
+                    "label": "Selecciona acciones de accesibilidad y texto alternativo adecuados",
                     "passed": accessibility_ok,
-                    "weight": 25,
-                    "evidence": ", ".join(selected_accessibility),
+                    "weight": 20,
+                    "evidence": ", ".join(selected_accessibility + [selected_alt_text] if selected_alt_text else selected_accessibility),
                 },
                 {
-                    "check_id": "didactic_content_selected",
-                    "label": "Selecciona el contenido más adecuado para alumnado de secundaria",
+                    "check_id": "didactic_rewrite",
+                    "label": "Selecciona la versión más adecuada para 2º de ESO",
                     "passed": content_ok,
                     "weight": 20,
-                    "evidence": selected_content,
+                    "evidence": str(selected_content),
+                },
+                {
+                    "check_id": "authoring_tools",
+                    "label": "Selecciona herramientas de autor adecuadas",
+                    "passed": tools_ok,
+                    "weight": 20,
+                    "evidence": str(selected_tools),
                 },
             ],
             "notes": [message],
@@ -323,101 +533,45 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
 
         saved_path = save_result(result)
         state["responses"]["p05_saved_path"] = str(saved_path)
-
         refresh_view()
-
-    questions_panel = ft.Container(
-        content=ft.Column(
-            controls=[
-                ft.Text(
-                    "Preguntas de corrección",
-                    size=20,
-                    weight=ft.FontWeight.BOLD,
-                    color="#111827",
-                ),
-                ft.Text(
-                    "Observa la ficha de la derecha y selecciona las correcciones adecuadas.",
-                    size=14,
-                    color="#4B5563",
-                ),
-                ft.Divider(height=22, color="#E5E7EB"),
-
-                ft.Text(
-                    "1. ¿Qué licencia sería adecuada para permitir la reutilización educativa?",
-                    size=15,
-                    weight=ft.FontWeight.BOLD,
-                ),
-                license_dropdown,
-
-                ft.Text(
-                    "2. ¿Qué referencia está correctamente escrita según normas APA?",
-                    size=15,
-                    weight=ft.FontWeight.BOLD,
-                ),
-                apa_radio,
-
-                ft.Text(
-                    "3. ¿Qué acciones mejorarían la accesibilidad del recurso?",
-                    size=15,
-                    weight=ft.FontWeight.BOLD,
-                ),
-                ft.Column(
-                    controls=list(accessibility_options.values()),
-                    spacing=4,
-                ),
-
-                ft.Text(
-                    "4. ¿Qué versión del contenido es más adecuada para 2.º de ESO?",
-                    size=15,
-                    weight=ft.FontWeight.BOLD,
-                ),
-                content_radio,
-
-                ft.Container(height=8),
-                ft.ElevatedButton("Validar prueba", on_click=validate),
-                build_result_box(state["feedback"]["p05"]),
-            ],
-            spacing=14,
-        ),
-        bgcolor="#F9FAFB",
-        border=ft.border.all(1, "#E5E7EB"),
-        border_radius=18,
-        padding=22,
-    )
 
     content = ft.Column(
         controls=[
-            ft.Text(
-                "Escenario: debes revisar una ficha educativa digital antes de reutilizarla "
-                "con alumnado de secundaria. Analiza el documento y aplica las correcciones "
-                "necesarias sobre licencia, referencia, accesibilidad y adecuación didáctica.",
-                size=15,
-                weight=ft.FontWeight.W_600,
-            ),
-            ft.ResponsiveRow(
-                controls=[
-                    ft.Container(
-                        col={"xs": 12, "lg": 6},
-                        content=questions_panel,
-                    ),
-                    ft.Container(
-                        col={"xs": 12, "lg": 6},
-                        content=build_document_image(),
-                    ),
-                ],
-                spacing=18,
-                run_spacing=18,
-            ),
+            ft.Text(test_data["intro"], size=15, weight=ft.FontWeight.W_600),
+            build_info_panel(test_data["source"]["title"], test_data["source"]["lines"]),
+            section_title(license_data["title"]),
+            ft.Text(license_data["description"], size=14),
+            license_dropdown,
+            license_feedback,
+            apa_radio,
+            apa_feedback,
+            ft.Divider(height=24),
+            section_title(accessibility["title"]),
+            ft.Text(accessibility["description"], size=14),
+            ft.ResponsiveRow(controls=accessibility_cards, spacing=8, run_spacing=8),
+            feedback_panel("Corrección de accesibilidad", accessibility_feedback_rows),
+            image_panel,
+            alt_text_radio,
+            alt_feedback,
+            ft.Divider(height=24),
+            section_title(content_data["title"]),
+            ft.Text(content_data["description"], size=14),
+            build_info_panel("Texto original", [content_data["original"]]),
+            content_radio,
+            ft.Divider(height=24),
+            section_title(tools["title"]),
+            ft.Text(tools["description"], size=14),
+            ft.Column(controls=tool_cards, spacing=10),
+            feedback_panel("Corrección de herramientas", tool_feedback_rows),
+            ft.Container(height=8),
+            ft.ElevatedButton("Validar prueba", on_click=validate),
+            build_result_box(state["feedback"]["p05"]),
         ],
-        spacing=18,
+        spacing=12,
     )
 
     return question_block(
-        title="P05 · Corregir una ficha educativa",
-        statement=(
-            "Evalúa los indicadores 2.2.A1.1, 2.2.A1.2 y 2.2.A1.3 mediante una tarea guiada "
-            "de revisión de una ficha educativa digital, aplicando criterios didácticos, técnicos, "
-            "de accesibilidad y propiedad intelectual."
-        ),
+        title=test_data["title"],
+        statement=test_data["statement"],
         content=content,
     )

@@ -1,0 +1,164 @@
+{
+  "test_id": "P06",
+  "scenario_id": "comp22_a2_configurar_plantilla",
+  "scenario_title": "Configuración y adaptación de plantilla didáctica",
+  "title": "P06 · Configurar plantilla didáctica",
+  "statement": "Evalúa los indicadores 2.2.A2.1, 2.2.A2.2 y 2.2.A2.3 mediante una tarea guiada de configuración de una plantilla educativa digital.",
+  "intro": "Escenario: estás adaptando una plantilla digital para un grupo de 1.º de ESO con las herramientas y formatos autorizados por el centro.",
+  "description": "Selecciona las opciones más adecuadas para garantizar accesibilidad, compatibilidad institucional, navegación clara y adaptación didáctica.",
+  "questions": [
+    {
+      "id": "accessibility",
+      "title": "1. Accesibilidad",
+      "description": "¿Qué opción mejora más la accesibilidad del recurso para el alumnado?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Añadir encabezados claros y mantener alto contraste",
+          "expected": true,
+          "feedback": "Mejora la navegación y la legibilidad para el alumnado, especialmente con necesidades de acceso."
+        },
+        {
+          "id": "B",
+          "label": "Reducir el tamaño del texto principal",
+          "expected": false,
+          "feedback": "Reducir el tamaño del texto dificulta la lectura y no es una buena práctica de accesibilidad."
+        },
+        {
+          "id": "C",
+          "label": "Eliminar subtítulos y ayudas visuales",
+          "expected": false,
+          "feedback": "Quitar ayudas visuales reduce la accesibilidad del contenido."
+        },
+        {
+          "id": "D",
+          "label": "Ocultar botones de navegación",
+          "expected": false,
+          "feedback": "Ocultar la navegación dificulta el acceso a las secciones del recurso."
+        }
+      ]
+    },
+    {
+      "id": "tool",
+      "title": "2. Herramienta institucional",
+      "description": "¿Qué opción refleja el uso de una herramienta proporcionada por el centro con sistema de referencias?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Usar la plataforma educativa institucional del centro con su función de referencias bibliográficas.",
+          "expected": true,
+          "feedback": "Cumple la normativa del centro y usa el sistema de referencias autorizado."
+        },
+        {
+          "id": "B",
+          "label": "Utilizar una aplicación externa no autorizada sin sistema de referencias integrado.",
+          "expected": false,
+          "feedback": "Una aplicación externa no autorizada puede vulnerar la compatibilidad y las normas del centro."
+        },
+        {
+          "id": "C",
+          "label": "Publicar la plantilla en una red social pública.",
+          "expected": false,
+          "feedback": "Una red social pública no es un entorno autorizado ni compatible con el centro."
+        },
+        {
+          "id": "D",
+          "label": "Trabajar con un programa descargado sin licencia ni compatibilidad institucional.",
+          "expected": false,
+          "feedback": "El programa descargado sin licencia no es un recurso autorizado ni compatible con el entorno educativo."
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "title": "3. Diseño y distribución",
+      "description": "¿Qué distribución visual es la más adecuada para 1.º de ESO?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Interfaz limpia y organizada con bloques cortos e iconos claros.",
+          "expected": true,
+          "feedback": "Una plantilla clara y ordenada facilita la comprensión y el acceso para el alumnado."
+        },
+        {
+          "id": "B",
+          "label": "Pantalla saturada con muchos elementos simultáneos.",
+          "expected": false,
+          "feedback": "Una pantalla saturada dificulta la lectura y la concentración del alumnado."
+        },
+        {
+          "id": "C",
+          "label": "Diseño técnico complejo con navegación densa.",
+          "expected": false,
+          "feedback": "Un diseño técnico complejo no es adecuado para 1.º de ESO y complica el uso."
+        }
+      ]
+    },
+    {
+      "id": "navigation",
+      "title": "4. Navegación",
+      "description": "¿Qué opción favorece una navegación clara y sencilla?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Menú visible y botones claramente identificados.",
+          "expected": true,
+          "feedback": "Una navegación visible y explícita ayuda al alumnado a moverse con seguridad."
+        },
+        {
+          "id": "B",
+          "label": "Navegación oculta mediante iconos sin texto.",
+          "expected": false,
+          "feedback": "Los iconos sin texto dificultan la orientación y el uso de la plantilla."
+        },
+        {
+          "id": "C",
+          "label": "Ocho submenús simultáneos.",
+          "expected": false,
+          "feedback": "Demasiados submenús generan confusión y hacen la navegación menos eficaz."
+        },
+        {
+          "id": "D",
+          "label": "Acceso solo mediante atajos avanzados.",
+          "expected": false,
+          "feedback": "Los atajos avanzados no son adecuados para un grupo de 1.º de ESO sin formación previa."
+        }
+      ]
+    },
+    {
+      "id": "adaptation",
+      "title": "5. Adaptación didáctica",
+      "description": "¿Qué adaptación es más adecuada para el grupo de 1.º de ESO?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Dividir el contenido en bloques breves y visuales.",
+          "expected": true,
+          "feedback": "Esta adaptación facilita el aprendizaje y respeta las necesidades del grupo."
+        },
+        {
+          "id": "B",
+          "label": "Añadir párrafos técnicos largos.",
+          "expected": false,
+          "feedback": "Los párrafos largos aumentan la complejidad y no son adecuados para 1.º de ESO."
+        },
+        {
+          "id": "C",
+          "label": "Eliminar ejemplos visuales.",
+          "expected": false,
+          "feedback": "Eliminar ejemplos visuales reduce la comprensión y el interés del alumnado."
+        },
+        {
+          "id": "D",
+          "label": "Usar vocabulario universitario especializado.",
+          "expected": false,
+          "feedback": "El vocabulario especializado no se ajusta al nivel del alumnado."
+        }
+      ]
+    }
+  ],
+  "feedback": {
+    "success": "Prueba superada. Has configurado la plantilla con criterios didácticos, técnicos y de accesibilidad, usando herramientas autorizadas.",
+    "failure": "Prueba no superada. Revisa las opciones de accesibilidad, herramienta institucional, navegación y adaptación didáctica."
+  }
+}

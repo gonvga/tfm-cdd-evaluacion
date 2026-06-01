@@ -1,0 +1,192 @@
+{
+  "test_id": "P05",
+  "scenario_id": "comp22_a1_revision_autor",
+  "scenario_title": "Revisión básica de un contenido digital",
+  "title": "P05 · Revisar y mejorar un contenido digital",
+  "statement": "Evalúa los indicadores 2.2.A1.1, 2.2.A1.2 y 2.2.A1.3 mediante una revisión práctica de licencia, cita, accesibilidad, adecuación didáctica y herramientas de autor.",
+  "intro": "Escenario: vas a adaptar una ficha digital sobre hábitos saludables para 2º de ESO. Antes de publicarla en el aula virtual debes revisar licencia, referencia, accesibilidad, redacción y herramienta de edición adecuada.",
+  "source": {
+    "title": "Recurso original",
+    "lines": [
+      "Título: Guía de hábitos saludables.",
+      "Autoría: Ministerio de Educación.",
+      "Año: 2024.",
+      "Uso previsto: adaptación para una ficha de aula.",
+      "Problemas detectados: imagen de alumnado comiendo una merienda saludable sin texto alternativo, títulos sin estilos, redacción poco adecuada y ausencia de referencia normalizada."
+    ]
+  },
+  "license": {
+    "title": "Fase A · Licencia y referencia",
+    "description": "Selecciona una licencia que permita reutilizar y adaptar el recurso, y escribe una referencia APA básica.",
+    "options": [
+      {
+        "id": "copyright",
+        "label": "Copyright completo",
+        "expected": false,
+        "feedback": "No permite adaptar el contenido sin autorización expresa."
+      },
+      {
+        "id": "cc_by",
+        "label": "CC BY",
+        "expected": true,
+        "feedback": "Permite reutilizar y adaptar citando la autoría."
+      },
+      {
+        "id": "cc_by_sa",
+        "label": "CC BY-SA",
+        "expected": true,
+        "feedback": "Permite adaptar citando la autoría y compartiendo con la misma licencia."
+      },
+      {
+        "id": "no_license",
+        "label": "Sin licencia indicada",
+        "expected": false,
+        "feedback": "No ofrece garantías para transformar y republicar el material."
+      }
+    ],
+    "apa_options": [
+      {
+        "id": "apa_correct",
+        "text": "Ministerio de Educación. (2024). Guía de hábitos saludables.",
+        "expected": true,
+        "feedback": "Incluye autoría institucional, año entre paréntesis y título correcto."
+      },
+      {
+        "id": "apa_missing_year",
+        "text": "Ministerio de Educación. Guía de hábitos saludables.",
+        "expected": false,
+        "feedback": "Falta el año entre paréntesis, un elemento básico de la referencia APA."
+      },
+      {
+        "id": "apa_wrong_title",
+        "text": "Ministerio de Educación. (2024). Hábitos saludables.",
+        "expected": false,
+        "feedback": "El título es incompleto y no coincide con el recurso original."
+      }
+    ]
+  },
+  "accessibility": {
+    "title": "Fase B · Accesibilidad del documento",
+    "description": "Selecciona las acciones que aplicarías en un procesador de texto para crear un documento más accesible.",
+    "options": [
+      {
+        "id": "alt_text",
+        "label": "Añadir texto alternativo a las imágenes",
+        "expected": true,
+        "feedback": "Permite que lectores de pantalla describan la imagen."
+      },
+      {
+        "id": "document_styles",
+        "label": "Usar estilos para títulos y apartados",
+        "expected": true,
+        "feedback": "Facilita la navegación y estructura del documento."
+      },
+      {
+        "id": "subtitles",
+        "label": "Añadir subtítulos si se incorpora vídeo",
+        "expected": true,
+        "feedback": "Mejora el acceso al contenido audiovisual."
+      },
+      {
+        "id": "low_contrast",
+        "label": "Reducir el contraste para suavizar el diseño",
+        "expected": false,
+        "feedback": "Dificulta la lectura y reduce la accesibilidad."
+      },
+      {
+        "id": "image_text",
+        "label": "Sustituir el texto editable por capturas de pantalla",
+        "expected": false,
+        "feedback": "Hace más difícil la lectura, búsqueda y adaptación del contenido."
+      }
+    ],
+    "alt_text_options": [
+      {
+        "id": "alt_good",
+        "text": "Alumnado preparando una merienda saludable con frutas y agua para aprender hábitos de bienestar.",
+        "expected": true,
+        "feedback": "Describe la escena de forma clara y útil para lectores de pantalla."
+      },
+      {
+        "id": "alt_weak",
+        "text": "Niños comiendo una merienda saludable.",
+        "expected": false,
+        "feedback": "Es demasiado general y no menciona el contexto educativo completo."
+      },
+      {
+        "id": "alt_wrong",
+        "text": "Ilustración de comida saludable.",
+        "expected": false,
+        "feedback": "No describe la acción ni el contexto educativo."
+      }
+    ]
+  },
+  "content": {
+    "title": "Fase C · Adecuación didáctica y disciplinar",
+    "description": "Selecciona la versión que mejor adapta el texto a 2º de ESO sin perder rigor disciplinar.",
+    "original": "Los hábitos saludables constituyen un conjunto de conductas adquiridas que favorecen el mantenimiento de la homeostasis fisiológica y psicológica del organismo.",
+    "options": [
+      {
+        "id": "A",
+        "text": "Los hábitos saludables constituyen conductas adquiridas que favorecen la homeostasis fisiológica y psicológica del organismo.",
+        "expected": false,
+        "feedback": "Mantiene tecnicismos innecesarios para 2º de ESO."
+      },
+      {
+        "id": "B",
+        "text": "Los hábitos saludables son acciones que repetimos en nuestra vida diaria y que ayudan a cuidar el cuerpo y la mente, como descansar bien, alimentarnos de forma equilibrada y hacer actividad física.",
+        "expected": true,
+        "feedback": "Usa lenguaje claro, mantiene el significado y se ajusta al nivel del alumnado."
+      },
+      {
+        "id": "C",
+        "text": "Los hábitos saludables son cosas buenas que hacemos para estar bien.",
+        "expected": false,
+        "feedback": "Es comprensible, pero resulta demasiado imprecisa y pierde contenido disciplinar."
+      }
+    ]
+  },
+  "tools": {
+    "title": "Fase D · Herramientas de autor",
+    "description": "Selecciona la herramienta de autor más adecuada para cada modificación.",
+    "tasks": [
+      {
+        "id": "transparent_background",
+        "label": "Quitar el fondo de una imagen para integrarla en la ficha",
+        "options": [
+          "Procesador de texto",
+          "Editor de imagen",
+          "Editor de audio",
+          "Hoja de cálculo"
+        ],
+        "expected": "Editor de imagen"
+      },
+      {
+        "id": "subtitles_video",
+        "label": "Añadir subtítulos a un vídeo breve",
+        "options": [
+          "Editor de vídeo",
+          "Editor de ecuaciones",
+          "Presentación",
+          "Compresor de archivos"
+        ],
+        "expected": "Editor de vídeo"
+      },
+      {
+        "id": "heading_styles",
+        "label": "Crear una estructura accesible con títulos y apartados",
+        "options": [
+          "Procesador de texto",
+          "Editor de audio",
+          "Banco de imágenes",
+          "Calculadora"
+        ],
+        "expected": "Procesador de texto"
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has aplicado criterios básicos de licencia, referencia, accesibilidad, adecuación didáctica y herramientas de autor.",
+    "failure": "Prueba no superada. Revisa licencia, referencia APA, accesibilidad, redacción y herramienta de autor."
+  }
+}
