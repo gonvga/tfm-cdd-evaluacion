@@ -118,15 +118,6 @@ def build_test_p06(state: dict, refresh_view) -> ft.Control:
         }
         state["responses"]["p06_answers"] = selected_answers
 
-        if any(value is None for value in selected_answers.values()):
-            state["completed"]["p06"] = False
-            state["feedback"]["p06"] = {
-                "ok": False,
-                "message": "Debes responder todas las preguntas antes de validar la prueba.",
-            }
-            refresh_view()
-            return
-
         score = 0
         checks = []
 

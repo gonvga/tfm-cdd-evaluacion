@@ -290,17 +290,17 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
                 ),
                 ft.Container(
                     content=ft.Image(
-                        src="assets/ficha_p05.png",
-                        width=320,
-                        height=180,
+                        src="assets/p05/alumnado.png",
+                        width=680,
+                        height=380,
                         fit="contain",
                     ),
                     alignment=ft.Alignment.CENTER,
-                    height=200,
+                    height=420,
                     bgcolor="#E5E7EB",
                     border=ft.border.all(1, ft.Colors.GREY_300),
                     border_radius=12,
-                    padding=12,
+                    padding=16,
                 ),
                 ft.Text(
                     "¿Cuál sería el mejor texto alternativo para esta imagen?",
