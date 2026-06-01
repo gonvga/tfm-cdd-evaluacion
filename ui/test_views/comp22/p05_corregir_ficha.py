@@ -32,6 +32,44 @@ def inline_feedback(text: str, is_correct: bool) -> ft.Control:
     )
 
 
+def build_choice_card(
+    option: dict,
+    selected_id: str | None,
+    validated: bool,
+    text_key: str,
+) -> ft.Control:
+    selected = selected_id == option["id"]
+    option_ok = bool(option["expected"])
+    show_feedback = validated and (option_ok or selected)
+    if show_feedback:
+        bgcolor, border_color = feedback_colors(option_ok)
+    else:
+        bgcolor, border_color = "#F9FAFB", "#E5E7EB"
+
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Radio(value=option["id"], label=option[text_key]),
+                *(
+                    [
+                        inline_feedback(
+                            f"{'Correcta' if option_ok else 'Incorrecta'}. {option['feedback']}",
+                            option_ok,
+                        )
+                    ]
+                    if show_feedback
+                    else []
+                ),
+            ],
+            spacing=6,
+        ),
+        bgcolor=bgcolor,
+        border=ft.border.all(1, border_color),
+        border_radius=10,
+        padding=12,
+    )
+
+
 def feedback_panel(title: str, rows: list[tuple[bool, str]]) -> ft.Control:
     if not rows:
         return ft.Container()
@@ -158,12 +196,20 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
             (option for option in license_data["options"] if option["id"] == saved_license),
             None,
         )
+        expected_labels = [
+            option["label"] for option in license_data["options"] if option["expected"]
+        ]
+        if selected_option:
+            license_message = (
+                f"{'Correcta' if license_ok else 'Incorrecta'}. "
+                f"{selected_option['feedback']}"
+            )
+        else:
+            license_message = "Sin respuesta."
+        if not license_ok:
+            license_message += f" Correcta: {', '.join(expected_labels)}."
         license_feedback = inline_feedback(
-            (
-                selected_option["feedback"]
-                if selected_option
-                else "Selecciona una licencia que permita reutilizar y adaptar."
-            ),
+            license_message,
             license_ok,
         )
 
@@ -171,26 +217,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
         value=saved_apa,
         content=ft.Column(
             controls=[
-                ft.Container(
-                    content=ft.Column(
-                        controls=[
-                            ft.Radio(value=option["id"], label=option["text"]),
-                            *([
-                                inline_feedback(
-                                    option["feedback"],
-                                    option["expected"],
-                                )
-                                for option in license_data["apa_options"]
-                                if validated and option["id"] == saved_apa
-                            ] if validated else []),
-                        ],
-                        spacing=6,
-                    ),
-                    bgcolor="#F9FAFB",
-                    border=ft.border.all(1, ft.Colors.GREY_300),
-                    border_radius=10,
-                    padding=12,
-                )
+                build_choice_card(option, saved_apa, validated, "text")
                 for option in license_data["apa_options"]
             ],
             spacing=8,
@@ -202,12 +229,11 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
             (option for option in license_data["apa_options"] if option["id"] == saved_apa),
             None,
         )
-        apa_feedback = inline_feedback(
-            selected_option["feedback"]
-            if selected_option
-            else "Selecciona la referencia APA correcta.",
-            bool(selected_option and selected_option["expected"]),
-        )
+        if not selected_option:
+            apa_feedback = inline_feedback(
+                "Sin respuesta. La referencia correcta aparece en verde.",
+                False,
+            )
 
     accessibility_checkboxes = {}
     accessibility_cards = []
@@ -229,19 +255,35 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
             )
         accessibility_cards.append(
             ft.Container(
-                content=ft.Row(
+                content=ft.Column(
                     controls=[
-                        checkbox,
-                        ft.Column(
+                        ft.Row(
                             controls=[
-                                ft.Text(option["label"], size=15, weight=ft.FontWeight.BOLD),
-                                ft.Text(option["feedback"], size=13, color=ft.Colors.GREY_700),
+                                checkbox,
+                                ft.Column(
+                                    controls=[
+                                        ft.Text(option["label"], size=15, weight=ft.FontWeight.BOLD),
+                                        ft.Text(option["feedback"], size=13, color=ft.Colors.GREY_700),
+                                    ],
+                                    spacing=4,
+                                    expand=True,
+                                ),
                             ],
-                            spacing=4,
-                            expand=True,
+                            vertical_alignment=ft.CrossAxisAlignment.START,
+                        ),
+                        *(
+                            [
+                                inline_feedback(
+                                    f"{'Correcta' if option_ok else 'Incorrecta'}. "
+                                    f"{'Aplicar' if option['expected'] else 'Evitar'}.",
+                                    option_ok,
+                                )
+                            ]
+                            if validated
+                            else []
                         ),
                     ],
-                    vertical_alignment=ft.CrossAxisAlignment.START,
+                    spacing=8,
                 ),
                 col={"xs": 12, "md": 6},
                 bgcolor=feedback_colors(option_ok)[0] if validated else "#F9FAFB",
@@ -255,26 +297,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
         value=saved_alt_text,
         content=ft.Column(
             controls=[
-                ft.Container(
-                    content=ft.Column(
-                        controls=[
-                            ft.Radio(value=option["id"], label=option["text"]),
-                            *([
-                                inline_feedback(
-                                    option["feedback"],
-                                    option["expected"],
-                                )
-                                for option in accessibility["alt_text_options"]
-                                if validated and option["id"] == saved_alt_text
-                            ] if validated else []),
-                        ],
-                        spacing=6,
-                    ),
-                    bgcolor="#F9FAFB",
-                    border=ft.border.all(1, ft.Colors.GREY_300),
-                    border_radius=10,
-                    padding=12,
-                )
+                build_choice_card(option, saved_alt_text, validated, "text")
                 for option in accessibility["alt_text_options"]
             ],
             spacing=8,
@@ -321,12 +344,11 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
             (option for option in accessibility["alt_text_options"] if option["id"] == saved_alt_text),
             None,
         )
-        alt_feedback = inline_feedback(
-            selected_option["feedback"]
-            if selected_option
-            else "Selecciona el texto alternativo más adecuado.",
-            bool(selected_option and selected_option["expected"]),
-        )
+        if not selected_option:
+            alt_feedback = inline_feedback(
+                "Sin respuesta. El texto alternativo correcto aparece en verde.",
+                False,
+            )
 
     expected_content = next(
         option["id"] for option in content_data["options"] if option["expected"]
@@ -335,43 +357,18 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
         value=saved_content,
         content=ft.Column(
             controls=[
-                ft.Container(
-                    content=ft.Column(
-                        controls=[
-                            ft.Radio(value=option["id"], label=option["text"]),
-                            *(
-                                [
-                                    inline_feedback(
-                                        (
-                                            f"Correcta: {option['feedback']}"
-                                            if option["expected"]
-                                            else f"Incorrecta: {option['feedback']}"
-                                        ),
-                                        (
-                                            saved_content == option["id"] == expected_content
-                                            or (
-                                                saved_content != option["id"]
-                                                and option["id"] != expected_content
-                                            )
-                                        ),
-                                    )
-                                ]
-                                if validated
-                                else []
-                            ),
-                        ],
-                        spacing=6,
-                    ),
-                    bgcolor=feedback_colors(option["expected"])[0] if validated else "#F9FAFB",
-                    border=ft.border.all(1, feedback_colors(option["expected"])[1] if validated else "#E5E7EB"),
-                    border_radius=10,
-                    padding=12,
-                )
+                build_choice_card(option, saved_content, validated, "text")
                 for option in content_data["options"]
             ],
             spacing=8,
         ),
     )
+    content_feedback = ft.Container()
+    if validated and saved_content is None:
+        content_feedback = inline_feedback(
+            "Sin respuesta. La version correcta aparece en verde.",
+            False,
+        )
 
     tool_controls = {}
     tool_cards = []
@@ -398,11 +395,25 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
                     controls=[
                         ft.Text(task["label"], size=15, weight=ft.FontWeight.BOLD),
                         dropdown,
+                        *(
+                            [
+                                inline_feedback(
+                                    (
+                                        "Correcta."
+                                        if tool_ok
+                                        else f"Incorrecta. Correcta: {task['expected']}."
+                                    ),
+                                    tool_ok,
+                                )
+                            ]
+                            if validated
+                            else []
+                        ),
                     ],
                     spacing=8,
                 ),
-                bgcolor="#F9FAFB",
-                border=ft.border.all(1, "#E5E7EB"),
+                bgcolor=feedback_colors(tool_ok)[0] if validated else "#F9FAFB",
+                border=ft.border.all(1, feedback_colors(tool_ok)[1] if validated else "#E5E7EB"),
                 border_radius=10,
                 padding=12,
             )
@@ -558,6 +569,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
             ft.Text(content_data["description"], size=14),
             build_info_panel("Texto original", [content_data["original"]]),
             content_radio,
+            content_feedback,
             ft.Divider(height=24),
             section_title(tools["title"]),
             ft.Text(tools["description"], size=14),

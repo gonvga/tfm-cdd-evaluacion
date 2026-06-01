@@ -66,17 +66,24 @@ def build_option_card(
     validated: bool,
 ) -> ft.Control:
     selected = selected_option == option["id"]
-    show_feedback = validated and selected
     option_ok = bool(option["expected"])
-    bgcolor = feedback_colors(option_ok)[0] if show_feedback else "#F9FAFB"
-    border_color = feedback_colors(option_ok)[1] if show_feedback else "#E5E7EB"
+    show_feedback = validated and (option_ok or selected)
+    if show_feedback:
+        bgcolor, border_color = feedback_colors(option_ok)
+    else:
+        bgcolor, border_color = "#F9FAFB", "#E5E7EB"
 
     return ft.Container(
         content=ft.Column(
             controls=[
                 ft.Radio(value=option["id"], label=option["label"]),
                 *(
-                    [inline_feedback(option["feedback"], option_ok)]
+                    [
+                        inline_feedback(
+                            f"{'Correcta' if option_ok else 'Incorrecta'}. {option['feedback']}",
+                            option_ok,
+                        )
+                    ]
                     if show_feedback
                     else []
                 ),
@@ -186,7 +193,7 @@ def build_test_p06(state: dict, refresh_view) -> ft.Control:
                         *(
                             [
                                 inline_feedback(
-                                    "Selecciona una opcion antes de validar esta pregunta.",
+                                    "Sin respuesta. La opcion correcta aparece en verde.",
                                     False,
                                 )
                             ]
