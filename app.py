@@ -11,7 +11,7 @@ def main(page: ft.Page):
 
     page.padding = 0
     page.spacing = 0
-    page.scroll = ft.ScrollMode.AUTO
+    page.scroll = ft.ScrollMode.HIDDEN
     page.theme_mode = ft.ThemeMode.LIGHT
     page.bgcolor = ft.Colors.GREY_100
 
