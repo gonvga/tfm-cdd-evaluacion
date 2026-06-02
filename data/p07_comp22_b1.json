@@ -1,0 +1,255 @@
+{
+  "test_id": "P07",
+  "scenario_id": "comp22_b1_creador_ficha_adaptada",
+  "scenario_title": "Creador de ficha educativa adaptada",
+  "title": "P07 · Creador de ficha adaptada",
+  "statement": "Evalua los indicadores 2.2.B1.1, 2.2.B1.2 y 2.2.B1.3 mediante la modificacion practica de un recurso digital existente.",
+  "intro": "Escenario: has encontrado una ficha digital abierta sobre el ciclo del agua. Debes crear una obra derivada para 1.º de ESO usando una herramienta de autor simulada.",
+  "source": {
+    "title": "Recurso original",
+    "image": "assets/p07/original_ficha.png",
+    "lines": [
+      "Titulo original: El ciclo hidrologico.",
+      "Licencia original: CC BY-SA 4.0. Autor: Banco de Recursos Abiertos.",
+      "Curso previsto: 3.º de ESO.",
+      "Problemas detectables: texto tecnico largo, esquema sin texto alternativo, actividad final poco guiada, sin glosario y sin metadatos educativos."
+    ]
+  },
+  "classroom": {
+    "title": "Situacion de aprendizaje y alumnado",
+    "lines": [
+      "Grupo: 1.º de ESO con diversidad de ritmos de lectura.",
+      "Necesidad concreta: dos estudiantes usan lector de pantalla y parte del grupo necesita vocabulario guiado.",
+      "Producto esperado: ficha editable en el aula virtual con apoyos visuales, accesibilidad, licencia compatible y metadatos."
+    ]
+  },
+  "builder": {
+    "title": "Constructor de ficha",
+    "description": "Anade, quita y ordena bloques para crear una ficha adaptada. El producto final debe conservar la calidad disciplinar, adecuarse al grupo, incluir accesibilidad y respetar la licencia.",
+    "required_order": [
+      "adapted_title",
+      "accessible_diagram",
+      "adapted_intro",
+      "visual_glossary",
+      "guided_activity",
+      "optional_extension"
+    ],
+    "blocks": [
+      {
+        "id": "adapted_title",
+        "title": "Titulo contextualizado",
+        "type": "Portada",
+        "thumbnail": "assets/p07/block_titulo_contextualizado.png",
+        "preview": "El ciclo del agua en nuestro entorno",
+        "description": "Sustituye el titulo tecnico por uno comprensible y conectado con la situacion de aprendizaje.",
+        "expected": true,
+        "accessibility": false,
+        "feedback": "Adecua el recurso a 1.º de ESO y conserva el foco disciplinar."
+      },
+      {
+        "id": "accessible_diagram",
+        "title": "Esquema accesible",
+        "type": "Imagen",
+        "thumbnail": "assets/p07/block_esquema_accesible.png",
+        "preview": "Esquema con flechas numeradas, etiquetas y texto alternativo sobre evaporacion, condensacion y precipitacion.",
+        "description": "Modifica el esquema original incorporando etiquetas claras y texto alternativo.",
+        "expected": true,
+        "accessibility": true,
+        "feedback": "Mejora la comprension visual y el acceso con lector de pantalla."
+      },
+      {
+        "id": "adapted_intro",
+        "title": "Introduccion adaptada",
+        "type": "Texto",
+        "thumbnail": "assets/p07/block_intro_adaptada.png",
+        "preview": "El agua cambia de lugar y de estado. Observa primero un ejemplo cercano y despues identifica las fases principales.",
+        "description": "Sustituye el parrafo largo por una introduccion breve, secuenciada y adecuada al alumnado.",
+        "expected": true,
+        "accessibility": false,
+        "feedback": "Reduce complejidad y orienta la lectura."
+      },
+      {
+        "id": "visual_glossary",
+        "title": "Glosario visual",
+        "type": "Apoyo",
+        "thumbnail": "assets/p07/block_glosario_visual.png",
+        "preview": "Evaporacion, condensacion y precipitacion explicadas con iconos y frases breves.",
+        "description": "Anade apoyo de vocabulario para alumnado con distintos ritmos de lectura.",
+        "expected": true,
+        "accessibility": true,
+        "feedback": "Es una adaptacion didactica y accesible al contexto del grupo."
+      },
+      {
+        "id": "guided_activity",
+        "title": "Actividad interactiva guiada",
+        "type": "H5P",
+        "thumbnail": "assets/p07/block_actividad_guiada.png",
+        "preview": "Arrastra cada fase al lugar correcto del esquema y recibe retroalimentacion inmediata.",
+        "description": "Usa una herramienta de autor para modificar el recurso y crear un itinerario practicable.",
+        "expected": true,
+        "accessibility": false,
+        "feedback": "Cumple el uso de herramienta de autor y mejora la adecuacion didactica."
+      },
+      {
+        "id": "optional_extension",
+        "title": "Ampliacion separada",
+        "type": "Extension",
+        "thumbnail": "assets/p07/block_ampliacion.png",
+        "preview": "Para saber mas: escorrentia e infiltracion aparecen en un bloque opcional al final.",
+        "description": "Mantiene contenido disciplinar mas complejo sin saturar el itinerario principal.",
+        "expected": true,
+        "accessibility": false,
+        "feedback": "Permite personalizar el recurso sin sobrecargar a todo el grupo."
+      },
+      {
+        "id": "technical_paragraph",
+        "title": "Parrafo tecnico original",
+        "type": "Texto",
+        "thumbnail": "assets/p07/block_parrafo_tecnico.png",
+        "preview": "Proceso biogeoquimico continuo con desplazamientos atmosfericos, hidrosfericos y terrestres.",
+        "description": "Mantiene sin cambios el texto tecnico largo del recurso original.",
+        "expected": false,
+        "accessibility": false,
+        "feedback": "No se ajusta al nivel ni a los ritmos de lectura del grupo."
+      },
+      {
+        "id": "decorative_image",
+        "title": "Imagen decorativa",
+        "type": "Imagen",
+        "thumbnail": "assets/p07/block_imagen_decorativa.png",
+        "preview": "Fotografia de lluvia sin informacion sobre las fases del ciclo.",
+        "description": "Sustituye el esquema por una imagen atractiva pero no explicativa.",
+        "expected": false,
+        "accessibility": false,
+        "feedback": "No aporta informacion disciplinar ni accesibilidad."
+      },
+      {
+        "id": "irrelevant_curiosity",
+        "title": "Curiosidad irrelevante",
+        "type": "Extra",
+        "thumbnail": "assets/p07/block_curiosidad.png",
+        "preview": "El oceano Pacifico es el mas grande del planeta.",
+        "description": "Anade informacion llamativa, pero desconectada del objetivo de la ficha.",
+        "expected": false,
+        "accessibility": false,
+        "feedback": "No responde a la situacion de aprendizaje concreta."
+      }
+    ]
+  },
+  "license": {
+    "title": "Licencia visible de la obra derivada",
+    "description": "La obra original es CC BY-SA 4.0. Elige la licencia que aparecera al pie de la ficha adaptada.",
+    "options": [
+      {
+        "id": "copyright",
+        "label": "Copyright. Todos los derechos reservados",
+        "expected": false,
+        "feedback": "No es compatible con CC BY-SA."
+      },
+      {
+        "id": "cc_by",
+        "label": "CC BY 4.0",
+        "expected": false,
+        "feedback": "No mantiene CompartirIgual."
+      },
+      {
+        "id": "cc_by_sa",
+        "label": "CC BY-SA 4.0 · Derivada de Banco de Recursos Abiertos",
+        "expected": true,
+        "feedback": "Respeta atribucion y CompartirIgual."
+      },
+      {
+        "id": "cc_by_nc",
+        "label": "CC BY-NC 4.0",
+        "expected": false,
+        "feedback": "Anade una restriccion nueva no compatible."
+      }
+    ]
+  },
+  "metadata": {
+    "title": "Metadatos de la ficha",
+    "description": "Selecciona los metadatos que guardarias en la herramienta de autor antes de publicar.",
+    "fields": [
+      {
+        "id": "audience",
+        "label": "Nivel y destinatarios",
+        "weight": 5,
+        "options": [
+          {
+            "id": "eso1",
+            "label": "1.º de ESO · diversidad de ritmos de lectura",
+            "expected": true,
+            "feedback": "Define destinatarios y necesidad concreta."
+          },
+          {
+            "id": "bach",
+            "label": "Bachillerato · ampliacion avanzada",
+            "expected": false,
+            "feedback": "No coincide con el grupo."
+          }
+        ]
+      },
+      {
+        "id": "subject",
+        "label": "Materia y tema",
+        "weight": 5,
+        "options": [
+          {
+            "id": "science_water",
+            "label": "Ciencias/Geografia · ciclo del agua",
+            "expected": true,
+            "feedback": "Identifica el contenido disciplinar."
+          },
+          {
+            "id": "language",
+            "label": "Lengua · texto narrativo",
+            "expected": false,
+            "feedback": "No corresponde a la ficha."
+          }
+        ]
+      },
+      {
+        "id": "accessibility",
+        "label": "Accesibilidad",
+        "weight": 5,
+        "options": [
+          {
+            "id": "alt_glossary",
+            "label": "Texto alternativo, etiquetas claras y glosario visual",
+            "expected": true,
+            "feedback": "Documenta las adaptaciones de acceso."
+          },
+          {
+            "id": "none",
+            "label": "Sin medidas especificas",
+            "expected": false,
+            "feedback": "No responde a la necesidad del alumnado."
+          }
+        ]
+      },
+      {
+        "id": "license",
+        "label": "Licencia y atribucion",
+        "weight": 5,
+        "options": [
+          {
+            "id": "by_sa_source",
+            "label": "CC BY-SA 4.0 · Autor original: Banco de Recursos Abiertos",
+            "expected": true,
+            "feedback": "Incluye licencia compatible y atribucion."
+          },
+          {
+            "id": "own",
+            "label": "Creacion propia sin fuente",
+            "expected": false,
+            "feedback": "No respeta la autoria original."
+          }
+        ]
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has construido una ficha derivada adecuada, accesible, con licencia compatible y metadatos completos.",
+    "failure": "Prueba no superada. Revisa los bloques elegidos, su orden, la accesibilidad, la licencia CC BY-SA y los metadatos."
+  }
+}
