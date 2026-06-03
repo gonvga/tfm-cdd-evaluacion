@@ -1,0 +1,369 @@
+{
+  "test_id": "P08",
+  "scenario_id": "comp22_b2_secuencia_digital_empaquetable",
+  "scenario_title": "Diseño de una secuencia digital empaquetable",
+  "title": "P08 · Diseñar y empaquetar una secuencia digital",
+  "statement": "Evalúa los indicadores 2.2.B2.1, 2.2.B2.2, 2.2.B2.3 y 2.2.B2.4 mediante la construcción práctica de una secuencia de aprendizaje digital integrada, modificada, colaborativa y exportable.",
+  "intro": "Escenario: debes crear una secuencia digital para 2.º de ESO integrando contenidos de distintas fuentes, modificándolos cuando sea necesario, incorporando elementos propios y dejándola lista para desplegarse en el aula virtual del centro.",
+  "classroom": {
+    "title": "Situación de aprendizaje y alumnado",
+    "lines": [
+      "Materia: Biología y Geología · 2.º de ESO.",
+      "Situación: el grupo investigará hábitos de alimentación saludable y lectura crítica del etiquetado nutricional.",
+      "Alumnado: ritmos de lectura diversos, una alumna con baja visión y dos docentes que editarán la unidad de forma compartida.",
+      "Plataforma del centro: aula virtual compatible con paquetes SCORM 1.2 e IMS Common Cartridge.",
+      "Producto esperado: una secuencia de aprendizaje estructurada, accesible, con licencia compatible, copias seguras y exportación estándar."
+    ]
+  },
+  "resource_bank": {
+    "title": "Banco de contenidos disponibles",
+    "description": "Selecciona e integra solo los contenidos que permitan construir una secuencia coherente, accesible, modificable y exportable.",
+    "required_order": [
+      "challenge_intro",
+      "editable_infographic",
+      "captioned_video",
+      "nutrition_simulator",
+      "own_guided_worksheet",
+      "own_final_task",
+      "own_rubric"
+    ],
+    "resources": [
+      {
+        "id": "challenge_intro",
+        "title": "Reto contextualizado",
+        "source": "Creación propia",
+        "format": "Página HTML editable",
+        "thumbnail": "assets/p08/reto_contextualizado.png",
+        "preview": "¿Puede una etiqueta nutricional ayudarnos a decidir mejor nuestra merienda?",
+        "expected": true,
+        "created_by_teacher": true,
+        "modified": false,
+        "accessibility": true,
+        "feedback": "Introduce una situación de aprendizaje concreta y conecta la secuencia con el alumnado."
+      },
+      {
+        "id": "editable_infographic",
+        "title": "Infografía editable adaptada",
+        "source": "Banco de Recursos Abiertos",
+        "format": "SVG/PNG con versión editable",
+        "thumbnail": "assets/p08/infografia_editable.png",
+        "preview": "Infografía simplificada con grupos de nutrientes, contraste alto y texto alternativo.",
+        "expected": true,
+        "created_by_teacher": false,
+        "modified": true,
+        "accessibility": true,
+        "feedback": "Integra un contenido externo modificado para el nivel, con mejora de accesibilidad."
+      },
+      {
+        "id": "captioned_video",
+        "title": "Vídeo breve con subtítulos",
+        "source": "Canal educativo institucional",
+        "format": "MP4 incrustado",
+        "thumbnail": "assets/p08/video_subtitulado.png",
+        "preview": "Vídeo de 3 minutos sobre etiquetas nutricionales con subtítulos y transcripción.",
+        "expected": true,
+        "created_by_teacher": false,
+        "modified": true,
+        "accessibility": true,
+        "feedback": "Aporta diversidad de formato y se adapta mediante subtítulos y transcripción."
+      },
+      {
+        "id": "nutrition_simulator",
+        "title": "Simulador de etiquetado",
+        "source": "Proyecto REA Ciencias",
+        "format": "Actividad HTML5",
+        "thumbnail": "assets/p08/simulador_etiquetado.png",
+        "preview": "Compara dos productos y detecta azúcares, grasas y sal con retroalimentación inmediata.",
+        "expected": true,
+        "created_by_teacher": false,
+        "modified": false,
+        "accessibility": false,
+        "feedback": "Integra una actividad interactiva pertinente y compatible con el aula virtual."
+      },
+      {
+        "id": "own_guided_worksheet",
+        "title": "Ficha guiada propia",
+        "source": "Creación propia",
+        "format": "Documento editable",
+        "thumbnail": "assets/p08/ficha_guiada.png",
+        "preview": "Plantilla con pasos, vocabulario de apoyo y preguntas graduadas para analizar una etiqueta.",
+        "expected": true,
+        "created_by_teacher": true,
+        "modified": false,
+        "accessibility": true,
+        "feedback": "Aporta un elemento propio para ajustar la secuencia a ritmos diversos."
+      },
+      {
+        "id": "own_final_task",
+        "title": "Producto final propio",
+        "source": "Creación propia",
+        "format": "Tarea del aula virtual",
+        "thumbnail": "assets/p08/producto_final.png",
+        "preview": "El alumnado diseña una recomendación razonada de merienda saludable para su clase.",
+        "expected": true,
+        "created_by_teacher": true,
+        "modified": false,
+        "accessibility": false,
+        "feedback": "Cierra la secuencia con una producción contextualizada y evaluable."
+      },
+      {
+        "id": "own_rubric",
+        "title": "Rúbrica propia de evaluación",
+        "source": "Creación propia",
+        "format": "Rúbrica LMS",
+        "thumbnail": "assets/p08/rubrica.png",
+        "preview": "Criterios: interpretación de datos, justificación, comunicación visual y uso responsable de fuentes.",
+        "expected": true,
+        "created_by_teacher": true,
+        "modified": false,
+        "accessibility": false,
+        "feedback": "Permite evaluar la producción final de forma coherente con la secuencia."
+      },
+      {
+        "id": "closed_pdf",
+        "title": "PDF cerrado sin edición",
+        "source": "Editorial comercial",
+        "format": "PDF protegido",
+        "thumbnail": "assets/p08/pdf_cerrado.png",
+        "preview": "Unidad completa no editable con copyright y sin permiso de adaptación.",
+        "expected": false,
+        "created_by_teacher": false,
+        "modified": false,
+        "accessibility": false,
+        "feedback": "No permite modificación ni reutilización segura en una obra derivada."
+      },
+      {
+        "id": "public_edit_link",
+        "title": "Documento colaborativo público",
+        "source": "Enlace externo",
+        "format": "Documento en la nube",
+        "thumbnail": "assets/p08/documento_publico.png",
+        "preview": "Documento con enlace público de edición para cualquier persona con la URL.",
+        "expected": false,
+        "created_by_teacher": false,
+        "modified": false,
+        "accessibility": false,
+        "feedback": "Supone un riesgo de edición no controlada y pérdida de información."
+      },
+      {
+        "id": "non_exportable_game",
+        "title": "Juego externo no exportable",
+        "source": "Web comercial",
+        "format": "Iframe bloqueado",
+        "thumbnail": "assets/p08/juego_no_exportable.png",
+        "preview": "Juego atractivo que no se puede incrustar ni empaquetar en el aula virtual.",
+        "expected": false,
+        "created_by_teacher": false,
+        "modified": false,
+        "accessibility": false,
+        "feedback": "No cumple los criterios técnicos de despliegue y exportación."
+      }
+    ]
+  },
+  "modifications": {
+    "title": "Modificaciones obligatorias",
+    "description": "Marca las modificaciones que has aplicado antes de integrar los contenidos en la secuencia.",
+    "options": [
+      {
+        "id": "infographic_level",
+        "label": "Simplificar la infografía y ajustar vocabulario a 2.º de ESO",
+        "expected": true,
+        "feedback": "Es una modificación didáctica necesaria para adecuar el contenido al grupo."
+      },
+      {
+        "id": "infographic_alt_contrast",
+        "label": "Añadir texto alternativo, etiquetas claras y contraste alto a la infografía",
+        "expected": true,
+        "feedback": "Responde a la necesidad de accesibilidad, especialmente para baja visión."
+      },
+      {
+        "id": "video_captions_transcript",
+        "label": "Añadir subtítulos y transcripción al vídeo",
+        "expected": true,
+        "feedback": "Mejora el acceso al contenido audiovisual y permite revisión autónoma."
+      },
+      {
+        "id": "replace_editable_with_screenshot",
+        "label": "Sustituir los documentos editables por capturas de pantalla",
+        "expected": false,
+        "feedback": "Reduce accesibilidad, edición y reutilización."
+      },
+      {
+        "id": "remove_sources",
+        "label": "Eliminar autoría y fuentes para simplificar la portada",
+        "expected": false,
+        "feedback": "Vulnera la trazabilidad y la atribución de los contenidos integrados."
+      }
+    ]
+  },
+  "safety": {
+    "title": "Edición compartida segura",
+    "description": "Selecciona las medidas necesarias para evitar pérdida de información durante la edición colaborativa.",
+    "options": [
+      {
+        "id": "version_history",
+        "label": "Activar historial de versiones antes de editar",
+        "expected": true,
+        "feedback": "Permite recuperar cambios y auditar la edición compartida."
+      },
+      {
+        "id": "backup_copy",
+        "label": "Crear copia de seguridad previa a la publicación",
+        "expected": true,
+        "feedback": "Evita pérdida de información si la edición o exportación falla."
+      },
+      {
+        "id": "teacher_edit_only",
+        "label": "Permisos de edición solo para docentes coautores",
+        "expected": true,
+        "feedback": "Limita la edición a quienes participan en la autoría de la secuencia."
+      },
+      {
+        "id": "public_edit",
+        "label": "Usar enlace público con permiso de edición",
+        "expected": false,
+        "feedback": "No controla cambios ni autoría y aumenta el riesgo de pérdida."
+      },
+      {
+        "id": "single_local_file",
+        "label": "Trabajar en un único archivo local sin copia ni historial",
+        "expected": false,
+        "feedback": "No protege frente a sobrescritura, errores o pérdida del archivo."
+      }
+    ]
+  },
+  "export": {
+    "title": "Empaquetado y despliegue",
+    "description": "Configura la exportación para que la secuencia pueda desplegarse en el aula virtual del centro.",
+    "fields": [
+      {
+        "id": "package_format",
+        "label": "Formato de exportación",
+        "weight": 8,
+        "options": [
+          {
+            "id": "scorm_12",
+            "label": "SCORM 1.2 con manifiesto y recursos incrustados",
+            "expected": true,
+            "feedback": "Es compatible con la plataforma indicada y permite seguimiento."
+          },
+          {
+            "id": "single_pdf",
+            "label": "PDF único no interactivo",
+            "expected": false,
+            "feedback": "Pierde la secuencia interactiva y no responde al requisito de empaquetado."
+          },
+          {
+            "id": "loose_links",
+            "label": "Lista de enlaces sueltos en una página",
+            "expected": false,
+            "feedback": "No constituye un paquete desplegable ni asegura trazabilidad técnica."
+          }
+        ]
+      },
+      {
+        "id": "metadata",
+        "label": "Metadatos",
+        "weight": 7,
+        "options": [
+          {
+            "id": "complete_lom",
+            "label": "Título, materia, nivel, licencia, accesibilidad, autoría y objetivos",
+            "expected": true,
+            "feedback": "Facilita catalogación, reutilización y despliegue en plataformas del centro."
+          },
+          {
+            "id": "title_only",
+            "label": "Solo título de la unidad",
+            "expected": false,
+            "feedback": "Es insuficiente para catalogar o reutilizar el contenido."
+          }
+        ]
+      },
+      {
+        "id": "accessibility_check",
+        "label": "Comprobación técnica",
+        "weight": 7,
+        "options": [
+          {
+            "id": "check_nav_alt_captions",
+            "label": "Revisar navegación, texto alternativo, subtítulos y contraste antes de exportar",
+            "expected": true,
+            "feedback": "Verifica que el paquete sea accesible y desplegable."
+          },
+          {
+            "id": "skip_check",
+            "label": "Exportar sin comprobación para ahorrar tiempo",
+            "expected": false,
+            "feedback": "Puede dejar errores de acceso o navegación en la plataforma."
+          }
+        ]
+      },
+      {
+        "id": "deployment",
+        "label": "Despliegue en plataforma",
+        "weight": 8,
+        "options": [
+          {
+            "id": "lms_test_import",
+            "label": "Importar en curso de prueba y comprobar navegación antes de publicarlo",
+            "expected": true,
+            "feedback": "Reduce fallos antes de abrir la unidad al alumnado."
+          },
+          {
+            "id": "publish_direct",
+            "label": "Publicar directamente en el curso del alumnado sin prueba previa",
+            "expected": false,
+            "feedback": "No verifica compatibilidad ni funcionamiento real."
+          }
+        ]
+      }
+    ]
+  },
+  "evaluation_matrix": {
+    "title": "Procedimiento de evaluación previa",
+    "description": "Selecciona los criterios de revisión sistemática que aplicarías antes de integrar los contenidos.",
+    "options": [
+      {
+        "id": "didactic_relevance",
+        "label": "Pertinencia didáctica respecto a objetivos, nivel y situación de aprendizaje",
+        "expected": true,
+        "feedback": "Evalúa si el contenido tiene sentido dentro de la secuencia."
+      },
+      {
+        "id": "license_traceability",
+        "label": "Licencia, autoría y trazabilidad de fuentes",
+        "expected": true,
+        "feedback": "Permite integrar contenidos respetando propiedad intelectual."
+      },
+      {
+        "id": "accessibility_quality",
+        "label": "Accesibilidad, legibilidad y apoyos para necesidades del grupo",
+        "expected": true,
+        "feedback": "Comprueba que el recurso puede ser usado por el alumnado concreto."
+      },
+      {
+        "id": "technical_compatibility",
+        "label": "Compatibilidad con empaquetado, exportación y aula virtual",
+        "expected": true,
+        "feedback": "Evita integrar contenidos que no puedan desplegarse."
+      },
+      {
+        "id": "visual_appeal_only",
+        "label": "Atractivo visual como único criterio de selección",
+        "expected": false,
+        "feedback": "La apariencia no basta para integrar un contenido en una unidad B2."
+      },
+      {
+        "id": "popularity",
+        "label": "Número de visitas o popularidad del recurso",
+        "expected": false,
+        "feedback": "La popularidad no garantiza calidad, adecuación, licencia ni compatibilidad."
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has diseñado una secuencia digital coherente, integrada, modificada, con elementos propios, medidas de seguridad colaborativa, evaluación previa y exportación compatible.",
+    "failure": "Prueba no superada. Revisa la integración de recursos, el orden de la secuencia, las modificaciones, los elementos propios, la seguridad colaborativa, la evaluación previa y la exportación."
+  }
+}

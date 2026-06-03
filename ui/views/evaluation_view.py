@@ -8,6 +8,7 @@ from ui.test_views.comp21.p04_curacion_contenidos import build_test_p04
 from ui.test_views.comp22.p05_corregir_ficha import build_test_p05
 from ui.test_views.comp22.p06_completar_plantilla import build_test_p06
 from ui.test_views.comp22.p07_adaptar_recurso import build_test_p07
+from ui.test_views.comp22.p08_disenar_secuencia import build_test_p08
 
 
 TEST_FLOW = [
@@ -277,6 +278,8 @@ def build_evaluation_view(page: ft.Page, state: dict, go_home) -> ft.Control:
             return build_test_p06(state, refresh)
         if active_id == "p07":
             return build_test_p07(state, refresh)
+        if active_id == "p08":
+            return build_test_p08(state, refresh)
 
         return info_box(
             ft.Column(
