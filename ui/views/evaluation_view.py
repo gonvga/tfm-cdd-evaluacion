@@ -9,6 +9,7 @@ from ui.test_views.comp22.p05_corregir_ficha import build_test_p05
 from ui.test_views.comp22.p06_completar_plantilla import build_test_p06
 from ui.test_views.comp22.p07_adaptar_recurso import build_test_p07
 from ui.test_views.comp22.p08_disenar_secuencia import build_test_p08
+from ui.test_views.comp23.p09_compartir_catalogar import build_test_p09
 
 
 TEST_FLOW = [
@@ -20,7 +21,7 @@ TEST_FLOW = [
     {"id": "p06", "code": "P06", "title": "Completar plantilla didáctica", "competence": "2.2", "level": "A2"},
     {"id": "p07", "code": "P07", "title": "Adaptar recurso accesible", "competence": "2.2", "level": "B1"},
     {"id": "p08", "code": "P08", "title": "Diseñar una secuencia digital", "competence": "2.2", "level": "B2"},
-    {"id": "p09", "code": "P09", "title": "Clasificar archivos compartibles", "competence": "2.3", "level": "A1"},
+    {"id": "p09", "code": "P09", "title": "Compartir y catalogar contenidos", "competence": "2.3", "level": "A1"},
     {"id": "p10", "code": "P10", "title": "Configurar permisos básicos", "competence": "2.3", "level": "A2"},
     {"id": "p11", "code": "P11", "title": "Publicar recurso con metadatos", "competence": "2.3", "level": "B1"},
     {"id": "p12", "code": "P12", "title": "Optimizar repositorio digital", "competence": "2.3", "level": "B2"},
@@ -280,6 +281,8 @@ def build_evaluation_view(page: ft.Page, state: dict, go_home) -> ft.Control:
             return build_test_p07(state, refresh)
         if active_id == "p08":
             return build_test_p08(state, refresh)
+        if active_id == "p09":
+            return build_test_p09(state, refresh)
 
         return info_box(
             ft.Column(

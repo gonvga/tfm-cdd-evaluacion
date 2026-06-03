@@ -1,0 +1,257 @@
+{
+  "test_id": "P09",
+  "scenario_id": "comp23_a1_comparticion_catalogacion_basica",
+  "scenario_title": "Comparticion segura y catalogacion basica de contenidos",
+  "title": "P09 · Compartir y catalogar contenidos educativos",
+  "statement": "Evalua los indicadores 2.3.A1.1, 2.3.A1.2, 2.3.A1.3 y 2.3.A1.4 mediante una tarea guiada sobre entornos seguros, permisos, licencias y metadatos basicos.",
+  "intro": "Escenario: preparas una carpeta digital para compartir con tu grupo de 1.º de ESO tres recursos sobre ecosistemas. Debes decidir donde publicarla, configurar permisos, respetar autoria y licencia, e introducir metadatos minimos para que el recurso pueda encontrarse despues.",
+  "context": {
+    "title": "Material que vas a compartir",
+    "lines": [
+      "Recurso 1: ficha propia de observacion de ecosistemas en formato PDF.",
+      "Recurso 2: imagen de un banco educativo con licencia CC BY 4.0 y autora identificada.",
+      "Recurso 3: video institucional con licencia CC BY-NC-SA 4.0.",
+      "Destino: aula virtual del centro y carpeta de departamento para reutilizacion docente.",
+      "Condicion: el alumnado solo debe consultar o descargar; el profesorado del departamento puede editar la carpeta."
+    ]
+  },
+  "environment": {
+    "title": "Entorno de comparticion",
+    "description": "Selecciona los entornos adecuados para almacenar, organizar y compartir estos contenidos con fines educativos.",
+    "options": [
+      {
+        "id": "center_lms",
+        "label": "Aula virtual del centro con acceso mediante cuenta educativa",
+        "expected": true,
+        "feedback": "Es un entorno controlado y adecuado para compartir contenidos con el alumnado."
+      },
+      {
+        "id": "department_cloud",
+        "label": "Carpeta compartida del departamento en la nube institucional",
+        "expected": true,
+        "feedback": "Permite organizar archivos y compartirlos con docentes autorizados."
+      },
+      {
+        "id": "educational_repository",
+        "label": "Repositorio educativo que muestra licencia, autoria y metadatos",
+        "expected": true,
+        "feedback": "Facilita catalogacion, reutilizacion y trazabilidad del recurso."
+      },
+      {
+        "id": "public_edit_link",
+        "label": "Enlace publico de edicion abierto a cualquier persona con la URL",
+        "expected": false,
+        "feedback": "No es seguro para un contexto educativo porque permite cambios no controlados."
+      },
+      {
+        "id": "personal_social_network",
+        "label": "Perfil personal en una red social sin revisar condiciones de uso",
+        "expected": false,
+        "feedback": "No garantiza control de acceso ni adecuacion de las politicas de uso."
+      }
+    ]
+  },
+  "permissions": {
+    "title": "Permisos por rol",
+    "description": "Elige el permiso mas adecuado para cada rol antes de publicar la carpeta.",
+    "fields": [
+      {
+        "id": "students",
+        "label": "Alumnado del grupo",
+        "weight": 8,
+        "options": [
+          {
+            "id": "view_download",
+            "label": "Puede ver y descargar, sin editar",
+            "expected": true,
+            "feedback": "Es suficiente para consultar los materiales y evita cambios accidentales."
+          },
+          {
+            "id": "edit",
+            "label": "Puede editar todos los archivos",
+            "expected": false,
+            "feedback": "No responde a la necesidad indicada y aumenta el riesgo de modificaciones."
+          },
+          {
+            "id": "public_owner",
+            "label": "Recibe permisos de propietario mediante enlace publico",
+            "expected": false,
+            "feedback": "No es un permiso selectivo ni seguro."
+          }
+        ]
+      },
+      {
+        "id": "department_teachers",
+        "label": "Profesorado del departamento",
+        "weight": 8,
+        "options": [
+          {
+            "id": "edit",
+            "label": "Puede editar la carpeta y mantener versiones",
+            "expected": true,
+            "feedback": "Se ajusta a la reutilizacion docente prevista."
+          },
+          {
+            "id": "view_only",
+            "label": "Solo puede ver, sin posibilidad de actualizar",
+            "expected": false,
+            "feedback": "Impide la colaboracion docente descrita en el caso."
+          },
+          {
+            "id": "anonymous_edit",
+            "label": "Edita sin identificarse",
+            "expected": false,
+            "feedback": "No permite trazabilidad de cambios."
+          }
+        ]
+      },
+      {
+        "id": "families",
+        "label": "Familias con enlace informativo",
+        "weight": 8,
+        "options": [
+          {
+            "id": "view_only",
+            "label": "Puede ver una copia informativa, sin editar",
+            "expected": true,
+            "feedback": "Mantiene acceso limitado y protege los archivos originales."
+          },
+          {
+            "id": "edit",
+            "label": "Puede editar la carpeta de aula",
+            "expected": false,
+            "feedback": "No es necesario ni seguro para una consulta informativa."
+          },
+          {
+            "id": "no_control",
+            "label": "Accede mediante enlace abierto sin restriccion",
+            "expected": false,
+            "feedback": "No aplica permisos de forma selectiva."
+          }
+        ]
+      }
+    ]
+  },
+  "rights": {
+    "title": "Propiedad intelectual, autoria y licencias",
+    "description": "Marca las acciones correctas antes de compartir los tres recursos.",
+    "options": [
+      {
+        "id": "cite_image_author",
+        "label": "Incluir autora, fuente y enlace de la imagen CC BY 4.0",
+        "expected": true,
+        "feedback": "La licencia CC BY exige atribucion."
+      },
+      {
+        "id": "keep_video_license",
+        "label": "Indicar que el video mantiene licencia CC BY-NC-SA 4.0",
+        "expected": true,
+        "feedback": "Identifica claramente las condiciones de reutilizacion del video."
+      },
+      {
+        "id": "own_pdf_license",
+        "label": "Elegir y mostrar una licencia para la ficha propia",
+        "expected": true,
+        "feedback": "Aclara como puede reutilizarse el material creado por la docente."
+      },
+      {
+        "id": "remove_attribution",
+        "label": "Eliminar autoria y enlaces para que la carpeta quede mas limpia",
+        "expected": false,
+        "feedback": "La atribucion no debe eliminarse al compartir recursos de terceros."
+      },
+      {
+        "id": "ignore_noncommercial",
+        "label": "Permitir cualquier uso comercial del video porque esta en internet",
+        "expected": false,
+        "feedback": "La condicion NC limita usos comerciales."
+      }
+    ]
+  },
+  "metadata": {
+    "title": "Metadatos para catalogacion",
+    "description": "Selecciona el valor de metadato mas adecuado con ayuda de un tesauro educativo basico.",
+    "fields": [
+      {
+        "id": "title",
+        "label": "Titulo",
+        "weight": 8,
+        "options": [
+          {
+            "id": "ecosistemas_eso",
+            "label": "Ecosistemas: observacion y relaciones entre seres vivos",
+            "expected": true,
+            "feedback": "Describe el contenido de forma clara y recuperable."
+          },
+          {
+            "id": "documento_final",
+            "label": "Documento final",
+            "expected": false,
+            "feedback": "Es demasiado generico para catalogar el recurso."
+          }
+        ]
+      },
+      {
+        "id": "subject",
+        "label": "Materia o area",
+        "weight": 8,
+        "options": [
+          {
+            "id": "biology_geology",
+            "label": "Biologia y Geologia",
+            "expected": true,
+            "feedback": "Corresponde al area curricular del recurso."
+          },
+          {
+            "id": "general_tutoring",
+            "label": "Tutoria general",
+            "expected": false,
+            "feedback": "No identifica el area disciplinar principal."
+          }
+        ]
+      },
+      {
+        "id": "level",
+        "label": "Nivel educativo",
+        "weight": 8,
+        "options": [
+          {
+            "id": "eso_1",
+            "label": "1.º de ESO",
+            "expected": true,
+            "feedback": "Coincide con el grupo destinatario."
+          },
+          {
+            "id": "primary_1",
+            "label": "1.º de Educacion Primaria",
+            "expected": false,
+            "feedback": "No corresponde al contexto indicado."
+          }
+        ]
+      },
+      {
+        "id": "keywords",
+        "label": "Palabras clave",
+        "weight": 8,
+        "options": [
+          {
+            "id": "ecosystem_food_chain_biodiversity",
+            "label": "ecosistema; cadena trofica; biodiversidad",
+            "expected": true,
+            "feedback": "Usa terminos utiles para recuperar el recurso."
+          },
+          {
+            "id": "science_fun_files",
+            "label": "cosas de ciencias; archivos; actividad",
+            "expected": false,
+            "feedback": "Son etiquetas vagas y poco normalizadas."
+          }
+        ]
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has escogido entornos seguros, permisos adecuados, atribucion y licencias correctas, y metadatos basicos para catalogar el recurso.",
+    "failure": "Prueba no superada. Revisa el entorno de comparticion, la asignacion de permisos, las condiciones de licencia y los metadatos seleccionados."
+  }
+}
