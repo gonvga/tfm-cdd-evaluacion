@@ -3,9 +3,9 @@ site_description: Documentación técnica y pedagógica de la aplicación de eva
 site_author: Gonzalo Vega Pérez
 site_url: https://gonvga.github.io/tfm-cdd-evaluacion/
 
-# repo_name: tfm-cdd-evaluacion
-# repo_url: https://github.com/gonvga/tfm-cdd-evaluacion
-# edit_uri: edit/main/docs/
+repo_name: tfm-cdd-evaluacion
+repo_url: https://github.com/gonvga/tfm-cdd-evaluacion
+edit_uri: edit/main/docs/
 
 theme:
   name: material
