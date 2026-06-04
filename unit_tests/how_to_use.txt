@@ -1,12 +1,22 @@
+Preparar entorno
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 
-Resumen limpio
-python -m pytest -q unit_tests
+Ejecutar todos los unit tests
+.\venv\Scripts\python.exe -m unittest discover -s unit_tests -p "test*.py"
 
-Ejecución explicativa (una línea por test)
-python -m pytest -v unit_tests
+Ejecutar todos los unit tests viendo una linea por test
+.\venv\Scripts\python.exe -m unittest discover -s unit_tests -p "test*.py" -v
 
-Extra: ver solo fallos completos (stacktrace largo)
-python -m pytest unit_tests -v --tb=long
+Ejecutar solo los tests de las pruebas programadas
+.\venv\Scripts\python.exe -m unittest unit_tests.test_programmed_tests
+
+Ejecutar solo los tests de las pruebas programadas viendo P01, P02, P03...
+.\venv\Scripts\python.exe -m unittest unit_tests.test_programmed_tests -v
+
+Ocultar avisos externos si tu terminal muestra warnings de dependencias
+$env:PYTHONWARNINGS="ignore"; .\venv\Scripts\python.exe -m unittest unit_tests.test_programmed_tests -v
+
+Nota
+pytest no esta instalado en el entorno virtual actual. Con unittest no hace falta instalar nada mas.
