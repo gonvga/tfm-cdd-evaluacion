@@ -17,3 +17,6 @@ dist/
 
 # web
 site/
+
+# resultados
+results/
