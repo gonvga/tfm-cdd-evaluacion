@@ -1,0 +1,212 @@
+{
+  "test_id": "P12",
+  "scenario_id": "comp23_b2_optimizar_repositorio",
+  "scenario_title": "Optimizacion y asesoramiento en repositorio digital",
+  "title": "P12 - Optimizar repositorio digital",
+  "statement": "Evalúa los indicadores 2.3.B2.1 y 2.3.B2.2 mediante una tarea práctica de catalogación avanzada, organización de accesos, etiquetado de accesibilidad y asesoramiento informal.",
+  "intro": "Escenario: gestionas un repositorio digital institucional con recursos para 4.º de ESO. Debes mejorar la identificación de los contenidos, configurar accesos adecuados, añadir etiquetas de accesibilidad y preparar una orientación informal para un colega que sumará nuevos recursos.",
+  "plan": {
+    "title": "Tareas principales",
+    "lines": [
+      "Identifica las funcionalidades del repositorio que facilitan la búsqueda y la recuperación de contenidos.",
+      "Organiza los metadatos y añade etiquetas técnicas y de accesibilidad.",
+      "Configura permisos y visibilidad adecuados para el alumnado y el equipo docente.",
+      "Selecciona recomendaciones informales para un compañero sobre licencias, catalogación y metadatos."
+    ]
+  },
+  "repository": {
+    "title": "Funcionalidades del repositorio",
+    "description": "Marca las acciones que optimizan la identificación y el acceso de los contenidos dentro del repositorio institucional.",
+    "weight": 20,
+    "options": [
+      {
+        "id": "use_official_repository",
+        "label": "Utilizar el repositorio institucional oficial del centro",
+        "expected": true,
+        "feedback": "El repositorio oficial facilita acceso controlado y trazabilidad."
+      },
+      {
+        "id": "catalog_with_institutional_schema",
+        "label": "Catalogar usando el esquema institucional de materias, nivel y tipo de recurso",
+        "expected": true,
+        "feedback": "Un esquema institucional mejora la identificación y recuperación."
+      },
+      {
+        "id": "add_accessibility_tag",
+        "label": "Añadir una etiqueta de accesibilidad al nivel del recurso",
+        "expected": true,
+        "feedback": "Permite localizar contenidos adaptados y clasificar correctamente la accesibilidad."
+      },
+      {
+        "id": "include_technical_tags",
+        "label": "Incluir etiquetas técnicas que refieran términos clave del contenido",
+        "expected": true,
+        "feedback": "Los términos técnicos facilitan la búsqueda y el acceso contextualizado."
+      },
+      {
+        "id": "publish_public_edit_link",
+        "label": "Publicar con un enlace público de edición para que cualquiera pueda modificarlo",
+        "expected": false,
+        "feedback": "No es seguro ni adecuado para el acceso educativo controlado."
+      },
+      {
+        "id": "skip_metadata",
+        "label": "Publicar el recurso sin metadatos para compartirlo más rápido",
+        "expected": false,
+        "feedback": "Evitar los metadatos reduce la capacidad de identificación y recuperación."
+      }
+    ]
+  },
+  "access": {
+    "title": "Configuración de accesos",
+    "description": "Elige las opciones de visibilidad y edición para los diferentes grupos de usuarios.",
+    "weight": 20,
+    "options": [
+      {
+        "id": "students_view_only",
+        "label": "El alumnado puede acceder y consultar el recurso, pero no puede editarlo",
+        "expected": true,
+        "feedback": "Asegura el acceso educativo sin permitir cambios accidentales."
+      },
+      {
+        "id": "teachers_copy_edit",
+        "label": "El profesorado del equipo puede acceder y crear copias editables",
+        "expected": true,
+        "feedback": "Facilita la reutilización y adaptación docente sin alterar el recurso original."
+      },
+      {
+        "id": "public_view",
+        "label": "Hacer el recurso visible públicamente para cualquier visitante",
+        "expected": false,
+        "feedback": "No se controla el acceso y no es adecuado para el contexto del centro."
+      },
+      {
+        "id": "anonymous_edit",
+        "label": "Permitir edición anónima para acelerar la colaboración",
+        "expected": false,
+        "feedback": "La edición anónima reduce el control y la trazabilidad de los cambios."
+      }
+    ]
+  },
+  "catalog_record": {
+    "title": "Metadatos avanzados",
+    "description": "Completa el registro con los datos que hacen el recurso más identificable y accesible.",
+    "weight": 40,
+    "text_fields": [
+      {
+        "id": "title",
+        "label": "Título del recurso",
+        "expected": "Banco digital de preguntas sobre cambio climático y accesibilidad",
+        "placeholder": "Introduce un título descriptivo",
+        "feedback": "Un título claro y específico ayuda a identificar el contenido."
+      },
+      {
+        "id": "keywords",
+        "label": "Palabras clave",
+        "expected_terms": [
+          "banco digital",
+          "cambio climático",
+          "accesibilidad",
+          "palabras clave"
+        ]
+      }
+    ],
+    "select_fields": [
+      {
+        "id": "subject",
+        "label": "Materia",
+        "options": [
+          {
+            "id": "geography_science",
+            "label": "Geografía y Ciencias Sociales",
+            "expected": true,
+            "feedback": "Corresponde al enfoque de cambio climático en secundaria."
+          },
+          {
+            "id": "language_arts",
+            "label": "Lengua y Literatura",
+            "expected": false,
+            "feedback": "No es el área principal del contenido."
+          }
+        ]
+      },
+      {
+        "id": "level",
+        "label": "Nivel educativo",
+        "options": [
+          {
+            "id": "eso_4",
+            "label": "4.º de ESO",
+            "expected": true,
+            "feedback": "Coincide con el grupo destinatario del recurso."
+          },
+          {
+            "id": "bachillerato",
+            "label": "Bachillerato",
+            "expected": false,
+            "feedback": "No corresponde al nivel educativo propuesto."
+          }
+        ]
+      },
+      {
+        "id": "accessibility",
+        "label": "Etiqueta de accesibilidad",
+        "options": [
+          {
+            "id": "high_accessibility",
+            "label": "Alto nivel de accesibilidad",
+            "expected": true,
+            "feedback": "Identifica correctamente que el recurso es accesible."
+          },
+          {
+            "id": "low_accessibility",
+            "label": "Accesibilidad limitada",
+            "expected": false,
+            "feedback": "No refleja la mejora de accesibilidad requerida."
+          }
+        ]
+      }
+    ]
+  },
+  "advice": {
+    "title": "Asesoramiento informal",
+    "description": "Selecciona los consejos que debes dar a un colega acerca de licencias, catalogación y metadatos.",
+    "weight": 20,
+    "options": [
+      {
+        "id": "recommend_open_license",
+        "label": "Aconsejar el uso de licencias abiertas y la atribución correcta",
+        "expected": true,
+        "feedback": "Promueve el uso responsable de licencias y facilita la reutilización."
+      },
+      {
+        "id": "suggest_metadata_inclusion",
+        "label": "Recomendar completar siempre metadatos y etiquetas descriptivas",
+        "expected": true,
+        "feedback": "Los metadatos son la clave para mejorar la identificación y el acceso."
+      },
+      {
+        "id": "include_accessibility_tagging",
+        "label": "Decirle que añada etiquetas de accesibilidad a cada recurso",
+        "expected": true,
+        "feedback": "Permite a otros docentes localizar rápidamente recursos adaptados."
+      },
+      {
+        "id": "skip_license_details",
+        "label": "Decir que no hace falta añadir detalles de licencia si el recurso es para el aula",
+        "expected": false,
+        "feedback": "Incluso en contextos educativos, las licencias deben estar claras."
+      },
+      {
+        "id": "advise_open_edit_for_all",
+        "label": "Sugerir que use un enlace editable público para acelerar la colaboración",
+        "expected": false,
+        "feedback": "No es una práctica segura ni controlada."
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has optimizado la gestión del repositorio usando funcionalidades de catalogación, accesibilidad y asesoramiento informal adecuados.",
+    "failure": "Prueba no superada. Revisa la configuración de metadatos, los accesos, las etiquetas de accesibilidad y el asesoramiento informal."
+  }
+}

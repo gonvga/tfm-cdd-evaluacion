@@ -11,7 +11,8 @@ from ui.test_views.comp22.p07_adaptar_recurso import build_test_p07
 from ui.test_views.comp22.p08_disenar_secuencia import build_test_p08
 from ui.test_views.comp23.p09_compartir_catalogar import build_test_p09
 from ui.test_views.comp23.p10_configurar_publicacion import build_test_p10
-
+from ui.test_views.comp23.p11_publicar_recurso import build_test_p11
+from ui.test_views.comp23.p12_optimizar_repositorio import build_test_p12
 
 TEST_FLOW = [
     {"id": "p01", "code": "P01", "title": "Identificar recursos válidos", "competence": "2.1", "level": "A1"},
@@ -286,6 +287,10 @@ def build_evaluation_view(page: ft.Page, state: dict, go_home) -> ft.Control:
             return build_test_p09(state, refresh)
         if active_id == "p10":
             return build_test_p10(state, refresh)
+        if active_id == "p11":
+            return build_test_p11(state, refresh)
+        if active_id == "p12":
+            return build_test_p12(state, refresh)
 
         return info_box(
             ft.Column(

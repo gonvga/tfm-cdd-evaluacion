@@ -1,0 +1,222 @@
+{
+  "test_id": "P11",
+  "scenario_id": "comp23_b1_asistente_publicacion_autonoma",
+  "scenario_title": "Asistente de publicacion autonoma en repositorio, CLMS e IMSCP",
+  "title": "P11 - Simular publicacion autonoma de una unidad digital",
+  "statement": "Evalua los indicadores 2.3.B1.1, 2.3.B1.2 y 2.3.B1.3 mediante una simulacion practica y determinista de publicacion, catalogacion, permisos e IMSCP.",
+  "intro": "Escenario: debes publicar una unidad didactica digital sobre consumo responsable para 2. ESO. El plan digital del centro exige usar los entornos institucionales, catalogar con metadatos normalizados, compartir con permisos selectivos y ofrecer un paquete IMSCP descargable para el alumnado con conectividad irregular.",
+  "plan": {
+    "title": "Extracto del plan digital del centro",
+    "lines": [
+      "Repositorio institucional: unidades didacticas reutilizables con metadatos normalizados y licencia visible.",
+      "CLMS oficial: publicacion al alumnado del grupo y seguimiento de la actividad.",
+      "Carpeta colaborativa del equipo docente: copias editables y versionadas.",
+      "Blog de aula: resumen publico u orientaciones generales, sin materiales restringidos.",
+      "Permisos: alumnado con visualizacion y descarga del IMSCP; equipo docente con edicion sobre copia; familias con consulta limitada.",
+      "Catalogacion: etapa, nivel, materia, bloque curricular, tipo de recurso, licencia, formato, palabras clave normalizadas y etiquetas sociales complementarias."
+    ]
+  },
+  "publication_map": {
+    "title": "1. Mapa de publicacion",
+    "description": "Asigna cada pieza del expediente al entorno que le corresponde.",
+    "weight": 20,
+    "destinations": [
+      {"id": "repository", "label": "Repositorio institucional"},
+      {"id": "clms", "label": "Curso oficial del CLMS"},
+      {"id": "teacher_workspace", "label": "Carpeta colaborativa del equipo docente"},
+      {"id": "class_blog", "label": "Blog de aula"},
+      {"id": "personal_cloud", "label": "Nube personal con enlace publico"}
+    ],
+    "items": [
+      {
+        "id": "complete_unit",
+        "label": "Unidad completa reutilizable con ficha de catalogacion",
+        "expected": "repository"
+      },
+      {
+        "id": "student_activity",
+        "label": "Actividad que realiza el alumnado del grupo",
+        "expected": "clms"
+      },
+      {
+        "id": "editable_copy",
+        "label": "Copia editable para mantenimiento del departamento",
+        "expected": "teacher_workspace"
+      },
+      {
+        "id": "family_summary",
+        "label": "Resumen informativo para familias",
+        "expected": "class_blog"
+      }
+    ]
+  },
+  "permission_matrix": {
+    "title": "2. Matriz de permisos",
+    "description": "Configura el permiso operativo para cada agente.",
+    "weight": 25,
+    "permissions": [
+      {"id": "view_download_imscp", "label": "Ver en CLMS y descargar IMSCP, sin editar"},
+      {"id": "edit_versioned_copy", "label": "Editar copia versionada"},
+      {"id": "view_summary_only", "label": "Consultar solo resumen informativo"},
+      {"id": "no_access_full_unit", "label": "Sin acceso a la unidad completa"},
+      {"id": "public_edit_link", "label": "Editar mediante enlace publico"}
+    ],
+    "agents": [
+      {
+        "id": "students",
+        "label": "Alumnado de 2. ESO",
+        "expected": "view_download_imscp"
+      },
+      {
+        "id": "teaching_team",
+        "label": "Equipo docente del departamento",
+        "expected": "edit_versioned_copy"
+      },
+      {
+        "id": "families",
+        "label": "Familias del grupo",
+        "expected": "view_summary_only"
+      },
+      {
+        "id": "public",
+        "label": "Personas externas no autenticadas",
+        "expected": "no_access_full_unit"
+      }
+    ]
+  },
+  "catalog_record": {
+    "title": "3. Ficha de catalogacion",
+    "description": "Completa la ficha que se guardaria en el repositorio institucional.",
+    "weight": 30,
+    "text_fields": [
+      {
+        "id": "title",
+        "label": "Titulo",
+        "expected": "Consumo responsable y toma de decisiones - 2 ESO",
+        "placeholder": "Titulo claro, recuperable y con nivel"
+      },
+      {
+        "id": "keywords",
+        "label": "Palabras clave normalizadas",
+        "expected_terms": ["sostenibilidad", "consumo responsable", "ciudadania global"],
+        "placeholder": "Separalas con punto y coma"
+      },
+      {
+        "id": "social_tags",
+        "label": "Etiquetas sociales complementarias",
+        "expected_terms": ["ODS12", "compra etica", "presupuesto familiar"],
+        "placeholder": "Etiquetas adicionales utiles para busqueda social"
+      }
+    ],
+    "select_fields": [
+      {
+        "id": "stage_level",
+        "label": "Etapa y nivel",
+        "expected": "eso_2",
+        "options": [
+          {"id": "eso_2", "label": "Educacion Secundaria Obligatoria - 2. ESO"},
+          {"id": "primary_6", "label": "Educacion Primaria - 6. curso"},
+          {"id": "bach_1", "label": "Bachillerato - 1. curso"}
+        ]
+      },
+      {
+        "id": "subject_block",
+        "label": "Materia y bloque curricular",
+        "expected": "geo_hist_sustainability",
+        "options": [
+          {"id": "geo_hist_sustainability", "label": "Geografia e Historia - Sostenibilidad y consumo"},
+          {"id": "math_statistics", "label": "Matematicas - Estadistica"},
+          {"id": "general_tutoring", "label": "Tutoria - Material general"}
+        ]
+      },
+      {
+        "id": "resource_type",
+        "label": "Tipo de recurso",
+        "expected": "interactive_unit",
+        "options": [
+          {"id": "interactive_unit", "label": "Unidad didactica interactiva"},
+          {"id": "loose_file", "label": "Archivo suelto"},
+          {"id": "news_post", "label": "Entrada informativa"}
+        ]
+      },
+      {
+        "id": "license",
+        "label": "Licencia",
+        "expected": "cc_by_nc_sa_40",
+        "options": [
+          {"id": "cc_by_nc_sa_40", "label": "CC BY-NC-SA 4.0 con autoria del equipo docente"},
+          {"id": "all_rights_reserved_unknown", "label": "Todos los derechos reservados, autoria no indicada"},
+          {"id": "no_license", "label": "Sin licencia visible"}
+        ]
+      },
+      {
+        "id": "format",
+        "label": "Formato",
+        "expected": "imscp",
+        "options": [
+          {"id": "imscp", "label": "IMS Content Packaging"},
+          {"id": "plain_zip", "label": "ZIP con archivos sueltos"},
+          {"id": "external_link", "label": "Enlace externo sin paquete"}
+        ]
+      }
+    ]
+  },
+  "imscp_package": {
+    "title": "4. Preparacion IMSCP",
+    "description": "Activa los componentes y ajustes que debe tener el paquete antes de publicarlo.",
+    "weight": 25,
+    "components": [
+      {
+        "id": "imsmanifest",
+        "label": "imsmanifest.xml con estructura y metadatos",
+        "expected": true
+      },
+      {
+        "id": "index",
+        "label": "index.html como punto de entrada",
+        "expected": true
+      },
+      {
+        "id": "assets",
+        "label": "Carpeta assets con recursos enlazados",
+        "expected": true
+      },
+      {
+        "id": "license_file",
+        "label": "Archivo de licencia y autoria",
+        "expected": true
+      },
+      {
+        "id": "teacher_private_notes",
+        "label": "Notas privadas del profesorado dentro del paquete descargable",
+        "expected": false
+      }
+    ],
+    "settings": [
+      {
+        "id": "download_scope",
+        "label": "Ambito de descarga",
+        "expected": "authenticated_students",
+        "options": [
+          {"id": "authenticated_students", "label": "Solo alumnado autenticado del grupo"},
+          {"id": "anyone_link", "label": "Cualquier persona con enlace"},
+          {"id": "teachers_only", "label": "Solo profesorado"}
+        ]
+      },
+      {
+        "id": "prepublish_check",
+        "label": "Comprobacion previa",
+        "expected": "validate_manifest_metadata_license",
+        "options": [
+          {"id": "validate_manifest_metadata_license", "label": "Validar manifiesto, metadatos, licencia y enlaces"},
+          {"id": "upload_if_zip", "label": "Publicar si el ZIP sube sin error"},
+          {"id": "skip_check", "label": "Omitir revision tecnica"}
+        ]
+      }
+    ]
+  },
+  "feedback": {
+    "success": "Prueba superada. Has generado un expediente de publicacion coherente con el plan digital: ubicacion, permisos, metadatos normalizados, etiquetado social e IMSCP seguro.",
+    "failure": "Prueba no superada. Revisa el expediente: ubicaciones, permisos selectivos, ficha de catalogacion y preparacion IMSCP deben estar correctamente configurados."
+  }
+}

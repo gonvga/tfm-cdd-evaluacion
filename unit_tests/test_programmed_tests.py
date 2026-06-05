@@ -24,6 +24,8 @@ from ui.test_views.comp22 import (
 from ui.test_views.comp23 import (
     p09_compartir_catalogar as p09,
     p10_configurar_publicacion as p10,
+    p11_publicar_recurso as p11,
+    p12_optimizar_repositorio as p12,
 )
 
 
@@ -38,6 +40,8 @@ IMPLEMENTED_TESTS = [
     ("p08", p08, p08.build_test_p08),
     ("p09", p09, p09.build_test_p09),
     ("p10", p10, p10.build_test_p10),
+    ("p11", p11, p11.build_test_p11),
+    ("p12", p12, p12.build_test_p12),
 ]
 
 TEST_NAMES = {
@@ -51,6 +55,8 @@ TEST_NAMES = {
     "p08": "disenar_secuencia_digital",
     "p09": "compartir_catalogar_contenidos",
     "p10": "configurar_publicacion_segura",
+    "p11": "publicar_recurso_metadatos",
+    "p12": "optimizar_repositorio",
 }
 
 
@@ -268,6 +274,76 @@ def correct_p10(data):
     }
 
 
+def correct_p11(data):
+    return {
+        "p11_publication_map": {
+            item["id"]: item["expected"]
+            for item in data["publication_map"]["items"]
+        },
+        "p11_permission_matrix": {
+            agent["id"]: agent["expected"]
+            for agent in data["permission_matrix"]["agents"]
+        },
+        "p11_catalog_record": {
+            **{
+                field["id"]: (
+                    "; ".join(field["expected_terms"])
+                    if "expected_terms" in field
+                    else field["expected"]
+                )
+                for field in data["catalog_record"]["text_fields"]
+            },
+            **{
+                field["id"]: field["expected"]
+                for field in data["catalog_record"]["select_fields"]
+            },
+        },
+        "p11_imscp_components": [
+            component["id"]
+            for component in data["imscp_package"]["components"]
+            if component["expected"]
+        ],
+        "p11_imscp_settings": {
+            setting["id"]: setting["expected"]
+            for setting in data["imscp_package"]["settings"]
+        },
+    }
+
+
+def correct_p12(data):
+    return {
+        "p12_repository": [
+            item["id"]
+            for item in data["repository"]["options"]
+            if item["expected"]
+        ],
+        "p12_access": [
+            item["id"]
+            for item in data["access"]["options"]
+            if item["expected"]
+        ],
+        "p12_advice": [
+            item["id"]
+            for item in data["advice"]["options"]
+            if item["expected"]
+        ],
+        "p12_catalog_record": {
+            **{
+                field["id"]: (
+                    "; ".join(field["expected_terms"])
+                    if "expected_terms" in field
+                    else field.get("expected", "")
+                )
+                for field in data["catalog_record"]["text_fields"]
+            },
+            **{
+                field["id"]: expected_id(field["options"])
+                for field in data["catalog_record"]["select_fields"]
+            },
+        },
+    }
+
+
 CORRECT_RESPONSES = {
     "p01": correct_p01,
     "p02": correct_p02,
@@ -279,6 +355,8 @@ CORRECT_RESPONSES = {
     "p08": correct_p08,
     "p09": correct_p09,
     "p10": correct_p10,
+    "p11": correct_p11,
+    "p12": correct_p12,
 }
 
 
@@ -341,14 +419,14 @@ class ProgrammedTestsCase(unittest.TestCase):
 
         self.assertLessEqual(routed_test_ids, configured_test_ids)
 
-    def test_evaluation_view_shows_placeholder_for_not_yet_programmed_tests(self):
+    def test_evaluation_view_does_not_show_placeholder_for_p12(self):
         class DummyPage:
             def update(self):
                 pass
 
         state = initial_evaluation_state()
         state["active_competence"] = "2.3"
-        state["active_test"] = "p11"
+        state["active_test"] = "p12"
         control = build_evaluation_view(DummyPage(), state, lambda: None)
 
         texts = [
@@ -357,7 +435,7 @@ class ProgrammedTestsCase(unittest.TestCase):
             if isinstance(item, ft.Text) and item.value
         ]
         normalized = {strip_accents(text) for text in texts}
-        self.assertIn("Prueba todavia no implementada", normalized)
+        self.assertNotIn("Prueba todavia no implementada", normalized)
 
 
 def _make_acceptance_test(test_id, module, build_test):
