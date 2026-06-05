@@ -4,6 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 import flet as ft
+from pypdf import PdfReader
 
 from core.storage import save_result
 from ui.components import question_block
@@ -250,102 +251,137 @@ def option_label(options: list[dict], option_id: str | None) -> str:
     return next((option["label"] for option in options if option["id"] == option_id), "")
 
 
-def build_test_p12(state: dict, refresh_view) -> ft.Control:
+def extract_pdf_text(pdf_path: str) -> str:
+    try:
+        reader = PdfReader(pdf_path)
+        pages = [page.extract_text() or "" for page in reader.pages]
+        return "\n".join(pages)
+    except Exception:
+        return ""
+
+
+def score_text_terms(
+    terms: list[str],
+    text: str,
+    weight: int,
+    prefix: str,
+    require_all: bool = True,
+) -> tuple[bool, int, dict, list[dict]]:
+    normalized_text = normalize_text(text)
+    checks = []
+    passed_count = 0
+
+    for term in terms:
+        passed = normalize_text(term) in normalized_text
+        if passed:
+            passed_count += 1
+        checks.append(
+            {
+                "check_id": f"{prefix}_{normalize_text(term).replace(' ', '_')}",
+                "label": term,
+                "passed": passed,
+                "weight": round(weight / len(terms), 2) if terms else 0,
+                "evidence": term if passed else "",
+            }
+        )
+
+    passed = all(check["passed"] for check in checks) if require_all else any(check["passed"] for check in checks)
+    return passed, round(passed_count / max(len(terms), 1) * weight), {term: True for term in terms}, checks
+
+
+def build_test_p12(state: dict, refresh_view, page: ft.Page | None = None) -> ft.Control:
     test_data = load_test_data()
     validated = state["feedback"]["p12"]["ok"] is not None
-    saved_repository = state["responses"].get("p12_repository", [])
-    saved_access = state["responses"].get("p12_access", [])
-    saved_advice = state["responses"].get("p12_advice", [])
-    saved_catalog = state["responses"].get("p12_catalog_record", {})
+    saved_pdf_path = state["responses"].get("p12_pdf_file_path")
+    saved_pdf_text = state["responses"].get("p12_pdf_text", "")
 
-    repository_controls = {
-        option["id"]: ft.Checkbox(value=option["id"] in saved_repository)
-        for option in test_data["repository"]["options"]
-    }
-    repository_cards = [
-        build_checkbox_card(option, repository_controls[option["id"]], validated)
-        for option in test_data["repository"]["options"]
-    ]
-
-    access_controls = {
-        option["id"]: ft.Checkbox(value=option["id"] in saved_access)
-        for option in test_data["access"]["options"]
-    }
-    access_cards = [
-        build_checkbox_card(option, access_controls[option["id"]], validated)
-        for option in test_data["access"]["options"]
-    ]
-
-    advice_controls = {
-        option["id"]: ft.Checkbox(value=option["id"] in saved_advice)
-        for option in test_data["advice"]["options"]
-    }
-    advice_cards = [
-        build_checkbox_card(option, advice_controls[option["id"]], validated)
-        for option in test_data["advice"]["options"]
-    ]
-
-    catalog_controls = {
-        field["id"]: ft.Dropdown(
-            value=saved_catalog.get(field["id"]),
-            options=dropdown_options(field["options"]),
-            dense=True,
+    file_picker = None
+    page_services = getattr(page, "services", None)
+    if page is not None and page_services is not None:
+        file_picker = next(
+            (service for service in page_services if isinstance(service, ft.FilePicker)),
+            None,
         )
-        for field in test_data["catalog_record"]["select_fields"]
-    }
-    catalog_controls["title"] = ft.TextField(
-        value=saved_catalog.get("title", ""),
-        hint_text=test_data["catalog_record"]["text_fields"][0].get("placeholder", ""),
-        dense=True,
-    )
-    catalog_controls["keywords"] = ft.TextField(
-        value=saved_catalog.get("keywords", ""),
-        hint_text="Introduce palabras clave separadas por punto y coma",
-        dense=True,
-    )
+        if file_picker is None:
+            file_picker = ft.FilePicker()
+            page_services.append(file_picker)
+            page.update()
+    elif page is not None:
+        file_picker = ft.FilePicker()
 
-    def persist_form():
-        state["responses"]["p12_repository"] = get_selected_ids(repository_controls)
-        state["responses"]["p12_access"] = get_selected_ids(access_controls)
-        state["responses"]["p12_advice"] = get_selected_ids(advice_controls)
-        state["responses"]["p12_catalog_record"] = {
-            field_id: control.value
-            for field_id, control in catalog_controls.items()
-        }
+    async def pick_pdf(e):
+        if page is not None and file_picker is not None:
+            selected_files = await file_picker.pick_files(
+                file_type=ft.FilePickerFileType.CUSTOM,
+                allowed_extensions=["pdf"],
+                allow_multiple=False,
+            )
+            if selected_files:
+                pdf_file = selected_files[0]
+                if pdf_file.path:
+                    state["responses"]["p12_pdf_file_path"] = pdf_file.path
+                    state["responses"]["p12_pdf_text"] = ""
+                    refresh_view()
 
     def validate(e):
-        persist_form()
-        selected_repository = {item_id: repository_controls[item_id].value for item_id in repository_controls}
-        selected_access = {item_id: access_controls[item_id].value for item_id in access_controls}
-        selected_advice = {item_id: advice_controls[item_id].value for item_id in advice_controls}
-        selected_catalog = state["responses"]["p12_catalog_record"]
+        pdf_path = state["responses"].get("p12_pdf_file_path")
+        pdf_text = state["responses"].get("p12_pdf_text", "")
 
-        repo_ok, repo_points, expected_repo, repo_checks = score_exact_mapping(
-            test_data["repository"]["options"],
-            selected_repository,
-            test_data["repository"]["weight"],
-            "repository",
-        )
-        access_ok, access_points, expected_access, access_checks = score_exact_mapping(
-            test_data["access"]["options"],
-            selected_access,
-            test_data["access"]["weight"],
-            "access",
-        )
-        advice_ok, advice_points, expected_advice, advice_checks = score_exact_mapping(
-            test_data["advice"]["options"],
-            selected_advice,
-            test_data["advice"]["weight"],
-            "advice",
-        )
-        catalog_ok, catalog_points, expected_catalog, catalog_checks = score_catalog_record(
-            test_data["catalog_record"],
-            selected_catalog,
-            test_data["catalog_record"]["weight"],
+        if not pdf_text and pdf_path:
+            pdf_text = extract_pdf_text(pdf_path)
+            state["responses"]["p12_pdf_text"] = pdf_text
+
+        if not pdf_text:
+            message = test_data["feedback"]["failure"]
+            state["completed"]["p12"] = False
+            state["feedback"]["p12"] = {"ok": False, "message": message}
+            refresh_view()
+            return
+
+        title_ok = normalize_text(test_data["requirements"]["expected_title"]) in normalize_text(pdf_text)
+        title_points = 20 if title_ok else 0
+        title_check = {
+            "check_id": "title_match",
+            "label": "Título correcto",
+            "passed": title_ok,
+            "weight": 20,
+            "evidence": test_data["requirements"]["expected_title"] if title_ok else "",
+        }
+
+        sections_ok, sections_points, _, section_checks = score_text_terms(
+            test_data["requirements"]["required_sections"],
+            pdf_text,
+            test_data["requirements"]["section_weight"],
+            "section",
+            require_all=True,
         )
 
-        score = repo_points + access_points + advice_points + catalog_points
-        ok = score >= 80 and repo_ok and access_ok and advice_ok and catalog_ok
+        keyword_ok, keyword_points, _, keyword_checks = score_text_terms(
+            test_data["requirements"]["expected_keywords"],
+            pdf_text,
+            test_data["requirements"]["keywords_weight"],
+            "keyword",
+            require_all=True,
+        )
+
+        license_ok, license_points, _, license_checks = score_text_terms(
+            test_data["requirements"]["license_phrases"],
+            pdf_text,
+            test_data["requirements"]["license_weight"],
+            "license",
+            require_all=False,
+        )
+
+        accessibility_ok, accessibility_points, _, accessibility_checks = score_text_terms(
+            test_data["requirements"]["accessibility_phrases"],
+            pdf_text,
+            test_data["requirements"]["accessibility_weight"],
+            "accessibility",
+            require_all=False,
+        )
+
+        score = title_points + sections_points + keyword_points + license_points + accessibility_points
+        ok = title_ok and license_ok and accessibility_ok and score >= 80
         message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
         state["completed"]["p12"] = ok
         state["feedback"]["p12"] = {"ok": ok, "message": message}
@@ -358,20 +394,19 @@ def build_test_p12(state: dict, refresh_view) -> ft.Control:
             "score_0_100": score,
             "level_hint": "B2" if ok else "B1",
             "payload": {
-                "selected_repository": selected_repository,
-                "expected_repository": expected_repo,
-                "selected_access": selected_access,
-                "expected_access": expected_access,
-                "selected_advice": selected_advice,
-                "expected_advice": expected_advice,
-                "selected_catalog_record": selected_catalog,
-                "expected_catalog_record": expected_catalog,
+                "pdf_file_path": pdf_path,
+                "title_ok": title_ok,
+                "sections_ok": sections_ok,
+                "keyword_ok": keyword_ok,
+                "license_ok": license_ok,
+                "accessibility_ok": accessibility_ok,
             },
             "checks": [
-                *repo_checks,
-                *access_checks,
-                *advice_checks,
-                *catalog_checks,
+                title_check,
+                *section_checks,
+                *keyword_checks,
+                *license_checks,
+                *accessibility_checks,
             ],
             "notes": [message],
         }
@@ -380,64 +415,36 @@ def build_test_p12(state: dict, refresh_view) -> ft.Control:
         state["responses"]["p12_saved_path"] = str(saved_path)
         refresh_view()
 
-    repository_cards_row = ft.ResponsiveRow(controls=repository_cards, spacing=8, run_spacing=8)
-    access_cards_row = ft.ResponsiveRow(controls=access_cards, spacing=8, run_spacing=8)
-    advice_cards_row = ft.ResponsiveRow(controls=advice_cards, spacing=8, run_spacing=8)
-    catalog_rows = [
-        build_dropdown_row(
-            field["label"],
-            catalog_controls[field["id"]],
-            validated,
-            saved_catalog.get(field["id"]) == next(
-                option["id"] for option in field["options"] if option["expected"]
-            ),
-            option_label(field["options"], next(option["id"] for option in field["options"] if option["expected"])),
-        )
-        for field in test_data["catalog_record"]["select_fields"]
-    ]
-    catalog_rows.insert(
-        0,
-        build_dropdown_row(
-            test_data["catalog_record"]["text_fields"][0]["label"],
-            catalog_controls["title"],
-            validated,
-            normalize_text(saved_catalog.get("title", "")) == normalize_text(test_data["catalog_record"]["text_fields"][0].get("expected", "")),
-            test_data["catalog_record"]["text_fields"][0].get("expected", ""),
-        ),
+    selected_file_label = (
+        Path(saved_pdf_path).name if saved_pdf_path else "Ningún archivo seleccionado"
     )
-    keywords_field = test_data["catalog_record"]["text_fields"][1]
-    expected_keyword_label = "; ".join(keywords_field.get("expected_terms", []))
-    keywords_passed = set(normalize_text(term) for term in keywords_field.get("expected_terms", [])) <= normalize_terms(saved_catalog.get("keywords", ""))
-    catalog_rows.append(
-        build_dropdown_row(
-            keywords_field["label"],
-            catalog_controls["keywords"],
-            validated,
-            keywords_passed,
-            expected_keyword_label,
-        )
+
+    file_status = ft.Text(
+        selected_file_label,
+        size=13,
+        color="#1F2937",
+        weight=ft.FontWeight.NORMAL,
     )
+
+    guidance = test_data["requirements"].get("guidance", [])
 
     content = ft.Column(
         controls=[
             ft.Text(test_data["intro"], size=15, weight=ft.FontWeight.W_600),
             info_panel(test_data["plan"]["title"], test_data["plan"]["lines"], "#F0FDF4"),
             ft.Divider(height=24),
-            section_title(test_data["repository"]["title"]),
-            ft.Text(test_data["repository"]["description"], size=14),
-            repository_cards_row,
+            section_title(test_data["requirements"]["title"]),
+            ft.Text(test_data["requirements"]["description"], size=14),
+            *[ft.Text(f"• {hint}", size=13) for hint in guidance],
             ft.Divider(height=24),
-            section_title(test_data["access"]["title"]),
-            ft.Text(test_data["access"]["description"], size=14),
-            access_cards_row,
-            ft.Divider(height=24),
-            section_title(test_data["catalog_record"]["title"]),
-            ft.Text(test_data["catalog_record"]["description"], size=14),
-            *catalog_rows,
-            ft.Divider(height=24),
-            section_title(test_data["advice"]["title"]),
-            ft.Text(test_data["advice"]["description"], size=14),
-            advice_cards_row,
+            ft.Row(
+                controls=[
+                    ft.ElevatedButton("Seleccionar PDF", on_click=pick_pdf),
+                    file_status,
+                ],
+                spacing=12,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            ),
             ft.Container(height=8),
             ft.ElevatedButton("Validar prueba", on_click=validate),
             build_result_box(state["feedback"]["p12"]),
