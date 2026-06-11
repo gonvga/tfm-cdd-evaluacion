@@ -306,7 +306,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
         content=ft.Column(
             controls=[
                 ft.Text(
-                    "Imagen en la ficha: alumnado comiendo una merienda saludable",
+                    "Imagen en la ficha.",
                     size=14,
                     weight=ft.FontWeight.BOLD,
                 ),
@@ -566,7 +566,6 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
             ft.Divider(height=24),
             section_title(content_data["title"]),
             ft.Text(content_data["description"], size=14),
-            build_info_panel("Texto original", [content_data["original"]]),
             content_radio,
             content_feedback,
             ft.Divider(height=24),

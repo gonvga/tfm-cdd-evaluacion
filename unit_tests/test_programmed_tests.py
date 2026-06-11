@@ -432,6 +432,7 @@ class ProgrammedTestsCase(unittest.TestCase):
                 pass
 
         state = initial_evaluation_state()
+        state["active_test"] = "p01"
         control = build_evaluation_view(
             DummyPage(),
             state,
@@ -483,6 +484,7 @@ class ProgrammedTestsCase(unittest.TestCase):
                 pass
 
         state = initial_evaluation_state()
+        state["active_test"] = "p01"
         message = "Resultado de prueba visible arriba"
         state["feedback"]["p01"] = {"ok": True, "message": message}
         state["completed"]["p01"] = True
@@ -540,6 +542,24 @@ class ProgrammedTestsCase(unittest.TestCase):
             if isinstance(item, ft.Text) and item.value
         }
         self.assertTrue(any(feedback_text in text for text in visible_texts))
+
+    def test_p05_does_not_show_original_text_panel(self):
+        data = p05.load_test_data()
+        control = p05.build_test_p05(initial_evaluation_state(), lambda: None)
+        visible_texts = {
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        }
+
+        self.assertNotIn("Texto original", visible_texts)
+        self.assertNotIn(data["content"]["original"], visible_texts)
+
+    def test_p05_uses_real_tools_with_their_function(self):
+        data = p05.load_test_data()
+        for task in data["tools"]["tasks"]:
+            self.assertIn(task["expected"], task["options"])
+            self.assertTrue(all("(" in option and option.endswith(")") for option in task["options"]))
 
     def test_p01_feedback_explains_marking_actions_without_correct_incorrect_labels(self):
         data = p01.load_test_data()

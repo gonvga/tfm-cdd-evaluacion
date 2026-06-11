@@ -16,7 +16,7 @@
     ]
   },
   "license": {
-    "title": "Fase A · Licencia y referencia",
+    "title": "Licencia y referencia",
     "description": "Selecciona una licencia que permita reutilizar y adaptar el recurso, y escribe una referencia APA básica.",
     "options": [
       {
@@ -66,7 +66,7 @@
     ]
   },
   "accessibility": {
-    "title": "Fase B · Accesibilidad del documento",
+    "title": "Accesibilidad del documento",
     "description": "Selecciona las acciones que aplicarías en un procesador de texto para crear un documento más accesible.",
     "options": [
       {
@@ -122,7 +122,7 @@
     ]
   },
   "content": {
-    "title": "Fase C · Adecuación didáctica y disciplinar",
+    "title": "Adecuación didáctica y disciplinar",
     "description": "Selecciona la versión que mejor adapta el texto a 2º de ESO sin perder rigor disciplinar.",
     "original": "Los hábitos saludables constituyen un conjunto de conductas adquiridas que favorecen el mantenimiento de la homeostasis fisiológica y psicológica del organismo.",
     "options": [
@@ -147,41 +147,41 @@
     ]
   },
   "tools": {
-    "title": "Fase D · Herramientas de autor",
+    "title": "Herramientas de autor",
     "description": "Selecciona la herramienta de autor más adecuada para cada modificación.",
     "tasks": [
       {
         "id": "transparent_background",
         "label": "Quitar el fondo de una imagen para integrarla en la ficha",
         "options": [
-          "Procesador de texto",
-          "Editor de imagen",
-          "Editor de audio",
-          "Hoja de cálculo"
+          "GIMP (editor de imágenes)",
+          "Microsoft Word (procesador de textos)",
+          "Audacity (editor de audio)",
+          "Microsoft Excel (hoja de cálculo)"
         ],
-        "expected": "Editor de imagen"
+        "expected": "GIMP (editor de imágenes)"
       },
       {
         "id": "subtitles_video",
         "label": "Añadir subtítulos a un vídeo breve",
         "options": [
-          "Editor de vídeo",
-          "Editor de ecuaciones",
-          "Presentación",
-          "Compresor de archivos"
+          "Clipchamp (editor de vídeo)",
+          "Audacity (editor de audio)",
+          "Microsoft PowerPoint (presentaciones)",
+          "7-Zip (compresor de archivos)"
         ],
-        "expected": "Editor de vídeo"
+        "expected": "Clipchamp (editor de vídeo)"
       },
       {
         "id": "heading_styles",
         "label": "Crear una estructura accesible con títulos y apartados",
         "options": [
-          "Procesador de texto",
-          "Editor de audio",
-          "Banco de imágenes",
-          "Calculadora"
+          "LibreOffice Writer (procesador de textos)",
+          "Audacity (editor de audio)",
+          "Unsplash (banco de imágenes)",
+          "GeoGebra (herramienta matemática)"
         ],
-        "expected": "Procesador de texto"
+        "expected": "LibreOffice Writer (procesador de textos)"
       }
     ]
   },
