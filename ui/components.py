@@ -153,13 +153,8 @@ def indicator_status_card(code: str, title: str, completed: bool) -> ft.Containe
 def question_block(title: str, statement: str, content: ft.Control) -> ft.Container:
     return modern_card(
         ft.Column(
-            controls=[
-                ft.Text(title, size=24, weight=ft.FontWeight.BOLD, color=TEXT),
-                ft.Text(statement, size=15, color=MUTED),
-                ft.Divider(height=24, color=BORDER),
-                content,
-            ],
-            spacing=14,
+            controls=[content],
+            spacing=0,
         ),
         padding=26,
     )

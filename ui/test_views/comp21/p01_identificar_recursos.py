@@ -221,7 +221,6 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
                         ft.Column(
                             controls=[
                                 ft.Text(option["label"], size=15, weight=ft.FontWeight.BOLD),
-                                ft.Text(option["description"], size=13, color=ft.Colors.GREY_700),
                                 *feedback,
                             ],
                             spacing=2,

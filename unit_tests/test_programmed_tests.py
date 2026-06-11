@@ -8,7 +8,14 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 import flet as ft
 
-from ui.views.evaluation_view import TEST_FLOW, build_evaluation_view, initial_evaluation_state
+from ui.views.evaluation_view import (
+    TEST_FLOW,
+    build_evaluation_view,
+    evaluation_is_finished,
+    get_competence_status,
+    get_next_test,
+    initial_evaluation_state,
+)
 from ui.test_views.comp21 import (
     p01_identificar_recursos as p01,
     p02_seleccionar_recurso as p02,
@@ -408,7 +415,6 @@ class ProgrammedTestsCase(unittest.TestCase):
                 pass
 
         state = initial_evaluation_state()
-        state["active_competence"] = "2.3"
         state["active_test"] = "p12"
         control = build_evaluation_view(DummyPage(), state, lambda: None)
 
@@ -419,6 +425,153 @@ class ProgrammedTestsCase(unittest.TestCase):
         ]
         normalized = {strip_accents(text) for text in texts}
         self.assertNotIn("Prueba todavia no implementada", normalized)
+
+    def test_header_uses_one_contextual_action_button(self):
+        class DummyPage:
+            def update(self):
+                pass
+
+        state = initial_evaluation_state()
+        control = build_evaluation_view(
+            DummyPage(),
+            state,
+            lambda: None,
+        )
+        header, questions = control.controls
+
+        header_buttons = [
+            item
+            for item in iter_controls(header)
+            if isinstance(item, ft.ElevatedButton)
+        ]
+        header_labels = {
+            getattr(item, "text", None) or item.content
+            for item in header_buttons
+        }
+        question_labels = {
+            getattr(item, "text", None) or item.content
+            for item in iter_controls(questions)
+            if isinstance(item, ft.ElevatedButton)
+        }
+
+        self.assertEqual(len(header_buttons), 1)
+        self.assertIn("Validar prueba", header_labels)
+        self.assertNotIn("Siguiente", header_labels)
+        self.assertNotIn("Validar prueba", question_labels)
+
+        state["feedback"]["p01"] = {"ok": True, "message": ""}
+        state["completed"]["p01"] = True
+        control = build_evaluation_view(DummyPage(), state, lambda: None)
+        header = control.controls[0]
+        header_buttons = [
+            item
+            for item in iter_controls(header)
+            if isinstance(item, ft.ElevatedButton)
+        ]
+        header_labels = {
+            getattr(item, "text", None) or item.content
+            for item in header_buttons
+        }
+
+        self.assertEqual(len(header_buttons), 1)
+        self.assertIn("Siguiente", header_labels)
+        self.assertNotIn("Validar prueba", header_labels)
+
+    def test_result_box_is_shown_above_the_activity(self):
+        class DummyPage:
+            def update(self):
+                pass
+
+        state = initial_evaluation_state()
+        message = "Resultado de prueba visible arriba"
+        state["feedback"]["p01"] = {"ok": True, "message": message}
+        state["completed"]["p01"] = True
+
+        control = build_evaluation_view(DummyPage(), state, lambda: None)
+        questions = control.controls[1]
+        question_controls = questions.content.controls
+
+        result_texts = {
+            item.value
+            for item in iter_controls(question_controls[0])
+            if isinstance(item, ft.Text) and item.value
+        }
+        activity_texts = {
+            item.value
+            for item in iter_controls(question_controls[1])
+            if isinstance(item, ft.Text) and item.value
+        }
+
+        self.assertIn(message, result_texts)
+        self.assertNotIn(message, activity_texts)
+
+    def test_test_metadata_is_not_shown_to_the_user(self):
+        for test_id, module, build_test in IMPLEMENTED_TESTS:
+            state = initial_evaluation_state()
+            control = build_test(state, lambda: None)
+            visible_texts = {
+                item.value
+                for item in iter_controls(control)
+                if isinstance(item, ft.Text) and item.value
+            }
+            data = module.load_test_data()
+
+            self.assertNotIn(data["title"], visible_texts, test_id)
+            self.assertNotIn(data["statement"], visible_texts, test_id)
+
+    def test_p05_accessibility_feedback_is_hidden_until_validation(self):
+        data = p05.load_test_data()
+        feedback_text = data["accessibility"]["options"][0]["feedback"]
+
+        state = initial_evaluation_state()
+        control = p05.build_test_p05(state, lambda: None)
+        visible_texts = {
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        }
+        self.assertNotIn(feedback_text, visible_texts)
+
+        state["feedback"]["p05"] = {"ok": False, "message": ""}
+        control = p05.build_test_p05(state, lambda: None)
+        visible_texts = {
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        }
+        self.assertTrue(any(feedback_text in text for text in visible_texts))
+
+    def test_exam_flow_is_interleaved_by_level(self):
+        self.assertEqual(
+            [item["id"] for item in TEST_FLOW],
+            ["p01", "p05", "p09", "p02", "p06", "p10", "p03", "p07", "p11", "p04", "p08", "p12"],
+        )
+
+    def test_failed_competence_is_skipped_while_others_continue(self):
+        state = initial_evaluation_state()
+        state["feedback"]["p01"] = {"ok": False, "message": ""}
+
+        self.assertEqual(get_next_test(state)["id"], "p05")
+
+        state["feedback"]["p05"] = {"ok": True, "message": ""}
+        state["feedback"]["p09"] = {"ok": True, "message": ""}
+        self.assertEqual(get_next_test(state)["id"], "p06")
+
+    def test_finished_exam_reports_each_achieved_level(self):
+        state = initial_evaluation_state()
+        passing_ids = ["p01", "p05", "p09", "p06", "p10", "p07", "p11", "p12"]
+        failed_ids = ["p02", "p08"]
+
+        for test_id in passing_ids:
+            state["feedback"][test_id] = {"ok": True, "message": ""}
+            state["completed"][test_id] = True
+        for test_id in failed_ids:
+            state["feedback"][test_id] = {"ok": False, "message": ""}
+
+        self.assertTrue(evaluation_is_finished(state))
+        self.assertEqual(get_competence_status(state, "2.1")["achieved_level"], "A1")
+        self.assertEqual(get_competence_status(state, "2.2")["achieved_level"], "B1")
+        self.assertEqual(get_competence_status(state, "2.3")["achieved_level"], "B2")
 
 
 def _make_acceptance_test(test_id, module, build_test):

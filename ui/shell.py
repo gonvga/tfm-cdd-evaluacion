@@ -1,7 +1,7 @@
 import flet as ft
 
 from ui.views.evaluation_view import build_evaluation_view, initial_evaluation_state
-from ui.views.home_view import build_home_view, build_welcome_view
+from ui.views.home_view import build_welcome_view
 
 
 def build_shell(page: ft.Page) -> ft.Control:
@@ -19,28 +19,21 @@ def build_shell(page: ft.Page) -> ft.Control:
 
     def render_welcome(e=None):
         sync_shell_height()
-        container.content = build_welcome_view(go_lobby=render_home)
+        container.content = build_welcome_view(start_evaluation=render_evaluation)
         container.alignment = ft.Alignment.CENTER
         page.update()
 
-    def render_home(e=None):
-        sync_shell_height()
-        container.content = build_home_view(
-            go_comp_21=lambda e=None: render_evaluation("2.1"),
-            go_comp_22=lambda e=None: render_evaluation("2.2"),
-            go_comp_23=lambda e=None: render_evaluation("2.3"),
-            state=evaluation_state,
-        )
-        container.alignment = ft.Alignment.TOP_CENTER
-        page.update()
+    def restart_evaluation(e=None):
+        evaluation_state.clear()
+        evaluation_state.update(initial_evaluation_state())
+        render_welcome()
 
-    def render_evaluation(competence: str):
+    def render_evaluation(e=None):
         sync_shell_height()
-        evaluation_state["active_competence"] = competence
         container.content = build_evaluation_view(
             page=page,
             state=evaluation_state,
-            go_home=render_home,
+            restart_evaluation=restart_evaluation,
         )
         container.alignment = ft.Alignment.TOP_CENTER
         page.update()

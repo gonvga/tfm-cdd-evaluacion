@@ -154,7 +154,7 @@
       {
         "id": "shopping",
         "name": "Lista_Compra.pdf",
-        "description": "Archivo personal no relacionado con la actividad docente.",
+        "description": "Archivo personal.",
         "expected_in_folder": false
       }
     ]
