@@ -86,6 +86,15 @@ def inline_feedback(text: str, is_correct: bool) -> ft.Control:
     )
 
 
+def checkbox_feedback(selected: bool, expected: bool, description: str) -> tuple[str, bool]:
+    item_ok = selected == expected
+    if expected:
+        action = "Bien marcada." if selected else "Debías marcarla."
+    else:
+        action = "No debías marcarla." if selected else "Bien sin marcar."
+    return f"{action} {description}", item_ok
+
+
 def feedback_panel(title: str, rows: list[tuple[bool, str]]) -> ft.Control:
     if not rows:
         return ft.Container()
@@ -200,19 +209,14 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
         search_checkboxes[option["id"]] = checkbox
         expected = option["id"] in expected_search_tools
         selected = option["id"] in saved_search_tools
-        item_ok = selected == expected
+        feedback_text, item_ok = checkbox_feedback(
+            selected,
+            expected,
+            option["description"],
+        )
         feedback = []
         if validated:
-            feedback.append(
-                inline_feedback(
-                    (
-                        f"Correcta: {option['description']}"
-                        if expected
-                        else f"Incorrecta: {option['description']}"
-                    ),
-                    item_ok,
-                )
-            )
+            feedback.append(inline_feedback(feedback_text, item_ok))
         search_cards.append(
             ft.Container(
                 content=ft.Row(
@@ -231,45 +235,60 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
                 ),
                 col={"xs": 12, "md": 6},
                 padding=10,
-                border=ft.border.all(1, ft.Colors.GREY_300),
+                border=ft.border.all(
+                    1,
+                    feedback_colors(item_ok)[1] if validated else ft.Colors.GREY_300,
+                ),
                 bgcolor=feedback_colors(item_ok)[0] if validated else None,
                 border_radius=10,
+            )
+        )
+
+    metadata_cards = []
+    for option in metadata_question["options"]:
+        selected = saved_metadata == option["id"]
+        expected = option["expected"]
+        feedback = []
+        bgcolor = None
+        border_color = ft.Colors.GREY_300
+
+        if validated and expected:
+            bgcolor, border_color = feedback_colors(True)
+            feedback.append(
+                inline_feedback(
+                    "Respuesta esperada: los metadatos permiten describir, indexar y recuperar el recurso.",
+                    True,
+                )
+            )
+        elif validated and selected:
+            bgcolor, border_color = feedback_colors(False)
+            feedback.append(
+                inline_feedback(
+                    "Tu respuesta. Esta opción no describe el contenido mediante etiquetas recuperables.",
+                    False,
+                )
+            )
+
+        metadata_cards.append(
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Radio(value=option["id"], label=option["text"]),
+                        *feedback,
+                    ],
+                    spacing=4,
+                ),
+                bgcolor=bgcolor,
+                border=ft.border.all(1, border_color),
+                border_radius=8,
+                padding=8,
             )
         )
 
     metadata_radio = ft.RadioGroup(
         value=saved_metadata,
         content=ft.Column(
-            controls=[
-                ft.Container(
-                    content=ft.Column(
-                        controls=[
-                            ft.Radio(value=option["id"], label=option["text"]),
-                            *(
-                                [
-                                    inline_feedback(
-                                        (
-                                            "Correcta: los metadatos permiten describir, indexar y recuperar el recurso."
-                                            if option["expected"]
-                                            else "Incorrecta: no describe el contenido educativo con etiquetas recuperables."
-                                        ),
-                                        saved_metadata == option["id"] == expected_metadata
-                                        or (saved_metadata != option["id"] and not option["expected"]),
-                                    )
-                                ]
-                                if validated
-                                else []
-                            ),
-                        ],
-                        spacing=4,
-                    ),
-                    bgcolor=feedback_colors(option["expected"])[0] if validated else None,
-                    border=ft.border.all(1, feedback_colors(option["expected"])[1]) if validated else None,
-                    border_radius=8,
-                    padding=8,
-                )
-                for option in metadata_question["options"]
-            ],
+            controls=metadata_cards,
             spacing=4,
         ),
     )
@@ -529,17 +548,6 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
                     f"Fuente: {classification['resource']['source']}",
                     classification["resource"]["context"],
                 ],
-            ),
-            ft.ResponsiveRow(
-                controls=[
-                    ft.Container(
-                        content=build_info_panel(category["label"], [category["description"]]),
-                        col={"xs": 12, "md": 4},
-                    )
-                    for category in classification["categories"]
-                ],
-                spacing=8,
-                run_spacing=8,
             ),
             ft.DataTable(
                 columns=[

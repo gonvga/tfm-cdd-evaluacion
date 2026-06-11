@@ -6,7 +6,7 @@
   "statement": "Evalúa los indicadores 2.1.A1.1, 2.1.A1.2 y 2.1.A1.3 mediante tareas de clasificación, selección de herramientas de búsqueda, reconocimiento de metadatos y organización básica de recursos.",
   "intro": "Escenario: preparas una unidad didáctica y debes reconocer criterios de calidad, elegir herramientas de búsqueda adecuadas, identificar el papel de los metadatos y organizar recursos digitales relacionados con la actividad docente.",
   "classification": {
-    "title": "Fase A · Clasificación de criterios de calidad",
+    "title": "Clasificación de criterios de calidad",
     "description": "Clasifica cada etiqueta en la dimensión que corresponde: científica, técnica o didáctica.",
     "resource": {
       "title": "Simulador interactivo sobre circuitos eléctricos",
@@ -32,11 +32,6 @@
     ],
     "labels": [
       {
-        "id": "authorship",
-        "text": "Autoría institucional o reconocida",
-        "expected_category": "scientific"
-      },
-      {
         "id": "updated",
         "text": "Fecha de actualización o revisión",
         "expected_category": "scientific"
@@ -47,14 +42,19 @@
         "expected_category": "technical"
       },
       {
-        "id": "accessibility",
-        "text": "Compatibilidad con lectores de pantalla o subtítulos",
-        "expected_category": "technical"
+        "id": "authorship",
+        "text": "Autoría institucional o reconocida",
+        "expected_category": "scientific"
       },
       {
         "id": "level",
         "text": "Nivel educativo o edad recomendada",
         "expected_category": "didactic"
+      },
+      {
+        "id": "accessibility",
+        "text": "Compatibilidad con lectores de pantalla o subtítulos",
+        "expected_category": "technical"
       },
       {
         "id": "objectives",
@@ -64,7 +64,7 @@
     ]
   },
   "search_tools": {
-    "title": "Fase B · Configuración de herramientas de búsqueda",
+    "title": "Configuración de herramientas de búsqueda",
     "description": "Selecciona los buscadores preferentes para reducir resultados condicionados por publicidad o perfil comercial.",
     "options": [
       {
@@ -94,7 +94,7 @@
     ]
   },
   "metadata_question": {
-    "title": "Pregunta sobre metadatos",
+    "title": "Recuperación de recursos digitales",
     "prompt": "Has localizado un recurso excelente para tu clase de Tecnología, pero al intentar buscarlo de nuevo días después no consigues encontrarlo. ¿Qué elemento del recurso digital permite que los buscadores lo indexen y tú puedas recuperarlo de forma eficiente mediante palabras clave específicas?",
     "options": [
       {
@@ -120,9 +120,9 @@
     ]
   },
   "organization": {
-    "title": "Fase C · Organización y almacenamiento",
+    "title": "Organización y almacenamiento",
     "description": "Crea una carpeta relacionada con la unidad didáctica sobre sostenibilidad y decide qué archivos deben incluirse en ella.",
-    "folder_hint": "Ejemplos válidos: UD 1 Sostenibilidad, Recursos Biología 1º ESO, Sostenibilidad ESO.",
+    "folder_hint": "Introduce un nombre apropiado",
     "valid_folder_keywords": [
       "sostenibilidad",
       "biología",

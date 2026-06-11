@@ -140,7 +140,7 @@ def correct_p01(data):
         },
         "p01_search_tools": expected_ids(data["search_tools"]["options"]),
         "p01_metadata_answer": expected_id(data["metadata_question"]["options"]),
-        "p01_folder_name": data["organization"]["folder_hint"],
+        "p01_folder_name": f"Recursos {data['organization']['valid_folder_keywords'][0]}",
         "p01_folder_files": [
             item["id"]
             for item in data["organization"]["files"]
@@ -540,6 +540,44 @@ class ProgrammedTestsCase(unittest.TestCase):
             if isinstance(item, ft.Text) and item.value
         }
         self.assertTrue(any(feedback_text in text for text in visible_texts))
+
+    def test_p01_feedback_explains_marking_actions_without_correct_incorrect_labels(self):
+        data = p01.load_test_data()
+        wrong_metadata = next(
+            option["id"]
+            for option in data["metadata_question"]["options"]
+            if not option["expected"]
+        )
+        state = initial_evaluation_state()
+        state["responses"]["p01_search_tools"] = ["google", "duckduckgo"]
+        state["responses"]["p01_metadata_answer"] = wrong_metadata
+        state["feedback"]["p01"] = {"ok": False, "message": ""}
+
+        control = p01.build_test_p01(state, lambda: None)
+        visible_texts = [
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        ]
+
+        self.assertTrue(any("Bien marcada." in text for text in visible_texts))
+        self.assertTrue(any("No debías marcarla." in text for text in visible_texts))
+        self.assertTrue(any("Respuesta esperada:" in text for text in visible_texts))
+        self.assertTrue(any("Tu respuesta." in text for text in visible_texts))
+        self.assertFalse(any(text.startswith("Correcta:") for text in visible_texts))
+        self.assertFalse(any(text.startswith("Incorrecta:") for text in visible_texts))
+
+    def test_p01_does_not_show_category_definitions_before_validation(self):
+        data = p01.load_test_data()
+        control = p01.build_test_p01(initial_evaluation_state(), lambda: None)
+        visible_texts = {
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        }
+
+        for category in data["classification"]["categories"]:
+            self.assertNotIn(category["description"], visible_texts)
 
     def test_exam_flow_is_interleaved_by_level(self):
         self.assertEqual(
