@@ -59,28 +59,21 @@ def section_title(text: str) -> ft.Text:
     return ft.Text(text, size=18, weight=ft.FontWeight.BOLD)
 
 
-def info_panel(title: str, lines: list[str], bgcolor: str = "#EFF6FF") -> ft.Control:
-    return ft.Container(
-        content=ft.Column(
-            controls=[
-                ft.Text(title, size=15, weight=ft.FontWeight.BOLD),
-                *[ft.Text(line, size=13, color=ft.Colors.GREY_700) for line in lines],
-            ],
-            spacing=5,
-        ),
-        bgcolor=bgcolor,
-        border=ft.border.all(1, "#DBEAFE"),
-        border_radius=12,
-        padding=14,
-    )
-
-
 def get_expected_id(options: list[dict]) -> str | None:
     return next((option["id"] for option in options if option["expected"]), None)
 
 
 def get_selected_ids(checkboxes: dict[str, ft.Checkbox]) -> list[str]:
     return [key for key, checkbox in checkboxes.items() if checkbox.value]
+
+
+def checkbox_feedback(selected: bool, expected: bool, feedback: str) -> tuple[str, bool]:
+    passed = selected == expected
+    if expected:
+        action = "Bien marcada." if selected else "Debías marcarla."
+    else:
+        action = "No debías marcarla." if selected else "Bien sin marcar."
+    return f"{action} {feedback}", passed
 
 
 def build_radio_option(option: dict, validated: bool) -> ft.Control:
@@ -134,7 +127,11 @@ def build_checkbox_cards(
         checkbox = ft.Checkbox(value=option["id"] in saved_ids)
         checkboxes[option["id"]] = checkbox
         selected = option["id"] in saved_ids
-        passed = selected == bool(option["expected"])
+        feedback_text, passed = checkbox_feedback(
+            selected,
+            bool(option["expected"]),
+            option["feedback"],
+        )
         bgcolor, border_color = feedback_colors(passed) if validated else ("#F9FAFB", "#E5E7EB")
 
         cards.append(
@@ -152,7 +149,7 @@ def build_checkbox_cards(
                         *(
                             [
                                 inline_feedback(
-                                    f"{'Correcta' if passed else 'Revisar'}. {option['feedback']}",
+                                    feedback_text,
                                     passed,
                                 )
                             ]
@@ -368,8 +365,6 @@ def build_test_p09(state: dict, refresh_view) -> ft.Control:
     content = ft.Column(
         controls=[
             ft.Text(test_data["intro"], size=15, weight=ft.FontWeight.W_600),
-            info_panel(test_data["context"]["title"], test_data["context"]["lines"], "#F0FDF4"),
-            ft.Divider(height=24),
             section_title(test_data["environment"]["title"]),
             ft.Text(test_data["environment"]["description"], size=14),
             ft.ResponsiveRow(controls=environment_cards, spacing=8, run_spacing=8),

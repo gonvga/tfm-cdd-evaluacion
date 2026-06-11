@@ -521,6 +521,16 @@ class ProgrammedTestsCase(unittest.TestCase):
             self.assertNotIn(data["title"], visible_texts, test_id)
             self.assertNotIn(data["statement"], visible_texts, test_id)
 
+    def test_every_test_highlights_its_scenario(self):
+        for test_id, module, build_test in IMPLEMENTED_TESTS:
+            control = build_test(initial_evaluation_state(), lambda: None)
+            scenario_labels = [
+                item
+                for item in iter_controls(control)
+                if isinstance(item, ft.Text) and item.value == "Escenario"
+            ]
+            self.assertEqual(len(scenario_labels), 1, test_id)
+
     def test_p05_accessibility_feedback_is_hidden_until_validation(self):
         data = p05.load_test_data()
         feedback_text = data["accessibility"]["options"][0]["feedback"]
@@ -560,6 +570,64 @@ class ProgrammedTestsCase(unittest.TestCase):
         for task in data["tools"]["tasks"]:
             self.assertIn(task["expected"], task["options"])
             self.assertTrue(all("(" in option and option.endswith(")") for option in task["options"]))
+
+    def test_p09_hides_context_panel_and_offers_four_metadata_options(self):
+        data = p09.load_test_data()
+        control = p09.build_test_p09(initial_evaluation_state(), lambda: None)
+        visible_texts = {
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        }
+
+        self.assertNotIn(data["context"]["title"], visible_texts)
+        for line in data["context"]["lines"]:
+            self.assertNotIn(line, visible_texts)
+        for field in data["metadata"]["fields"]:
+            self.assertGreaterEqual(len(field["options"]), 4)
+            self.assertEqual(
+                sum(1 for option in field["options"] if option["expected"]),
+                1,
+            )
+
+    def test_p09_multiple_choice_feedback_explains_marking_actions(self):
+        data = p09.load_test_data()
+        expected_environment = next(
+            option["id"]
+            for option in data["environment"]["options"]
+            if option["expected"]
+        )
+        wrong_environment = next(
+            option["id"]
+            for option in data["environment"]["options"]
+            if not option["expected"]
+        )
+        state = initial_evaluation_state()
+        state["responses"]["p09_environment"] = [
+            expected_environment,
+            wrong_environment,
+        ]
+        state["feedback"]["p09"] = {"ok": False, "message": ""}
+
+        control = p09.build_test_p09(state, lambda: None)
+        visible_texts = [
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        ]
+
+        self.assertTrue(any("Bien marcada." in text for text in visible_texts))
+        self.assertTrue(any("Debías marcarla." in text for text in visible_texts))
+        self.assertTrue(any("No debías marcarla." in text for text in visible_texts))
+        self.assertTrue(any("Bien sin marcar." in text for text in visible_texts))
+
+        feedback_cases = [
+            p09.checkbox_feedback(True, True, "Detalle")[0],
+            p09.checkbox_feedback(False, True, "Detalle")[0],
+            p09.checkbox_feedback(True, False, "Detalle")[0],
+            p09.checkbox_feedback(False, False, "Detalle")[0],
+        ]
+        self.assertFalse(any(text.startswith(("Correcta.", "Revisar.")) for text in feedback_cases))
 
     def test_p01_feedback_explains_marking_actions_without_correct_incorrect_labels(self):
         data = p01.load_test_data()

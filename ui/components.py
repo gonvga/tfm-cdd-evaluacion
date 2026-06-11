@@ -150,7 +150,59 @@ def indicator_status_card(code: str, title: str, completed: bool) -> ft.Containe
     )
 
 
+def scenario_panel(text: str) -> ft.Container:
+    scenario_text = text.removeprefix("Escenario:").strip()
+    return ft.Container(
+        content=ft.Row(
+            controls=[
+                ft.Container(
+                    content=ft.Icon(
+                        ft.Icons.DESCRIPTION_OUTLINED,
+                        size=24,
+                        color=PRIMARY_DARK,
+                    ),
+                    width=44,
+                    height=44,
+                    alignment=ft.Alignment.CENTER,
+                    bgcolor="#DBEAFE",
+                    border_radius=12,
+                ),
+                ft.Column(
+                    controls=[
+                        ft.Text(
+                            "Escenario",
+                            size=13,
+                            weight=ft.FontWeight.BOLD,
+                            color=PRIMARY_DARK,
+                        ),
+                        ft.Text(
+                            scenario_text,
+                            size=15,
+                            weight=ft.FontWeight.W_500,
+                            color=TEXT,
+                        ),
+                    ],
+                    spacing=4,
+                    expand=True,
+                ),
+            ],
+            spacing=14,
+            vertical_alignment=ft.CrossAxisAlignment.START,
+        ),
+        bgcolor="#EFF6FF",
+        border=ft.border.all(1, "#93C5FD"),
+        border_radius=16,
+        padding=18,
+    )
+
+
 def question_block(title: str, statement: str, content: ft.Control) -> ft.Container:
+    controls = getattr(content, "controls", None)
+    if controls and isinstance(controls[0], ft.Text):
+        intro = controls[0].value or ""
+        if intro.strip().lower().startswith("escenario:"):
+            controls[0] = scenario_panel(intro)
+
     return modern_card(
         ft.Column(
             controls=[content],

@@ -188,6 +188,18 @@
             "label": "Documento final",
             "expected": false,
             "feedback": "Es demasiado generico para catalogar el recurso."
+          },
+          {
+            "id": "unidad_tres_definitiva",
+            "label": "Unidad 3 - version definitiva",
+            "expected": false,
+            "feedback": "Describe una version de trabajo, pero no permite identificar el contenido."
+          },
+          {
+            "id": "recursos_biologia",
+            "label": "Recursos de Biologia para clase",
+            "expected": false,
+            "feedback": "Indica el area general, pero no concreta el tema ni el contenido del recurso."
           }
         ]
       },
@@ -207,6 +219,18 @@
             "label": "Tutoria general",
             "expected": false,
             "feedback": "No identifica el area disciplinar principal."
+          },
+          {
+            "id": "geography_history",
+            "label": "Geografia e Historia",
+            "expected": false,
+            "feedback": "No corresponde al area curricular principal del recurso."
+          },
+          {
+            "id": "visual_arts",
+            "label": "Educacion Plastica, Visual y Audiovisual",
+            "expected": false,
+            "feedback": "No corresponde al contenido disciplinar sobre ecosistemas."
           }
         ]
       },
@@ -226,6 +250,18 @@
             "label": "1.º de Educacion Primaria",
             "expected": false,
             "feedback": "No corresponde al contexto indicado."
+          },
+          {
+            "id": "eso_2",
+            "label": "2.º de ESO",
+            "expected": false,
+            "feedback": "Es una etapa cercana, pero no coincide con el grupo destinatario."
+          },
+          {
+            "id": "primary_6",
+            "label": "6.º de Educacion Primaria",
+            "expected": false,
+            "feedback": "No coincide con el nivel educativo indicado en el escenario."
           }
         ]
       },
@@ -245,6 +281,18 @@
             "label": "cosas de ciencias; archivos; actividad",
             "expected": false,
             "feedback": "Son etiquetas vagas y poco normalizadas."
+          },
+          {
+            "id": "living_nature_environment",
+            "label": "seres vivos; naturaleza; medio ambiente",
+            "expected": false,
+            "feedback": "Son terminos relacionados, pero demasiado amplios para recuperar este recurso con precision."
+          },
+          {
+            "id": "ecosystem_cells_solar",
+            "label": "ecosistema; celulas; sistema solar",
+            "expected": false,
+            "feedback": "Mezcla el tema correcto con conceptos que no describen el recurso."
           }
         ]
       }
