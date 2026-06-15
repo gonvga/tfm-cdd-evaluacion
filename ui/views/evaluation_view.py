@@ -21,7 +21,7 @@ TEST_FLOW = [
     {"id": "p05", "code": "P05", "title": "Corregir una ficha educativa", "competence": "2.2", "level": "A1"},
     {"id": "p09", "code": "P09", "title": "Compartir y catalogar contenidos", "competence": "2.3", "level": "A1"},
     {"id": "p02", "code": "P02", "title": "Seleccionar el mejor recurso", "competence": "2.1", "level": "A2"},
-    {"id": "p06", "code": "P06", "title": "Completar plantilla didáctica", "competence": "2.2", "level": "A2"},
+    {"id": "p06", "code": "P06", "title": "Adaptar recurso con ayuda", "competence": "2.2", "level": "A2"},
     {"id": "p10", "code": "P10", "title": "Configurar publicación segura", "competence": "2.3", "level": "A2"},
     {"id": "p03", "code": "P03", "title": "Organizar un banco de recursos", "competence": "2.1", "level": "B1"},
     {"id": "p07", "code": "P07", "title": "Adaptar recurso accesible", "competence": "2.2", "level": "B1"},

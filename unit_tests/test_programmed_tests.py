@@ -289,18 +289,23 @@ def correct_p09(data):
 
 def correct_p10(data):
     return {
-        "p10_management": expected_ids(data["management"]["options"]),
-        "p10_permissions": {
-            field["id"]: expected_id(field["options"])
-            for field in data["permissions"]["fields"]
-        },
-        "p10_cataloging": {
-            field["id"]: expected_id(field["options"])
-            for field in data["cataloging"]["fields"]
-        },
-        "p10_package": {
-            field["id"]: expected_id(field["options"])
-            for field in data["package"]["fields"]
+        "p10_answers": {
+            **{
+                field["id"]: field["expected"]
+                for section in ("publication", "permissions", "catalog", "scorm")
+                for field in data[section]["fields"]
+            },
+            "catalog_title": data["catalog"]["title_field"]["example"],
+            "publication_actions": [
+                option["id"]
+                for option in data["publication"]["actions"]
+                if option["expected"]
+            ],
+            "catalog_tags": [
+                option["id"]
+                for option in data["catalog"]["tags"]
+                if option["expected"]
+            ],
         },
     }
 

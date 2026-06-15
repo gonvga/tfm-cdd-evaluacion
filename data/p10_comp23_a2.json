@@ -1,290 +1,233 @@
 {
   "test_id": "P10",
-  "scenario_id": "comp23_a2_publicacion_clms_con_mentor",
-  "scenario_title": "Publicacion segura en CLMS con catalogacion institucional",
-  "title": "P10 - Configurar publicacion segura en el CLMS",
-  "statement": "Evalua los indicadores 2.3.A2.1, 2.3.A2.2 y 2.3.A2.3 mediante una tarea guiada de comparticion, catalogacion, permisos selectivos y publicacion en formato estandar.",
-  "intro": "Escenario: con ayuda de una mentora del departamento, debes publicar en el CLMS del centro una actividad digital sobre lectura critica de noticias cientificas para 3.º de ESO. La actividad se entregara como paquete SCORM y debe quedar visible solo para los grupos adecuados, catalogada segun el sistema del centro y disponible para otros docentes del equipo.",
-  "mentor": {
-    "title": "Indicaciones de la mentora",
+  "scenario_id": "comp23_a2_asistente_publicacion_scorm",
+  "scenario_title": "Publicación guiada de una actividad SCORM en el CLMS",
+  "title": "P10 · Publicar y catalogar una actividad con ayuda",
+  "statement": "Evalúa los indicadores 2.3.A2.1, 2.3.A2.2 y 2.3.A2.3 mediante la configuración guiada de ubicación, accesos, catalogación y seguimiento de un paquete SCORM.",
+  "intro": "Escenario: una compañera te ayuda a publicar en el CLMS del centro una actividad sobre lectura crítica de noticias científicas para 3.º de ESO A. El grupo B la realizará la semana siguiente. El equipo docente necesita una copia reutilizable, pero no debe modificar la actividad ya asignada al alumnado.",
+  "package_report": {
+    "title": "Informe del paquete recibido",
     "lines": [
-      "Trabaja dentro del curso oficial del CLMS y usa la carpeta de recursos del departamento.",
-      "Organiza el material por materia, nivel, unidad y trimestre antes de publicarlo.",
-      "Usa el formulario de catalogacion institucional: titulo, etapa, materia, nivel, licencia, formato y etiquetas del tesauro del centro.",
-      "Publica la actividad como SCORM 1.2 porque el CLMS del centro registra finalizacion y puntuacion con ese estandar.",
-      "El alumnado solo debe ver y realizar la actividad; el profesorado del equipo puede reutilizarla y editar una copia."
+      "Archivo: lectura_critica_noticias_v3.zip",
+      "Manifiesto detectado: SCORM 1.2 válido.",
+      "Datos enviados al CLMS: finalización y puntuación de 0 a 100.",
+      "Licencia declarada: CC BY-NC-SA 4.0.",
+      "No contiene datos personales ni enlaces a servicios externos."
     ]
   },
-  "management": {
-    "title": "Comparticion y gestion segura",
-    "description": "Marca las acciones que aplican las medidas establecidas para gestionar e intercambiar el recurso en un entorno controlado.",
-    "options": [
+  "mentor": {
+    "title": "Ayuda de la mentora",
+    "lines": [
+      "Publica la actividad evaluable dentro del curso oficial, no en el repositorio docente.",
+      "Da acceso inmediato solo a 3.º ESO A y programa 3.º ESO B para la semana siguiente.",
+      "Comparte con el departamento una copia editable y versionada, sin conceder edición sobre la actividad del curso.",
+      "Usa los campos y el tesauro del catálogo institucional; no inventes etiquetas libres si existe un término normalizado.",
+      "Configura el seguimiento según los datos que realmente comunica el paquete."
+    ]
+  },
+  "publication": {
+    "title": "1. Destino y gestión del recurso",
+    "description": "Configura dónde quedará cada versión y qué medidas de gestión aplicarás.",
+    "fields": [
       {
-        "id": "use_official_course",
-        "label": "Publicar en el curso oficial del CLMS con acceso mediante cuenta del centro",
-        "expected": true,
-        "feedback": "Asegura que el acceso se realiza dentro de un entorno controlado."
+        "id": "student_destination",
+        "label": "Destino de la actividad evaluable",
+        "options": [
+          "Repositorio del departamento · Recursos reutilizables",
+          "Curso oficial · Biología y Geología · 3.º ESO",
+          "Carpeta personal con enlace al alumnado"
+        ],
+        "expected": "Curso oficial · Biología y Geología · 3.º ESO"
       },
       {
-        "id": "department_folder",
-        "label": "Guardar una copia editable en la carpeta institucional del departamento",
-        "expected": true,
-        "feedback": "Facilita el intercambio seguro con el equipo docente."
+        "id": "teacher_copy",
+        "label": "Destino de la copia reutilizable",
+        "options": [
+          "La misma actividad asignada al alumnado, con edición compartida",
+          "Enlace público editable sin control de versiones",
+          "Repositorio del departamento · 3.º ESO · Alfabetización científica"
+        ],
+        "expected": "Repositorio del departamento · 3.º ESO · Alfabetización científica"
+      }
+    ],
+    "actions": [
+      {
+        "id": "edit_live_activity",
+        "label": "Permitir al departamento editar directamente la actividad que ya realiza el alumnado",
+        "expected": false
       },
       {
-        "id": "structured_location",
-        "label": "Ubicar el recurso en Materia > 3.º ESO > Unidad 2 > Trimestre 1",
-        "expected": true,
-        "feedback": "Sigue un criterio de organizacion que permite localizar el contenido."
+        "id": "authenticated_access",
+        "label": "Mantener el acceso mediante las cuentas educativas del centro",
+        "expected": true
       },
       {
-        "id": "version_note",
-        "label": "Anotar version, fecha y responsable antes de compartirlo",
-        "expected": true,
-        "feedback": "Ayuda a gestionar cambios y reutilizaciones posteriores."
+        "id": "public_backup",
+        "label": "Crear una copia de seguridad mediante un enlace público",
+        "expected": false
       },
       {
-        "id": "open_public_link",
-        "label": "Crear un enlace publico editable para acelerar el acceso",
-        "expected": false,
-        "feedback": "Evita el control de identidad y no es una comparticion segura."
-      },
-      {
-        "id": "personal_drive_only",
-        "label": "Dejar el recurso solo en una cuenta personal externa al centro",
-        "expected": false,
-        "feedback": "No usa los servicios establecidos por el centro."
+        "id": "version_record",
+        "label": "Registrar versión, fecha y responsable de la copia docente",
+        "expected": true
       }
     ]
   },
   "permissions": {
-    "title": "Roles y permisos selectivos",
-    "description": "Configura los permisos siguiendo las indicaciones de la mentora.",
+    "title": "2. Acceso selectivo",
+    "description": "Asigna el comportamiento operativo de cada agente en el CLMS.",
     "fields": [
       {
-        "id": "students_group_a",
-        "label": "Alumnado de 3.º ESO A",
-        "weight": 10,
+        "id": "group_a",
+        "label": "3.º ESO A",
         "options": [
-          {
-            "id": "visible_attempt",
-            "label": "Visible; puede realizar la actividad SCORM y ver su retroalimentacion",
-            "expected": true,
-            "feedback": "Es el grupo destinatario y necesita acceso de realizacion."
-          },
-          {
-            "id": "hidden",
-            "label": "Oculto completamente",
-            "expected": false,
-            "feedback": "Impediria realizar la actividad prevista."
-          },
-          {
-            "id": "editing_teacher",
-            "label": "Profesor editor del recurso",
-            "expected": false,
-            "feedback": "No corresponde al rol de alumnado."
-          }
-        ]
+          "Visible ahora; puede editar la configuración de la actividad",
+          "Visible ahora; puede realizarla y consultar su retroalimentación",
+          "Oculta hasta la semana siguiente"
+        ],
+        "expected": "Visible ahora; puede realizarla y consultar su retroalimentación"
       },
       {
-        "id": "students_group_b",
-        "label": "Alumnado de 3.º ESO B hasta la proxima semana",
-        "weight": 10,
+        "id": "group_b",
+        "label": "3.º ESO B",
         "options": [
-          {
-            "id": "hidden_until_date",
-            "label": "Oculto hasta la fecha indicada por la programacion",
-            "expected": true,
-            "feedback": "Permite mostrar u ocultar selectivamente el contenido."
-          },
-          {
-            "id": "visible_now",
-            "label": "Visible desde hoy para todos",
-            "expected": false,
-            "feedback": "No respeta la publicacion diferenciada por grupo."
-          },
-          {
-            "id": "public_guest",
-            "label": "Acceso como invitado publico",
-            "expected": false,
-            "feedback": "No mantiene el acceso dentro del CLMS del centro."
-          }
-        ]
+          "Visible ahora con los mismos intentos que el grupo A",
+          "Acceso anónimo mediante enlace",
+          "Programada para la semana siguiente"
+        ],
+        "expected": "Programada para la semana siguiente"
       },
       {
         "id": "teaching_team",
-        "label": "Equipo docente de la materia",
-        "weight": 10,
+        "label": "Equipo docente",
         "options": [
-          {
-            "id": "can_view_copy_edit",
-            "label": "Puede ver el original y crear una copia editable",
-            "expected": true,
-            "feedback": "Permite reutilizacion docente sin alterar la publicacion del alumnado."
-          },
-          {
-            "id": "student_attempt",
-            "label": "Solo puede realizar la actividad como estudiante",
-            "expected": false,
-            "feedback": "No responde a la colaboracion docente."
-          },
-          {
-            "id": "anonymous_edit",
-            "label": "Puede editar anonimamente",
-            "expected": false,
-            "feedback": "No ofrece trazabilidad ni control de cambios."
-          }
-        ]
+          "Puede editar la actividad activa del alumnado",
+          "Solo puede realizarla con rol de estudiante",
+          "Puede consultar la actividad y editar una copia versionada"
+        ],
+        "expected": "Puede consultar la actividad y editar una copia versionada"
+      },
+      {
+        "id": "external_users",
+        "label": "Personas externas sin cuenta",
+        "options": [
+          "Consulta mediante enlace público",
+          "Sin acceso",
+          "Edición limitada del paquete"
+        ],
+        "expected": "Sin acceso"
       }
     ]
   },
-  "cataloging": {
-    "title": "Catalogacion y etiquetado institucional",
-    "description": "Selecciona los metadatos y etiquetas adecuados para indizar el contenido en el sistema del centro.",
+  "catalog": {
+    "title": "3. Ficha de catalogación institucional",
+    "description": "Completa la ficha que permitirá localizar y reutilizar la copia docente.",
+    "title_field": {
+      "label": "Título catalogable",
+      "placeholder": "Describe contenido y finalidad",
+      "example": "Lectura crítica de noticias científicas",
+      "required_terms": ["lectura", "noticias", "científicas"],
+      "minimum_words": 4,
+      "maximum_words": 12
+    },
     "fields": [
-      {
-        "id": "title",
-        "label": "Titulo catalogable",
-        "weight": 6,
-        "options": [
-          {
-            "id": "critical_science_news",
-            "label": "Lectura critica de noticias cientificas",
-            "expected": true,
-            "feedback": "Identifica con claridad el contenido educativo."
-          },
-          {
-            "id": "actividad_final",
-            "label": "Actividad final nueva",
-            "expected": false,
-            "feedback": "Es poco descriptivo y dificulta la recuperacion."
-          }
-        ]
-      },
       {
         "id": "stage_level",
         "label": "Etapa y nivel",
-        "weight": 6,
-        "options": [
-          {
-            "id": "eso_3",
-            "label": "Educacion Secundaria Obligatoria - 3.º ESO",
-            "expected": true,
-            "feedback": "Coincide con el grupo destinatario."
-          },
-          {
-            "id": "bach_2",
-            "label": "Bachillerato - 2.º curso",
-            "expected": false,
-            "feedback": "No corresponde al escenario."
-          }
-        ]
+        "options": ["ESO · Todos los niveles", "Bachillerato · 1.º", "ESO · 3.º"],
+        "expected": "ESO · 3.º"
       },
       {
         "id": "subject",
         "label": "Materia",
-        "weight": 6,
-        "options": [
-          {
-            "id": "biology_geology",
-            "label": "Biologia y Geologia",
-            "expected": true,
-            "feedback": "Es la materia del recurso."
-          },
-          {
-            "id": "technology",
-            "label": "Tecnologia y Digitalizacion",
-            "expected": false,
-            "feedback": "No es el area principal del contenido."
-          }
-        ]
+        "options": ["Lengua Castellana y Literatura", "Biología y Geología", "Competencia digital general"],
+        "expected": "Biología y Geología"
       },
       {
-        "id": "format",
-        "label": "Formato o estandar",
-        "weight": 6,
-        "options": [
-          {
-            "id": "scorm_12",
-            "label": "SCORM 1.2",
-            "expected": true,
-            "feedback": "Es el formato indicado por la mentora y compatible con el CLMS."
-          },
-          {
-            "id": "loose_zip",
-            "label": "ZIP con archivos sueltos",
-            "expected": false,
-            "feedback": "No garantiza seguimiento ni integracion como actividad SCORM."
-          }
-        ]
+        "id": "resource_type",
+        "label": "Tipo de recurso",
+        "options": ["Documento informativo", "Archivo comprimido", "Actividad interactiva evaluable"],
+        "expected": "Actividad interactiva evaluable"
       },
       {
-        "id": "tags",
-        "label": "Etiquetas del tesauro del centro",
-        "weight": 6,
-        "options": [
-          {
-            "id": "scientific_literacy_media_information",
-            "label": "alfabetizacion cientifica; fuentes de informacion; pensamiento critico",
-            "expected": true,
-            "feedback": "Usa etiquetas especificas y coherentes con el recurso."
-          },
-          {
-            "id": "interesante_general",
-            "label": "interesante; general; varios",
-            "expected": false,
-            "feedback": "Son etiquetas vagas y poco utiles para indizar."
-          }
-        ]
+        "id": "license",
+        "label": "Licencia",
+        "options": ["CC BY 4.0", "CC BY-NC-SA 4.0", "Todos los derechos reservados"],
+        "expected": "CC BY-NC-SA 4.0"
+      }
+    ],
+    "tags": [
+      {
+        "id": "interesting",
+        "label": "interesante",
+        "expected": false
+      },
+      {
+        "id": "information_sources",
+        "label": "fuentes de información",
+        "expected": true
+      },
+      {
+        "id": "various",
+        "label": "varios",
+        "expected": false
+      },
+      {
+        "id": "scientific_literacy",
+        "label": "alfabetización científica",
+        "expected": true
+      },
+      {
+        "id": "critical_thinking",
+        "label": "pensamiento crítico",
+        "expected": true
       }
     ]
   },
-  "package": {
-    "title": "Publicacion del paquete SCORM",
-    "description": "Configura la actividad segun el estandar apropiado y las pautas del centro.",
+  "scorm": {
+    "title": "4. Configuración de la actividad SCORM",
+    "description": "Interpreta el informe del paquete y configura su publicación.",
     "fields": [
       {
-        "id": "upload_mode",
-        "label": "Modo de subida",
-        "weight": 8,
+        "id": "resource_mode",
+        "label": "Tipo de elemento en el CLMS",
         "options": [
-          {
-            "id": "scorm_activity",
-            "label": "Crear actividad SCORM e importar el paquete validado",
-            "expected": true,
-            "feedback": "Permite que el CLMS registre progreso y puntuacion."
-          },
-          {
-            "id": "file_download",
-            "label": "Subir el paquete como archivo descargable",
-            "expected": false,
-            "feedback": "No lo integra como actividad con seguimiento."
-          }
-        ]
+          "Archivo ZIP para descargar",
+          "Enlace a una aplicación externa",
+          "Actividad SCORM importada"
+        ],
+        "expected": "Actividad SCORM importada"
+      },
+      {
+        "id": "standard",
+        "label": "Estándar detectado",
+        "options": ["SCORM 2004", "SCORM 1.2", "IMS Content Packaging sin seguimiento"],
+        "expected": "SCORM 1.2"
       },
       {
         "id": "tracking",
-        "label": "Seguimiento",
-        "weight": 8,
+        "label": "Datos que registrará el CLMS",
         "options": [
-          {
-            "id": "completion_score",
-            "label": "Registrar finalizacion y puntuacion en el libro de calificaciones",
-            "expected": true,
-            "feedback": "Aprovecha las funcionalidades del CLMS para la actividad SCORM."
-          },
-          {
-            "id": "no_tracking",
-            "label": "Desactivar seguimiento para simplificar la publicacion",
-            "expected": false,
-            "feedback": "No cumple la finalidad del paquete SCORM indicada."
-          }
-        ]
+          "Solo número de descargas",
+          "Texto completo de cada interacción del alumnado",
+          "Finalización y puntuación"
+        ],
+        "expected": "Finalización y puntuación"
+      },
+      {
+        "id": "gradebook",
+        "label": "Integración con evaluación",
+        "options": [
+          "Desactivar la comunicación con el CLMS",
+          "Enviar la puntuación al libro de calificaciones",
+          "Publicar la puntuación mediante enlace público"
+        ],
+        "expected": "Enviar la puntuación al libro de calificaciones"
       }
     ]
   },
   "feedback": {
-    "success": "Prueba superada. Has aplicado, con ayuda, una publicacion segura en el CLMS con organizacion, permisos selectivos, catalogacion institucional y paquete SCORM adecuado.",
-    "failure": "Prueba no superada. Revisa la gestion segura del recurso, los permisos por rol, la catalogacion institucional y la configuracion del paquete SCORM."
+    "success": "Prueba superada. Has aplicado con ayuda una publicación segura, permisos selectivos, catalogación institucional y configuración SCORM coherente con el paquete.",
+    "failure": "Prueba no superada. Revisa el destino de cada versión, los accesos por agente, la ficha institucional y los datos de seguimiento comunicados por el paquete."
   }
 }

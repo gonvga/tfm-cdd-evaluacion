@@ -35,7 +35,7 @@ Para superar P09, el usuario debe elegir entornos controlados, aplicar permisos 
 
 ## P10 - Nivel A2
 
-P10 evalua una publicacion segura en el CLMS del centro con ayuda de una mentora. La prueba incorpora organizacion institucional, permisos selectivos, catalogacion y publicacion de un paquete SCORM.
+P10 evalua una publicacion guiada en el CLMS. El usuario interpreta el informe de un paquete SCORM y configura destinos, versiones, accesos, catalogacion y seguimiento con ayuda de una mentora.
 
 **Indicadores evaluados**
 
@@ -47,12 +47,12 @@ P10 evalua una publicacion segura en el CLMS del centro con ayuda de una mentora
 
 | Fase | Accion del usuario | Evidencia generada |
 |---|---|---|
-| Gestion segura | Marcar acciones de publicacion, copia, ubicacion y versionado | Medidas seleccionadas |
-| Roles y permisos | Configurar acceso de grupos y equipo docente | Permisos por rol |
-| Catalogacion | Seleccionar titulo, etapa, materia, formato y etiquetas | Registro catalogable |
-| Paquete SCORM | Configurar subida y seguimiento en el CLMS | Publicacion configurada |
+| Destinos y versiones | Ubicar la actividad evaluable y la copia docente | Mapa de versiones |
+| Roles y permisos | Configurar acceso inmediato, programado, docente y externo | Permisos por agente |
+| Catalogacion | Redactar un titulo y aplicar campos y tesauro institucional | Ficha catalogable |
+| Paquete SCORM | Interpretar el informe y configurar estandar, seguimiento y calificacion | Actividad configurada |
 
-Para superar P10, el usuario debe publicar dentro del curso oficial, guardar una copia editable institucional, ordenar el recurso, aplicar permisos diferenciados y configurar el paquete SCORM 1.2 con seguimiento.
+Para superar P10, el usuario debe separar la actividad activa de la copia reutilizable, aplicar permisos diferenciados, completar una ficha recuperable y configurar el CLMS segun los datos comunicados por el paquete SCORM.
 
 ## P11 - Nivel B1
 
