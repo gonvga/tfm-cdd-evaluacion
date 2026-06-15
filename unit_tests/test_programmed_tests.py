@@ -223,8 +223,27 @@ def correct_p05(data):
 def correct_p06(data):
     return {
         "p06_answers": {
-            question["id"]: expected_id(question["options"])
-            for question in data["questions"]
+            "heading": data["editor"]["heading"]["example"],
+            "body": data["editor"]["body"]["example"],
+            "alt_text": data["editor"]["alt_text"]["example"],
+            **{
+                field["id"]: field["expected"]
+                for field in data["configuration"]["fields"]
+            },
+            "accessibility_actions": [
+                option["id"]
+                for option in data["configuration"]["accessibility_actions"]["options"]
+                if option["expected"]
+            ],
+            "reference": {
+                "target": data["reference"]["target"]["expected"],
+                "mode": data["reference"]["mode"]["expected"],
+                "corrections": [
+                    option["id"]
+                    for option in data["reference"]["corrections"]
+                    if option["expected"]
+                ],
+            },
         }
     }
 

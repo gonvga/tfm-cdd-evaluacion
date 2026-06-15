@@ -1,164 +1,150 @@
 {
   "test_id": "P06",
-  "scenario_id": "comp22_a2_configurar_plantilla",
-  "scenario_title": "Configuración y adaptación de plantilla didáctica",
-  "title": "P06 · Configurar plantilla didáctica",
-  "statement": "Evalúa los indicadores 2.2.A2.1, 2.2.A2.2 y 2.2.A2.3 mediante una tarea guiada de configuración de una plantilla educativa digital.",
-  "intro": "Escenario: estás adaptando una plantilla digital para un grupo de 1.º de ESO con las herramientas y formatos autorizados por el centro.",
-  "description": "Selecciona las opciones más adecuadas para garantizar accesibilidad, compatibilidad institucional, navegación clara y adaptación didáctica.",
-  "questions": [
-    {
-      "id": "accessibility",
-      "title": "1. Accesibilidad",
-      "description": "¿Qué opción mejora más la accesibilidad del recurso para el alumnado?",
-      "options": [
-        {
-          "id": "A",
-          "label": "Añadir encabezados claros y mantener alto contraste",
-          "expected": true,
-          "feedback": "Mejora la navegación y la legibilidad para el alumnado, especialmente con necesidades de acceso."
-        },
-        {
-          "id": "B",
-          "label": "Reducir el tamaño del texto principal",
-          "expected": false,
-          "feedback": "Reducir el tamaño del texto dificulta la lectura y no es una buena práctica de accesibilidad."
-        },
-        {
-          "id": "C",
-          "label": "Eliminar subtítulos y ayudas visuales",
-          "expected": false,
-          "feedback": "Quitar ayudas visuales reduce la accesibilidad del contenido."
-        },
-        {
-          "id": "D",
-          "label": "Ocultar botones de navegación",
-          "expected": false,
-          "feedback": "Ocultar la navegación dificulta el acceso a las secciones del recurso."
-        }
-      ]
+  "scenario_id": "comp22_a2_edicion_guiada_ciclo_agua",
+  "scenario_title": "Edición guiada de un recurso para un grupo concreto",
+  "title": "P06 · Adaptar un recurso con una herramienta de autor",
+  "statement": "Evalúa los indicadores 2.2.A2.1, 2.2.A2.2 y 2.2.A2.3 mediante la edición guiada de un contenido, la incorporación de una referencia y su configuración para Moodle.",
+  "intro": "Escenario: debes adaptar en eXeLearning institucional una página sobre el ciclo del agua para 1.º de ESO. El grupo necesita textos breves y una alumna utiliza lector de pantalla. La actividad se abrirá desde Moodle en tabletas y deberá terminar con una comprobación de aprendizaje.",
+  "source": {
+    "title": "Material que debes modificar",
+    "original_heading": "Dinámica hidrológica atmosférica",
+    "original_text": "La dinámica hidrológica comprende procesos de vaporización, condensación y precipitación que ocasionan la circulación permanente del agua entre la superficie terrestre y la troposfera.",
+    "image": "Diagrama con el sol calentando el mar, vapor que asciende, nubes y lluvia sobre una montaña.",
+    "image_src": "p06/ciclo_agua.png",
+    "current_alt": "imagen1.png",
+    "authorship": "Instituto Nacional de Tecnologías Educativas y de Formación del Profesorado",
+    "year": "2024",
+    "work_title": "El ciclo del agua",
+    "url": "https://descargas.intef.es/recursos/ciclo-agua",
+    "license": "CC BY 4.0"
+  },
+  "guide": {
+    "title": "Ayuda de la coordinadora y extracto del manual",
+    "lines": [
+      "Conserva los conceptos evaporación, condensación y precipitación, pero explica su relación con lenguaje adecuado para 1.º de ESO.",
+      "La imagen debe tener un texto alternativo que comunique el proceso, no su aspecto decorativo ni el nombre del archivo.",
+      "La plantilla institucional permite una secuencia Inicio → Explicación → Comprueba y botones visibles Anterior/Siguiente.",
+      "Usa la función Referencias de eXeLearning para registrar autoría, año, título, URL y licencia.",
+      "El Moodle del centro admite páginas HTML5 y paquetes SCORM 1.2; no admite SCORM 2004 ni aplicaciones instalables."
+    ]
+  },
+  "editor": {
+    "title": "Editor de contenido",
+    "heading": {
+      "label": "Título visible para el alumnado",
+      "hint": "Sustituye el encabezado técnico por uno claro.",
+      "example": "El ciclo del agua: evaporación, condensación y precipitación",
+      "required_terms": ["ciclo", "agua"]
     },
-    {
-      "id": "tool",
-      "title": "2. Herramienta institucional",
-      "description": "¿Qué opción refleja el uso de una herramienta proporcionada por el centro con sistema de referencias?",
-      "options": [
-        {
-          "id": "A",
-          "label": "Usar la plataforma educativa institucional del centro con su función de referencias bibliográficas.",
-          "expected": true,
-          "feedback": "Cumple la normativa del centro y usa el sistema de referencias autorizado."
-        },
-        {
-          "id": "B",
-          "label": "Utilizar una aplicación externa no autorizada sin sistema de referencias integrado.",
-          "expected": false,
-          "feedback": "Una aplicación externa no autorizada puede vulnerar la compatibilidad y las normas del centro."
-        },
-        {
-          "id": "C",
-          "label": "Publicar la plantilla en una red social pública.",
-          "expected": false,
-          "feedback": "Una red social pública no es un entorno autorizado ni compatible con el centro."
-        },
-        {
-          "id": "D",
-          "label": "Trabajar con un programa descargado sin licencia ni compatibilidad institucional.",
-          "expected": false,
-          "feedback": "El programa descargado sin licencia no es un recurso autorizado ni compatible con el entorno educativo."
-        }
-      ]
+    "body": {
+      "label": "Explicación adaptada",
+      "hint": "Reescribe el texto en dos o tres frases sin perder los conceptos esenciales.",
+      "example": "El agua se evapora cuando el sol la calienta. El vapor se enfría y se condensa formando nubes. Después, el agua vuelve a la superficie mediante la precipitación.",
+      "required_terms": ["evapora", "condensa", "precipitación"],
+      "minimum_words": 18,
+      "maximum_words": 70
     },
-    {
-      "id": "layout",
-      "title": "3. Diseño y distribución",
-      "description": "¿Qué distribución visual es la más adecuada para 1.º de ESO?",
+    "alt_text": {
+      "label": "Texto alternativo del diagrama",
+      "hint": "Describe la información necesaria para comprender el proceso.",
+      "example": "El agua del mar se evapora, forma nubes por condensación y cae sobre la montaña como precipitación.",
+      "required_terms": ["agua", "evapora", "nubes", "precipitación"],
+      "minimum_words": 12,
+      "maximum_words": 45,
+      "forbidden_values": ["imagen", "imagen1.png", "diagrama"]
+    }
+  },
+  "configuration": {
+    "title": "Configuración de la plantilla",
+    "fields": [
+      {
+        "id": "tool",
+        "label": "Herramienta de autor",
+        "options": ["eXeLearning institucional", "Editor web público sin autorización", "Aplicación móvil instalada por el alumnado"],
+        "expected": "eXeLearning institucional"
+      },
+      {
+        "id": "structure",
+        "label": "Estructura de páginas",
+        "options": ["Inicio → Explicación → Comprueba", "Una única pantalla con todo el contenido", "Portada → Créditos → Texto técnico → Actividad externa"],
+        "expected": "Inicio → Explicación → Comprueba"
+      },
+      {
+        "id": "navigation",
+        "label": "Navegación",
+        "options": ["Botones visibles Anterior/Siguiente y título de la sección", "Iconos sin texto que aparecen al pasar el cursor", "Navegación únicamente mediante atajos de teclado avanzados"],
+        "expected": "Botones visibles Anterior/Siguiente y título de la sección"
+      },
+      {
+        "id": "export",
+        "label": "Formato de publicación",
+        "options": ["Sitio web HTML5 para Moodle", "Paquete SCORM 2004", "Aplicación ejecutable para instalar"],
+        "expected": "Sitio web HTML5 para Moodle"
+      }
+    ],
+    "accessibility_actions": {
+      "label": "Ajustes que aplicarás en la plantilla",
       "options": [
-        {
-          "id": "A",
-          "label": "Interfaz limpia y organizada con bloques cortos e iconos claros.",
-          "expected": true,
-          "feedback": "Una plantilla clara y ordenada facilita la comprensión y el acceso para el alumnado."
-        },
-        {
-          "id": "B",
-          "label": "Pantalla saturada con muchos elementos simultáneos.",
-          "expected": false,
-          "feedback": "Una pantalla saturada dificulta la lectura y la concentración del alumnado."
-        },
-        {
-          "id": "C",
-          "label": "Diseño técnico complejo con navegación densa.",
-          "expected": false,
-          "feedback": "Un diseño técnico complejo no es adecuado para 1.º de ESO y complica el uso."
-        }
-      ]
-    },
-    {
-      "id": "navigation",
-      "title": "4. Navegación",
-      "description": "¿Qué opción favorece una navegación clara y sencilla?",
-      "options": [
-        {
-          "id": "A",
-          "label": "Menú visible y botones claramente identificados.",
-          "expected": true,
-          "feedback": "Una navegación visible y explícita ayuda al alumnado a moverse con seguridad."
-        },
-        {
-          "id": "B",
-          "label": "Navegación oculta mediante iconos sin texto.",
-          "expected": false,
-          "feedback": "Los iconos sin texto dificultan la orientación y el uso de la plantilla."
-        },
-        {
-          "id": "C",
-          "label": "Ocho submenús simultáneos.",
-          "expected": false,
-          "feedback": "Demasiados submenús generan confusión y hacen la navegación menos eficaz."
-        },
-        {
-          "id": "D",
-          "label": "Acceso solo mediante atajos avanzados.",
-          "expected": false,
-          "feedback": "Los atajos avanzados no son adecuados para un grupo de 1.º de ESO sin formación previa."
-        }
-      ]
-    },
-    {
-      "id": "adaptation",
-      "title": "5. Adaptación didáctica",
-      "description": "¿Qué adaptación es más adecuada para el grupo de 1.º de ESO?",
-      "options": [
-        {
-          "id": "A",
-          "label": "Dividir el contenido en bloques breves y visuales.",
-          "expected": true,
-          "feedback": "Esta adaptación facilita el aprendizaje y respeta las necesidades del grupo."
-        },
-        {
-          "id": "B",
-          "label": "Añadir párrafos técnicos largos.",
-          "expected": false,
-          "feedback": "Los párrafos largos aumentan la complejidad y no son adecuados para 1.º de ESO."
-        },
-        {
-          "id": "C",
-          "label": "Eliminar ejemplos visuales.",
-          "expected": false,
-          "feedback": "Eliminar ejemplos visuales reduce la comprensión y el interés del alumnado."
-        },
-        {
-          "id": "D",
-          "label": "Usar vocabulario universitario especializado.",
-          "expected": false,
-          "feedback": "El vocabulario especializado no se ajusta al nivel del alumnado."
-        }
+        {"id": "heading_styles", "label": "Aplicar estilos Título 1 y Título 2, sin simularlos solo con tamaño", "expected": true},
+        {"id": "contrast", "label": "Mantener contraste alto y no depender únicamente del color", "expected": true},
+        {"id": "final_check", "label": "Añadir una comprobación breve sobre las tres fases", "expected": true},
+        {"id": "autoplay", "label": "Activar animaciones automáticas sin controles", "expected": false},
+        {"id": "image_heading", "label": "Convertir los títulos en imágenes para conservar el diseño", "expected": false}
       ]
     }
-  ],
+  },
+  "reference": {
+    "title": "Revisar la referencia generada",
+    "description": "La función Referencias ha importado metadatos incompletos. Configura la atribución antes de insertarla.",
+    "imported_reference": "Docente del centro. (2026). El ciclo del agua adaptado. Recurso propio. Todos los derechos reservados.",
+    "target": {
+      "label": "¿Qué debes atribuir en este apartado?",
+      "options": [
+        "El recurso original que has reutilizado y adaptado",
+        "Únicamente tu nueva redacción",
+        "La aplicación eXeLearning"
+      ],
+      "expected": "El recurso original que has reutilizado y adaptado"
+    },
+    "mode": {
+      "label": "Acción en la herramienta de autor",
+      "options": [
+        "Editar los metadatos importados y conservar la referencia vinculada",
+        "Borrar la referencia porque el recurso se ha modificado",
+        "Escribir solo «Fuente: Internet» en el texto"
+      ],
+      "expected": "Editar los metadatos importados y conservar la referencia vinculada"
+    },
+    "corrections": [
+      {
+        "id": "restore_author",
+        "label": "Sustituir «Docente del centro» por la autoría institucional original",
+        "expected": true
+      },
+      {
+        "id": "restore_source_data",
+        "label": "Recuperar el año, título y URL del recurso original",
+        "expected": true
+      },
+      {
+        "id": "keep_license",
+        "label": "Indicar CC BY 4.0 y señalar que se ha realizado una adaptación",
+        "expected": true
+      },
+      {
+        "id": "claim_ownership",
+        "label": "Mantener «recurso propio» porque has reescrito parte del contenido",
+        "expected": false
+      },
+      {
+        "id": "all_rights",
+        "label": "Aplicar «todos los derechos reservados» a la obra original",
+        "expected": false
+      }
+    ]
+  },
   "feedback": {
-    "success": "Prueba superada. Has configurado la plantilla con criterios didácticos, técnicos y de accesibilidad, usando herramientas autorizadas.",
-    "failure": "Prueba no superada. Revisa las opciones de accesibilidad, herramienta institucional, navegación y adaptación didáctica."
+    "success": "Prueba superada. Has aplicado con ayuda criterios didácticos, disciplinares, técnicos y de accesibilidad, has utilizado la función de referencias y has preparado una salida compatible con Moodle.",
+    "failure": "Prueba no superada. Revisa la adaptación del contenido, el texto alternativo, la configuración de la herramienta institucional, la referencia y el formato de publicación."
   }
 }

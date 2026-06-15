@@ -34,25 +34,25 @@ Para superar P05, el usuario debe elegir licencias que permitan adaptar, citar c
 
 ## P06 - Nivel A2
 
-P06 evalua la configuracion guiada de una plantilla educativa digital con criterios didacticos, tecnicos y de accesibilidad.
+P06 evalua la aplicacion guiada de criterios didacticos, disciplinares, tecnicos y de accesibilidad mediante la edicion de un recurso en una herramienta de autor simulada.
 
 **Indicadores evaluados**
 
 - `2.2.A2.1`: adaptacion de contenidos digitales con apoyo y segun un contexto concreto.
-- `2.2.A2.2`: uso de herramientas institucionales y formatos compatibles.
-- `2.2.A2.3`: aplicacion guiada de criterios de accesibilidad, navegacion y diseno.
+- `2.2.A2.2`: uso de un sistema de referencias integrado en la herramienta de autor.
+- `2.2.A2.3`: uso tutelado de herramientas institucionales y formatos compatibles.
 
 **Tareas**
 
 | Fase | Accion del usuario | Evidencia generada |
 |---|---|---|
-| Accesibilidad | Elegir la mejora mas adecuada para el alumnado | Opcion de accesibilidad |
-| Herramienta institucional | Seleccionar el entorno autorizado por el centro | Herramienta elegida |
-| Diseno | Escoger una distribucion visual adecuada | Diseno seleccionado |
-| Navegacion | Elegir una navegacion clara y sencilla | Configuracion de navegacion |
-| Adaptacion didactica | Ajustar el contenido al grupo de 1 ESO | Adaptacion seleccionada |
+| Edicion | Reescribir titulo y explicacion para 1 ESO conservando el rigor | Texto adaptado |
+| Accesibilidad | Redactar el texto alternativo y aplicar ajustes de estructura y percepcion | Configuracion accesible |
+| Herramienta institucional | Configurar eXeLearning, la estructura y la navegacion | Plantilla configurada |
+| Referencias | Revisar y corregir metadatos importados mediante la funcion Referencias | Referencia configurada |
+| Publicacion | Elegir una salida compatible con el Moodle del centro | Formato de exportacion |
 
-Para superar P06, el usuario debe configurar la plantilla con alto contraste, estructura clara, herramienta institucional, navegacion visible y contenidos breves y visuales.
+Para superar P06, el usuario debe producir una adaptacion valida, aplicar los ajustes indicados en el manual, corregir la atribucion importada del material original y preparar una salida compatible con Moodle.
 
 ## P07 - Nivel B1
 
