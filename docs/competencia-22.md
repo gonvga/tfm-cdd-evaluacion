@@ -7,7 +7,7 @@ La competencia 2.2 del MRCDD se evalua mediante cuatro pruebas progresivas: P05,
 | Prueba | Nivel | Foco de evaluacion | Archivo de datos | Vista |
 |---|---|---|---|---|
 | P05 | A1 | Revision basica de licencia, cita, accesibilidad, adecuacion didactica y herramientas de autor | `data/p05_comp22_a1.json` | `ui/test_views/comp22/p05_corregir_ficha.py` |
-| P06 | A2 | Configuracion guiada de una plantilla didactica accesible y compatible con el centro | `data/p06_comp22_a2.json` | `ui/test_views/comp22/p06_completar_plantilla.py` |
+| P06 | A2 | Edicion guiada de contenido, accesibilidad, referencias y publicacion compatible | `data/p06_comp22_a2.json` | `ui/test_views/comp22/p06_completar_plantilla.py` |
 | P07 | B1 | Modificacion practica de un recurso abierto para crear una ficha adaptada | `data/p07_comp22_b1.json` | `ui/test_views/comp22/p07_adaptar_recurso.py` |
 | P08 | B2 | Diseno, integracion, modificacion, seguridad colaborativa y empaquetado de una secuencia digital | `data/p08_comp22_b2.json` | `ui/test_views/comp22/p08_disenar_secuencia.py` |
 
@@ -75,7 +75,7 @@ P07 evalua la autonomia para modificar un recurso digital abierto y convertirlo 
 
 P07 utiliza recursos visuales ubicados en:
 
-```text
+```
 assets/p07/
 ```
 
@@ -104,7 +104,7 @@ P08 evalua un desempeño avanzado: el usuario disena una secuencia digital compl
 
 P08 utiliza recursos visuales ubicados en:
 
-```text
+```
 assets/p08/
 ```
 
@@ -119,7 +119,7 @@ Las pruebas P05-P08 ofrecen feedback contextual sobre licencia, accesibilidad, a
 | Nivel | Desempeño principal |
 |---|---|
 | A1 | Revisa licencias, citas, accesibilidad y herramientas basicas |
-| A2 | Configura una plantilla con apoyo y criterios institucionales |
+| A2 | Adapta y configura un recurso con apoyo y criterios institucionales |
 | B1 | Modifica un recurso abierto y crea una ficha adaptada |
 | B2 | Disena, protege, evalua y empaqueta una secuencia digital |
 

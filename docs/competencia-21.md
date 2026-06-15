@@ -76,7 +76,7 @@ La prueba valida consultas que incorporan criterios como `site:`, `filetype:pdf`
 
 P03 utiliza fichas Markdown ubicadas en:
 
-```text
+```
 assets/simulated_resources/comp21_p03/
 ```
 

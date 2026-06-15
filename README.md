@@ -1,44 +1,34 @@
-# Documentación MkDocs de la aplicación MRCDD
+# Evaluación CDD
 
-Este paquete contiene una propuesta completa de documentación para la web de la aplicación.
+Aplicación de evaluación práctica del Área 2 del MRCDD.
 
-## Uso rápido
+## Usar la versión portable
 
-```bash
-pip install mkdocs-material
-mkdocs serve
+1. Descomprime `dist/EvaluacionCDD-portable-windows.zip`.
+2. Abre la carpeta `EvaluacionCDD-portable`.
+3. Ejecuta `EvaluacionCDD-portable.exe`.
+
+El `.exe` debe permanecer junto a la carpeta `_internal`.
+
+## Ejecutar desde el código
+
 ```
-
-Para publicar en GitHub Pages:
-
-```bash
-mkdocs gh-deploy
-```
-Para lanzarlo en local:
-```bash
-mkdocs serve
-```
-
-## Aplicacion de escritorio
-
-Para ejecutar la aplicacion desde el repositorio:
-
-```powershell
 .\venv\Scripts\python.exe app.py
 ```
 
-Para generar la version portable de Windows:
+## Crear el portable
 
-```powershell
+```
+.\venv\Scripts\python.exe -m pip install -r requirements-build.txt
 .\build_portable.ps1
 ```
 
-La salida se crea en `dist/EvaluacionCDD-portable`. Los resultados se guardan
-en la carpeta `results` situada junto al ejecutable. Si esa ubicacion no es
-escribible, se usa `%LOCALAPPDATA%\EvaluacionCDD\results`.
+La salida se crea en `dist/EvaluacionCDD-portable`.
 
-Antes de publicar, actualiza en `mkdocs.yml`:
+## Ver la documentación
 
-- `site_url`
-- `repo_url`
-- `repo_name`
+```
+.\venv\Scripts\python.exe -m mkdocs serve
+```
+
+Después abre `http://127.0.0.1:8000`.

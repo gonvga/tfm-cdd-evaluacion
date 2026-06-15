@@ -7,7 +7,7 @@ La competencia 2.3 del MRCDD se evalua mediante cuatro pruebas progresivas: P09,
 | Prueba | Nivel | Foco de evaluacion | Archivo de datos | Vista |
 |---|---|---|---|---|
 | P09 | A1 | Comparticion segura, permisos basicos, autoria, licencias y metadatos iniciales | `data/p09_comp23_a1.json` | `ui/test_views/comp23/p09_compartir_catalogar.py` |
-| P10 | A2 | Publicacion guiada en CLMS con catalogacion institucional, permisos selectivos y SCORM | `data/p10_comp23_a2.json` | `ui/test_views/comp23/p10_configurar_publicacion.py` |
+| P10 | A2 | Asistente guiado de destinos, permisos, catalogacion y configuracion SCORM | `data/p10_comp23_a2.json` | `ui/test_views/comp23/p10_configurar_publicacion.py` |
 | P11 | B1 | Simulacion autonoma de publicacion en repositorio, CLMS, carpeta docente e IMSCP | `data/p11_comp23_b1.json` | `ui/test_views/comp23/p11_publicar_recurso.py` |
 | P12 | B2 | Entrega de un PDF con propuestas de mejora de repositorio, licencias y accesibilidad | `data/p12_comp23_b2.json` | `ui/test_views/comp23/p12_optimizar_repositorio.py` |
 

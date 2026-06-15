@@ -1,127 +1,53 @@
 # Arquitectura
 
-La aplicación se basa en una arquitectura modular que separa la interfaz de usuario, la lógica de evaluación y la gestión de datos.
+La aplicación separa la interfaz, los datos de las pruebas y el guardado de resultados.
 
-## Estructura del proyecto
+## Carpetas principales
 
-```text
-tfm-cdd-evaluacion/
-├─ assets/
-├─ core/
-├─ data/
-├─ docs/
-├─ results/
-├─ ui/
-├─ unit_tests/
-├─ app.py
-├─ mkdocs.yml
-├─ README.md
-└─ requirements.txt
+```
+assets/       Imágenes y recursos
+core/         Rutas y guardado de resultados
+data/         Escenarios de las pruebas en JSON
+docs/         Documentación
+ui/           Pantallas y componentes
+unit_tests/   Pruebas automáticas
+app.py        Inicio de la aplicación
 ```
 
-## Bloques principales
+## Cómo funciona
 
-### `app.py`
-
-Punto de entrada de la aplicación.
-
-### `core/`
-
-Contiene la lógica principal:
-
-- Registro de pruebas.
-- Runner de evaluación.
-- Modelos comunes.
-- Gestión de resultados.
-- Funciones de validación.
-
-### `ui/`
-
-Contiene las vistas y componentes visuales desarrollados con Flet.
-
-### `data/`
-
-Contiene los escenarios de evaluación en formato JSON.
-
-### `results/`
-
-Almacena los resultados generados por las pruebas.
-
-### `unit_tests/`
-
-Incluye pruebas unitarias para validar la lógica de evaluación.
-
----
-
-## Flujo general
-
-```text
-Inicio
-  ↓
-Selección de competencia
-  ↓
-Selección de nivel
-  ↓
-Carga de escenario JSON
-  ↓
-Interacción del usuario
-  ↓
-Evaluación automática
-  ↓
-Resultado
-  ↓
-Guardado de evidencias
 ```
-
----
-
-## Arquitectura modular
-
-Cada prueba funciona como un módulo independiente que incluye:
-
-- Interfaz.
-- Escenario.
-- Lógica de evaluación.
-- Criterios.
-- Evidencias.
-
-Esto permite añadir nuevas pruebas sin modificar la estructura principal de la aplicación.
-
----
+Se carga una prueba
+        ↓
+Se lee su archivo JSON
+        ↓
+El usuario completa la actividad
+        ↓
+La aplicación valida las respuestas
+        ↓
+Muestra feedback y guarda el resultado
+```
 
 ## Escenarios JSON
 
-Los escenarios JSON permiten separar los datos de la lógica del programa.
+Cada prueba tiene un archivo en `data/`. Allí se encuentran el escenario, las opciones, los criterios y los mensajes de feedback.
 
-Ejemplo:
+Esto permite modificar el contenido sin rehacer toda la aplicación.
 
-```json
-{
-  "id": "P01",
-  "title": "Detectar recursos adecuados",
-  "competence": "2.1",
-  "level": "A1"
-}
-```
+## Recursos
 
-Esta separación facilita:
+Las imágenes y fichas simuladas están en `assets/`. La aplicación puede encontrarlas tanto durante el desarrollo como dentro de la versión portable.
 
-- El mantenimiento.
-- La reutilización.
-- La escalabilidad.
-- La adaptación a distintos contextos educativos.
+## Resultados
 
----
+Cada validación genera un archivo JSON dentro de `results/`, organizado por competencia y prueba.
 
-## Persistencia
+## Versión portable
 
-Los resultados se almacenan automáticamente en archivos independientes dentro de `results/`.
+La carpeta portable incluye:
 
-La información almacenada puede incluir:
+- `EvaluacionCDD-portable.exe`.
+- La carpeta `_internal` con datos, recursos y dependencias.
+- La carpeta `results`.
 
-- ID de prueba.
-- Nivel evaluado.
-- Evidencias generadas.
-- Criterios cumplidos.
-- Resultado global.
-- Fecha y hora.
+El `.exe` y `_internal` deben permanecer juntos.

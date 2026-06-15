@@ -1,121 +1,31 @@
 # Desarrollo de pruebas
 
-Las pruebas siguen una estructura común para mantener la coherencia del sistema de evaluación.
+Cada prueba contiene:
 
-## Elementos principales de una prueba
-
-Cada prueba incluye:
-
-- Escenario.
-- Interfaz.
-- Evidencias.
+- Un escenario.
+- Una actividad observable.
 - Criterios de evaluación.
-- Feedback.
-- Resultado.
+- Feedback posterior a la validación.
+- Un resultado guardado.
 
----
+## Archivos
 
-## Evidencias
+- Los datos se guardan en `data/`.
+- La interfaz y la validación se guardan en `ui/test_views/`.
+- Los recursos visuales se guardan en `assets/`.
 
-Una evidencia es una acción observable del usuario.
+## Buenas prácticas
 
-Ejemplos:
+- Evaluar acciones, no solo conocimientos.
+- Evitar respuestas demasiado evidentes.
+- Mostrar el feedback después de validar.
+- Mantener una progresión clara entre A1, A2, B1 y B2.
+- Añadir una prueba automática para la respuesta correcta y la respuesta vacía.
 
-- Recursos seleccionados.
-- Texto corregido.
-- Licencias elegidas.
-- Carpetas creadas.
-- Permisos configurados.
+## Ejecutar las pruebas automáticas
 
----
-
-## Criterios de evaluación
-
-Los criterios definen las condiciones mínimas necesarias para superar una prueba.
-
-Deben ser:
-
-- Claros.
-- Observables.
-- Automatizables.
-- Coherentes con el MRCDD.
-
-Ejemplo:
-
-```json
-{
-  "criterion": "Selecciona una licencia reutilizable",
-  "required": true
-}
+```
+.\venv\Scripts\python.exe -m unittest unit_tests.test_programmed_tests
 ```
 
----
-
-## Crear una nueva prueba
-
-### 1. Definir la actividad
-
-Documentar:
-
-- ID.
-- Competencia.
-- Nivel.
-- Indicadores.
-- Escenario.
-- Evidencias.
-- Criterios.
-
-### 2. Crear el escenario JSON
-
-Añadir el archivo correspondiente en `data/`.
-
-### 3. Crear la vista
-
-Añadir una vista independiente en `ui/`.
-
-### 4. Implementar la evaluación
-
-La lógica debe mantenerse sencilla y automática.
-
-### 5. Registrar la prueba
-
-Registrar la actividad en el sistema central de pruebas.
-
-### 6. Añadir pruebas unitarias
-
-Validar:
-
-- Casos correctos.
-- Casos incorrectos.
-- Resultados generados.
-
----
-
-## Validación
-
-Las pruebas unitarias permiten comprobar:
-
-- La carga de escenarios.
-- La evaluación de respuestas.
-- La generación de resultados.
-- El almacenamiento de evidencias.
-
-Ejecución:
-
-```bash
-pytest
-```
-
----
-
-## Actualización de contenidos
-
-La arquitectura permite modificar:
-
-- Escenarios.
-- Recursos.
-- Feedback.
-- Criterios.
-- Nuevas pruebas.
-
-Sin necesidad de rediseñar toda la aplicación.
+La suite comprueba la carga, la validación y el guardado de resultados de las 12 pruebas.

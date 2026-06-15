@@ -1,90 +1,58 @@
-# Instalación y estado actual
+# Ejecutar la aplicación
 
-## Requisitos
+## Versión portable de Windows
 
-- Python 3.10 o superior.
-- Entorno virtual recomendado.
-- Dependencias de `requirements.txt`.
+Esta es la opción recomendada. No necesita instalar Python.
 
-Compatible con:
+1. Descomprime `EvaluacionCDD-portable-windows.zip`.
+2. Abre la carpeta `EvaluacionCDD-portable`.
+3. Haz doble clic en `EvaluacionCDD-portable.exe`.
 
-- Windows
-- Linux
-- macOS
+No muevas solamente el `.exe`: debe permanecer junto a la carpeta `_internal`.
 
----
+Windows puede mostrar una advertencia porque la aplicación no está firmada. Selecciona **Más información** y **Ejecutar de todas formas**.
 
-## Instalación
+## Dónde se guardan los resultados
 
-### 1. Crear entorno virtual
+Normalmente se guardan en:
 
-```bash
+```
+EvaluacionCDD-portable/results/
+```
+
+Si esa carpeta no permite escribir, se utiliza:
+
+```
+%LOCALAPPDATA%/EvaluacionCDD/results/
+```
+
+## Ejecutar desde el código
+
+Esta opción está pensada para desarrollo:
+
+```
 python -m venv venv
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
+.\venv\Scripts\python.exe app.py
 ```
 
-### 2. Activar entorno virtual
+## Crear de nuevo el portable
 
-Windows:
-
-```bash
-venv\Scripts\activate
+```
+.\venv\Scripts\python.exe -m pip install -r requirements-build.txt
+.\build_portable.ps1
 ```
 
-macOS/Linux:
+La carpeta generada estará en:
 
-```bash
-source venv/bin/activate
+```
+dist/EvaluacionCDD-portable/
 ```
 
-### 3. Instalar dependencias
+## Ver esta documentación
 
-```bash
-pip install -r requirements.txt
+```
+.\venv\Scripts\python.exe -m mkdocs serve
 ```
 
-### 4. Ejecutar aplicación
-
-```bash
-python app.py
-```
-
----
-
-## Ejecutar documentación
-
-```bash
-pip install mkdocs-material
-mkdocs serve
-```
-
----
-
-## Publicar documentación
-
-```bash
-mkdocs gh-deploy
-```
-
----
-
-## Estado actual del proyecto
-
-La herramienta se encuentra actualmente en una fase inicial de desarrollo.
-
-La versión actual:
-
-- Evalúa únicamente el Área 2 del MRCDD.
-- Contempla los niveles A1-B2.
-- Utiliza validaciones automáticas sencillas.
-- No ha sido validada todavía con docentes en activo.
-
----
-
-## Futuras mejoras
-
-- Incorporar nuevas áreas del MRCDD.
-- Añadir niveles C1 y C2.
-- Implementar nuevas actividades.
-- Mejorar el feedback formativo.
-- Desarrollar una versión web.
-- Validar la herramienta en contextos educativos reales.
+Después abre `http://127.0.0.1:8000`.
