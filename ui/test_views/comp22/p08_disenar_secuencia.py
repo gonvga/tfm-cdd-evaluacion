@@ -1,15 +1,15 @@
 import json
 from datetime import datetime
-from pathlib import Path
 
 import flet as ft
 
 from core.storage import save_result
+from core.paths import asset_path, resource_path
 from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P08"
-DATA_PATH = Path("data/p08_comp22_b2.json")
+DATA_PATH = resource_path("data", "p08_comp22_b2.json")
 
 
 def load_test_data() -> dict:
@@ -76,7 +76,8 @@ def info_panel(title: str, lines: list[str], bgcolor: str = "#EFF6FF") -> ft.Con
 
 
 def image_or_placeholder(src: str | None, label: str = "Recurso", width: int = 180, height: int = 112) -> ft.Control:
-    if src and Path(src).exists():
+    resolved_src = asset_path(src)
+    if resolved_src and resolved_src.exists():
         return ft.Image(src=src, width=width, height=height, fit="cover")
 
     return ft.Container(

@@ -1,8 +1,9 @@
 from __future__ import annotations
 import json
-from pathlib import Path
 from typing import Dict, Any
 from datetime import datetime
+
+from core.paths import writable_results_dir
 
 """
 Gestión de almacenamiento de resultados.
@@ -12,7 +13,7 @@ Gestión de almacenamiento de resultados.
 """
 
 
-RESULTS_DIR = Path("results")
+RESULTS_DIR = writable_results_dir()
 
 
 def ensure_results_dir(path: Path = RESULTS_DIR) -> None:

@@ -1,0 +1,44 @@
+[project]
+name = "evaluacion-cdd"
+version = "1.0.0"
+description = "Aplicación de evaluación de la competencia digital docente"
+requires-python = ">=3.12"
+dependencies = [
+    "flet==0.80.5",
+    "pypdf==6.7.0",
+]
+
+[tool.flet]
+product = "Evaluación CDD"
+company = "TFM CDD"
+copyright = "2026 TFM CDD"
+build_number = 1
+
+[tool.flet.app]
+path = "."
+module = "app.py"
+exclude = [
+    ".git",
+    ".github",
+    ".idea",
+    ".vscode",
+    "__pycache__",
+    "base_page_src.txt",
+    "docs",
+    "mkdocs.yml",
+    "page_src.txt",
+    "results",
+    "site",
+    "unit_tests",
+    "venv",
+]
+
+[tool.flet.windows]
+artifact = "EvaluacionCDD"
+
+[tool.flet.compile]
+app = true
+
+[tool.flet.cleanup]
+app = true
+packages = true

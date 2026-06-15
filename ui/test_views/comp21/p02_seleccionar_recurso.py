@@ -1,15 +1,15 @@
 import json
 from datetime import datetime
-from pathlib import Path
 
 import flet as ft
 
 from core.storage import save_result
+from core.paths import resource_path
 from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P02"
-DATA_PATH = Path("data/p02_comp21_a2.json")
+DATA_PATH = resource_path("data", "p02_comp21_a2.json")
 
 
 def load_test_data() -> dict:

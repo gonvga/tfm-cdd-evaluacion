@@ -1,4 +1,6 @@
 import flet as ft
+
+from core.paths import resource_path
 from ui.shell import build_shell
 
 
@@ -15,7 +17,7 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
     page.bgcolor = ft.Colors.GREY_100
 
-    page.assets_dir = "assets"
+    page.assets_dir = str(resource_path("assets"))
 
     page.add(build_shell(page))
 

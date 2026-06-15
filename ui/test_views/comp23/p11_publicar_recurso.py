@@ -1,11 +1,11 @@
 import json
 import unicodedata
 from datetime import datetime
-from pathlib import Path
 
 import flet as ft
 
 from core.storage import save_result
+from core.paths import resource_path
 from ui.components import checkbox_feedback, question_block
 from ui.test_views.comp23.p10_configurar_publicacion import (
     build_result_box,
@@ -15,7 +15,7 @@ from ui.test_views.comp23.p10_configurar_publicacion import (
 
 
 TEST_ID = "P11"
-DATA_PATH = Path("data/p11_comp23_b1.json")
+DATA_PATH = resource_path("data", "p11_comp23_b1.json")
 
 
 def load_test_data() -> dict:

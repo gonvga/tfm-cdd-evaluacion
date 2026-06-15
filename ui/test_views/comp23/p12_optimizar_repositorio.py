@@ -7,11 +7,12 @@ import flet as ft
 from pypdf import PdfReader
 
 from core.storage import save_result
+from core.paths import resource_path
 from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P12"
-DATA_PATH = Path("data/p12_comp23_b2.json")
+DATA_PATH = resource_path("data", "p12_comp23_b2.json")
 
 
 def load_test_data() -> dict:

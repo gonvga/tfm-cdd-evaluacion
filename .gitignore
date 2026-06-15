@@ -9,6 +9,7 @@ __pycache__/
 # Flet / build
 build/
 dist/
+*.spec
 
 # SO / editor
 .DS_Store

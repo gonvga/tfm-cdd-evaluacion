@@ -6,11 +6,12 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
+from core.paths import resource_path
 from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P03"
-DATA_PATH = Path("data/p03_comp21_b1.json")
+DATA_PATH = resource_path("data", "p03_comp21_b1.json")
 
 
 def load_test_data() -> dict:
@@ -227,6 +228,8 @@ def dropdown_options(values: list[str]) -> list[ft.dropdown.Option]:
 
 def read_markdown(path: str) -> str:
     file_path = Path(path)
+    if not file_path.is_absolute():
+        file_path = resource_path(*file_path.parts)
     if not file_path.exists():
         return "No se ha encontrado la ficha simulada."
 
