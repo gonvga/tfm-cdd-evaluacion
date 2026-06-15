@@ -5,7 +5,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P08"
@@ -165,7 +165,11 @@ def build_checkbox_cards(
         checkbox = ft.Checkbox(value=option["id"] in saved_ids)
         checkboxes[option["id"]] = checkbox
         selected = option["id"] in saved_ids
-        passed = selected == bool(option["expected"])
+        feedback_text, passed = checkbox_feedback(
+            selected,
+            bool(option["expected"]),
+            option["feedback"],
+        )
         bgcolor, border_color = feedback_colors(passed) if validated else ("#F9FAFB", "#E5E7EB")
 
         cards.append(
@@ -183,7 +187,7 @@ def build_checkbox_cards(
                         *(
                             [
                                 inline_feedback(
-                                    f"{'Correcta' if passed else 'Revisar'}. {option['feedback']}",
+                                    feedback_text,
                                     passed,
                                 )
                             ]
@@ -208,9 +212,13 @@ def build_resource_feedback(resource: dict, selected: bool, validated: bool) -> 
     if not validated:
         return ft.Container()
 
-    passed = selected == bool(resource["expected"])
+    feedback_text, passed = checkbox_feedback(
+        selected,
+        bool(resource["expected"]),
+        resource["feedback"],
+    )
     return inline_feedback(
-        f"{'Correcta' if passed else 'Revisar'}. {resource['feedback']}",
+        feedback_text,
         passed,
     )
 

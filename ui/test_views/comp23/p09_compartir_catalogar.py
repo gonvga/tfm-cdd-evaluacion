@@ -5,7 +5,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P09"
@@ -65,15 +65,6 @@ def get_expected_id(options: list[dict]) -> str | None:
 
 def get_selected_ids(checkboxes: dict[str, ft.Checkbox]) -> list[str]:
     return [key for key, checkbox in checkboxes.items() if checkbox.value]
-
-
-def checkbox_feedback(selected: bool, expected: bool, feedback: str) -> tuple[str, bool]:
-    passed = selected == expected
-    if expected:
-        action = "Bien marcada." if selected else "Debías marcarla."
-    else:
-        action = "No debías marcarla." if selected else "Bien sin marcar."
-    return f"{action} {feedback}", passed
 
 
 def build_radio_option(option: dict, validated: bool) -> ft.Control:

@@ -6,7 +6,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P03"
@@ -127,15 +127,14 @@ def build_checkbox_cards(
         item_ok = selected == expected
         feedback = []
         if validated:
+            detail = (
+                "Permite recuperar recursos por criterios estables."
+                if expected
+                else "No garantiza una catalogación sistemática ni recuperable."
+            )
+            feedback_text, item_ok = checkbox_feedback(selected, expected, detail)
             feedback.append(
-                inline_feedback(
-                    (
-                        "Correcta: permite recuperar recursos por criterios estables."
-                        if expected
-                        else "Incorrecta: no garantiza una catalogación sistemática ni recuperable."
-                    ),
-                    item_ok,
-                )
+                inline_feedback(feedback_text, item_ok)
             )
         cards.append(
             ft.Container(
@@ -178,6 +177,7 @@ def evaluate_multi_select(options: list[dict], selected_ids: list[str]) -> dict:
     wrong = [option_id for option_id in selected_ids if option_id not in expected_ids]
 
     return {
+        "selected_ids": selected_ids,
         "expected_ids": expected_ids,
         "missing_ids": missing,
         "wrong_ids": wrong,
@@ -556,14 +556,17 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
             correct = ", ".join(option_labels(system["options"], systems_result["expected_ids"]))
             lines = [f"Respuesta correcta: {correct}."]
             for option in system["options"]:
-                if option["expected"]:
-                    lines.append(
-                        f"Correcta: {option['label']}. Permite recuperar recursos por criterios estables."
-                    )
-                else:
-                    lines.append(
-                        f"Incorrecta: {option['label']}. No garantiza una catalogación sistemática ni recuperable."
-                    )
+                detail = (
+                    "Permite recuperar recursos por criterios estables."
+                    if option["expected"]
+                    else "No garantiza una catalogación sistemática ni recuperable."
+                )
+                feedback_text, _ = checkbox_feedback(
+                    option["id"] in systems_result["selected_ids"],
+                    bool(option["expected"]),
+                    detail,
+                )
+                lines.append(f"{option['label']}: {feedback_text}")
             details.append({"title": "Sistema de catálogo", "lines": lines})
 
         state["feedback"]["p03"] = {

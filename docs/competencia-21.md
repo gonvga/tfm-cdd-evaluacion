@@ -34,7 +34,7 @@ Para superar P01, el usuario debe clasificar correctamente los criterios, selecc
 
 ## P02 · Nivel A2
 
-P02 evalúa la selección de contenidos con apoyo y asesoramiento. El usuario traduce un contexto concreto en requisitos, repositorios, filtros y una decisión final.
+P02 evalúa la selección de contenidos con apoyo y asesoramiento. El usuario traduce un contexto concreto en requisitos observables, elige estrategias completas de búsqueda y compara candidatos plausibles con ventajas e incompatibilidades discretas.
 
 **Indicadores evaluados**
 
@@ -45,13 +45,13 @@ P02 evalúa la selección de contenidos con apoyo y asesoramiento. El usuario tr
 
 | Fase | Acción del usuario | Evidencia generada |
 |---|---|---|
-| Requisitos | Marcar requisitos del contenido digital | Requisitos seleccionados |
-| Repositorios | Elegir fuentes preferentes de búsqueda | Repositorios seleccionados |
-| Filtros | Seleccionar filtros compatibles con el entorno virtual | Filtros marcados |
-| Ficha | Abrir fichas de recursos candidatos | Fichas consultadas |
+| Requisitos | Distinguir condiciones necesarias de cualidades solo deseables | Requisitos seleccionados |
+| Repositorios | Elegir los espacios institucionales y del centro por los que iniciar la búsqueda | Repositorios seleccionados |
+| Estrategias | Seleccionar configuraciones de filtros ajustadas al caso | Estrategias seleccionadas |
+| Contraste | Comparar al menos tres fichas con candidatos plausibles | Fichas consultadas |
 | Selección | Elegir el recurso más adecuado | Recurso seleccionado |
 
-Para superar P02, el usuario debe identificar requisitos del grupo y del centro, priorizar repositorios adecuados, aplicar filtros técnicos y seleccionar el recurso que mejor se ajusta al contexto.
+Para superar P02, el usuario debe identificar requisitos derivados del grupo y del centro, priorizar repositorios adecuados, evitar filtros irrelevantes o excesivos, consultar al menos tres candidatos y seleccionar el recurso que mejor resuelve conjuntamente el objetivo, la accesibilidad, el tiempo, la conectividad y la compatibilidad con Moodle.
 
 ## P03 · Nivel B1
 

@@ -155,7 +155,12 @@ def correct_p02(data):
         "p02_repositories": expected_ids(data["repositories"]["options"]),
         "p02_filters": expected_ids(data["filters"]["options"]),
         "p02_selected": data["resources"]["expected_id"],
-        "p02_opened_details": [data["resources"]["expected_id"]],
+        "p02_opened_details": [
+            resource["id"]
+            for resource in data["resources"]["items"][
+                : data["resources"].get("minimum_details_to_review", 1)
+            ]
+        ],
     }
 
 

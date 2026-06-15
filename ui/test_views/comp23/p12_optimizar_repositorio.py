@@ -7,7 +7,7 @@ import flet as ft
 from pypdf import PdfReader
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P12"
@@ -89,7 +89,10 @@ def get_selected_ids(checkboxes: dict[str, ft.Checkbox]) -> list[str]:
 
 
 def build_checkbox_card(option: dict, checkbox: ft.Checkbox, validated: bool) -> ft.Control:
-    passed = checkbox.value == bool(option["expected"])
+    feedback_text, passed = checkbox_feedback(
+        bool(checkbox.value),
+        bool(option["expected"]),
+    )
     bgcolor, border_color = feedback_colors(passed) if validated else ("#F9FAFB", "#E5E7EB")
     return ft.Container(
         content=ft.Column(
@@ -104,7 +107,7 @@ def build_checkbox_card(option: dict, checkbox: ft.Checkbox, validated: bool) ->
                 ),
                 *([
                     inline_feedback(
-                        "Opción correcta." if passed else "Revisa esta elección.",
+                        feedback_text,
                         passed,
                     )
                 ] if validated else []),

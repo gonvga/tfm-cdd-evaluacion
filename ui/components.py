@@ -196,6 +196,15 @@ def scenario_panel(text: str) -> ft.Container:
     )
 
 
+def checkbox_feedback(selected: bool, expected: bool, detail: str = "") -> tuple[str, bool]:
+    passed = selected == expected
+    if expected:
+        action = "Bien marcada." if selected else "Debías marcarla."
+    else:
+        action = "No debías marcarla." if selected else "Bien sin marcar."
+    return f"{action} {detail}".strip(), passed
+
+
 def question_block(title: str, statement: str, content: ft.Control) -> ft.Container:
     controls = getattr(content, "controls", None)
     if controls and isinstance(controls[0], ft.Text):

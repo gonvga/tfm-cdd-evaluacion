@@ -6,7 +6,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 from ui.test_views.comp23.p10_configurar_publicacion import (
     build_result_box,
     info_panel,
@@ -102,7 +102,10 @@ def build_checkbox_card(
     checkbox: ft.Checkbox,
     validated: bool,
 ) -> ft.Control:
-    passed = checkbox.value == bool(option["expected"])
+    feedback_text, passed = checkbox_feedback(
+        bool(checkbox.value),
+        bool(option["expected"]),
+    )
     bgcolor, border_color = feedback_colors(passed) if validated else ("#F9FAFB", "#E5E7EB")
     return ft.Container(
         content=ft.Column(
@@ -118,7 +121,7 @@ def build_checkbox_card(
                 *(
                     [
                         inline_feedback(
-                            "Componente correcto." if passed else "Revisa si debe incluirse en el paquete.",
+                            feedback_text,
                             passed,
                         )
                     ]

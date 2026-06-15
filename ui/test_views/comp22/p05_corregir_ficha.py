@@ -6,7 +6,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P05"
@@ -245,12 +245,16 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
         checkbox = ft.Checkbox(value=option["id"] in saved_accessibility)
         accessibility_checkboxes[option["id"]] = checkbox
         selected = option["id"] in saved_accessibility
-        option_ok = selected == option["expected"]
+        feedback_text, option_ok = checkbox_feedback(
+            selected,
+            bool(option["expected"]),
+            option["feedback"],
+        )
         if validated:
             accessibility_feedback_rows.append(
                 (
                     option_ok,
-                    f"{option['label']}: {'Correcta' if option_ok else 'Incorrecta'}. {option['feedback']}",
+                    f"{option['label']}: {feedback_text}",
                 )
             )
         accessibility_cards.append(
@@ -272,11 +276,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
                         ),
                         *(
                             [
-                                inline_feedback(
-                                    f"{'Correcta' if option_ok else 'Incorrecta'}. "
-                                    f"{option['feedback']}",
-                                    option_ok,
-                                )
+                                inline_feedback(feedback_text, option_ok)
                             ]
                             if validated
                             else []

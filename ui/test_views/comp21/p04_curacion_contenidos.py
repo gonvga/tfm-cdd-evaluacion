@@ -6,7 +6,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P04"
@@ -340,13 +340,17 @@ def build_test_p04(state: dict, refresh_view) -> ft.Control:
         repository_checkboxes[option["id"]] = cb
         expected = option["expected"]
         selected = option["id"] in saved_repository_actions
-        option_ok = selected == expected
+        feedback_text, option_ok = checkbox_feedback(
+            selected,
+            bool(expected),
+            option["feedback"],
+        )
 
         if validated:
             repository_feedback_rows.append(
                 (
                     option_ok,
-                    f"{option['label']}: {'incluir' if expected else 'descartar'}. {option['feedback']}",
+                    f"{option['label']}: {feedback_text}",
                 )
             )
 

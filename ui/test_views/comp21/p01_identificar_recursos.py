@@ -5,7 +5,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P01"
@@ -84,15 +84,6 @@ def inline_feedback(text: str, is_correct: bool) -> ft.Control:
         border_radius=8,
         padding=8,
     )
-
-
-def checkbox_feedback(selected: bool, expected: bool, description: str) -> tuple[str, bool]:
-    item_ok = selected == expected
-    if expected:
-        action = "Bien marcada." if selected else "Debías marcarla."
-    else:
-        action = "No debías marcarla." if selected else "Bien sin marcar."
-    return f"{action} {description}", item_ok
 
 
 def feedback_panel(title: str, rows: list[tuple[bool, str]]) -> ft.Control:
@@ -322,18 +313,18 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
         file_checkboxes[file_item["id"]] = checkbox
         expected = file_item["id"] in expected_files
         selected = file_item["id"] in saved_files
-        item_ok = selected == expected
+        feedback_text, item_ok = checkbox_feedback(
+            selected,
+            expected,
+            file_item["description"],
+        )
         name_control = ft.Text(file_item["name"])
         description_control = ft.Text(file_item["description"])
         if validated:
             file_feedback_rows.append(
                 (
                     item_ok,
-                    (
-                        f"{file_item['name']}: mover a la carpeta"
-                        if expected
-                        else f"{file_item['name']}: dejar fuera"
-                    ),
+                    f"{file_item['name']}: {feedback_text}",
                 )
             )
         file_rows.append(
@@ -441,9 +432,12 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
             correct = ", ".join(ids_to_labels(search_tools["options"], expected_search_tools))
             lines = [f"Respuesta correcta: {correct}."]
             for option in search_tools["options"]:
-                expected = option["expected"]
-                prefix = "Correcta" if expected else "Incorrecta"
-                lines.append(f"{prefix}: {option['label']}. {option['description']}")
+                feedback_text, _ = checkbox_feedback(
+                    option["id"] in selected_search_tools,
+                    bool(option["expected"]),
+                    option["description"],
+                )
+                lines.append(f"{option['label']}: {feedback_text}")
             details.append({"title": "Herramientas de búsqueda", "lines": lines})
 
         if not metadata_ok:
@@ -464,8 +458,12 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
                 f"Archivos que deben moverse: {correct_files}.",
             ]
             for file_item in organization["files"]:
-                status = "Debe incluirse" if file_item["expected_in_folder"] else "Debe quedar fuera"
-                lines.append(f"{status}: {file_item['name']}. {file_item['description']}")
+                feedback_text, _ = checkbox_feedback(
+                    file_item["id"] in selected_files,
+                    bool(file_item["expected_in_folder"]),
+                    file_item["description"],
+                )
+                lines.append(f"{file_item['name']}: {feedback_text}")
             details.append({"title": "Organización de archivos", "lines": lines})
 
         state["feedback"]["p01"] = {

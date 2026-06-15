@@ -5,7 +5,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P02"
@@ -127,8 +127,6 @@ def build_checkbox_cards(
         checkboxes[option["id"]] = checkbox
 
         details = []
-        if option.get("description"):
-            details.append(ft.Text(option["description"], size=13, color=ft.Colors.GREY_700))
         expected = option["expected"]
         selected = option["id"] in saved_ids
         item_ok = selected == expected
@@ -137,11 +135,9 @@ def build_checkbox_cards(
                 "description",
                 "Se ajusta al contexto indicado." if expected else "No se ajusta al contexto.",
             )
+            feedback_text, item_ok = checkbox_feedback(selected, expected, explanation)
             details.append(
-                inline_feedback(
-                    f"{'Correcta' if expected else 'Incorrecta'}: {explanation}",
-                    item_ok,
-                )
+                inline_feedback(feedback_text, item_ok)
             )
 
         cards.append(
@@ -185,6 +181,7 @@ def evaluate_multi_select(options: list[dict], selected_ids: list[str]) -> dict:
     wrong = [option_id for option_id in selected_ids if option_id not in expected_ids]
 
     return {
+        "selected_ids": selected_ids,
         "expected_ids": expected_ids,
         "missing_ids": missing,
         "wrong_ids": wrong,
@@ -202,7 +199,6 @@ def build_multi_select_feedback(title: str, options: list[dict], result: dict) -
     lines = [f"Respuesta correcta: {correct}."]
 
     for option in options:
-        status = "Correcta" if option["expected"] else "Incorrecta"
         explanation = option.get("description")
         if not explanation:
             explanation = (
@@ -210,37 +206,169 @@ def build_multi_select_feedback(title: str, options: list[dict], result: dict) -
                 if option["expected"]
                 else "No responde a los requisitos del contexto y puede introducir una barrera."
             )
-        lines.append(f"{status}: {option['label']}. {explanation}")
+        feedback_text, _ = checkbox_feedback(
+            option["id"] in result["selected_ids"],
+            bool(option["expected"]),
+            explanation,
+        )
+        lines.append(f"{option['label']}: {feedback_text}")
 
     return {"title": title, "lines": lines}
 
 
 def build_resource_detail(resource: dict) -> ft.Control:
+    def metadata_badge(icon: str, text: str) -> ft.Control:
+        return ft.Container(
+            content=ft.Row(
+                controls=[
+                    ft.Icon(icon, size=16, color="#1D4ED8"),
+                    ft.Text(text, size=12, color="#1E3A8A"),
+                ],
+                spacing=6,
+                tight=True,
+            ),
+            bgcolor="#EFF6FF",
+            border=ft.border.all(1, "#BFDBFE"),
+            border_radius=999,
+            padding=ft.padding.symmetric(horizontal=10, vertical=6),
+        )
+
+    def detail_section(
+        title: str,
+        icon: str,
+        rows: list[tuple[str, str]],
+    ) -> ft.Control:
+        return ft.Container(
+            col={"xs": 12, "md": 4},
+            content=ft.Column(
+                controls=[
+                    ft.Row(
+                        controls=[
+                            ft.Container(
+                                content=ft.Icon(icon, size=18, color="#2563EB"),
+                                bgcolor="#DBEAFE",
+                                border_radius=8,
+                                padding=7,
+                            ),
+                            ft.Text(
+                                title,
+                                size=14,
+                                weight=ft.FontWeight.BOLD,
+                                color="#111827",
+                            ),
+                        ],
+                        spacing=9,
+                    ),
+                    *[
+                        ft.Column(
+                            controls=[
+                                ft.Text(
+                                    label.upper(),
+                                    size=10,
+                                    weight=ft.FontWeight.BOLD,
+                                    color="#6B7280",
+                                ),
+                                ft.Text(value, size=13, color="#374151"),
+                            ],
+                            spacing=2,
+                        )
+                        for label, value in rows
+                    ],
+                ],
+                spacing=12,
+            ),
+            bgcolor="#FFFFFF",
+            border=ft.border.all(1, "#E5E7EB"),
+            border_radius=12,
+            padding=14,
+        )
+
     return ft.Container(
         content=ft.Column(
             controls=[
-                ft.Text(
-                    f"Ficha detallada · Recurso {resource['id']}",
-                    size=16,
-                    weight=ft.FontWeight.BOLD,
+                ft.Row(
+                    controls=[
+                        ft.Container(
+                            content=ft.Text(
+                                resource["id"],
+                                size=18,
+                                weight=ft.FontWeight.BOLD,
+                                color=ft.Colors.WHITE,
+                            ),
+                            width=42,
+                            height=42,
+                            alignment=ft.Alignment.CENTER,
+                            bgcolor="#2563EB",
+                            border_radius=10,
+                        ),
+                        ft.Column(
+                            controls=[
+                                ft.Text(
+                                    resource["title"],
+                                    size=18,
+                                    weight=ft.FontWeight.BOLD,
+                                    color="#111827",
+                                ),
+                                ft.Text(
+                                    resource["repository"],
+                                    size=12,
+                                    color="#6B7280",
+                                ),
+                            ],
+                            spacing=2,
+                            expand=True,
+                        ),
+                    ],
+                    spacing=12,
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
                 ),
-                ft.Text(f"Título: {resource['title']}"),
-                ft.Text(f"Repositorio: {resource['repository']}"),
-                ft.Text(f"Edad recomendada: {resource['age']}"),
-                ft.Text(f"Nivel lector: {resource['reading_level']}"),
-                ft.Text(f"Formato: {resource['format']}"),
-                ft.Text(f"Licencia: {resource['license']}"),
-                ft.Text(f"Accesibilidad: {resource['accessibility']}"),
-                ft.Text(f"Compatibilidad: {resource['compatibility']}"),
-                ft.Text(f"Registro: {resource['registration']}"),
-                ft.Text(f"Valoración: {resource['reason']}"),
+                ft.Row(
+                    controls=[
+                        metadata_badge(ft.Icons.SCHOOL_OUTLINED, resource["age"]),
+                        metadata_badge(ft.Icons.TIMER_OUTLINED, resource["duration"]),
+                        metadata_badge(ft.Icons.DESCRIPTION_OUTLINED, resource["format"]),
+                    ],
+                    spacing=8,
+                    wrap=True,
+                ),
+                ft.ResponsiveRow(
+                    controls=[
+                        detail_section(
+                            "Ajuste didáctico",
+                            ft.Icons.SCHOOL_OUTLINED,
+                            [
+                                ("Nivel lector", resource["reading_level"]),
+                                ("Evidencia", resource["evidence"]),
+                            ],
+                        ),
+                        detail_section(
+                            "Acceso técnico",
+                            ft.Icons.DEVICES_OUTLINED,
+                            [
+                                ("Compatibilidad", resource["compatibility"]),
+                                ("Registro", resource["registration"]),
+                                ("Plan alternativo", resource["fallback"]),
+                            ],
+                        ),
+                        detail_section(
+                            "Uso y accesibilidad",
+                            ft.Icons.ACCESSIBILITY_NEW_OUTLINED,
+                            [
+                                ("Accesibilidad", resource["accessibility"]),
+                                ("Licencia", resource["license"]),
+                            ],
+                        ),
+                    ],
+                    spacing=10,
+                    run_spacing=10,
+                ),
             ],
-            spacing=5,
+            spacing=14,
         ),
-        bgcolor=ft.Colors.BLUE_50,
-        border=ft.border.all(1, ft.Colors.BLUE_100),
-        border_radius=12,
-        padding=15,
+        bgcolor="#F8FAFC",
+        border=ft.border.all(1, "#CBD5E1"),
+        border_radius=16,
+        padding=18,
     )
 
 
@@ -287,14 +415,16 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
         ),
         None,
     )
-    detail_box = (
-        build_resource_detail(active_resource)
-        if active_resource
-        else build_info_panel(
-            "Ficha detallada",
-            [
-                "Abre una ficha para revisar nivel, licencia, accesibilidad, compatibilidad, registro y valoración antes de seleccionar el recurso."
-            ],
+    detail_box = ft.Container(
+        content=(
+            build_resource_detail(active_resource)
+            if active_resource
+            else build_info_panel(
+                "Ficha detallada",
+                [
+                    "Abre una ficha para revisar nivel, licencia, accesibilidad, compatibilidad, registro y valoración antes de seleccionar el recurso."
+                ],
+            )
         )
     )
 
@@ -304,7 +434,8 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
 
         state["responses"]["p02_opened_details"] = opened_details
         state["responses"]["p02_active_resource"] = resource["id"]
-        refresh_view()
+        detail_box.content = build_resource_detail(resource)
+        detail_box.update()
 
     rows = []
     resource_feedback_rows = []
@@ -331,7 +462,6 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
                     ft.DataCell(title_control),
                     ft.DataCell(ft.Text(resource["repository"])),
                     ft.DataCell(ft.Text(resource["format"])),
-                    ft.DataCell(ft.Text(resource["compatibility"])),
                     ft.DataCell(
                         ft.ElevatedButton(
                             "Ver ficha",
@@ -374,7 +504,10 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
 
         expected_id = resources["expected_id"]
         resource_ok = selected_id == expected_id
+        minimum_details = resources.get("minimum_details_to_review", 1)
+        reviewed_enough = len(set(opened_details)) >= minimum_details
         consulted_detail = expected_id in opened_details
+        review_ok = reviewed_enough and consulted_detail
 
         requirements_score = max(
             0,
@@ -395,7 +528,7 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
             - (len(filters_result["wrong_ids"]) * 4),
         )
         resource_score = 25 if resource_ok else 0
-        detail_score = 5 if consulted_detail else 0
+        detail_score = 5 if review_ok else 0
         score = min(
             100,
             requirements_score
@@ -410,6 +543,7 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
             and repositories_result["ok"]
             and filters_result["ok"]
             and resource_ok
+            and review_ok
         )
 
         state["completed"]["p02"] = ok
@@ -458,12 +592,18 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
                 )
             details.append({"title": "Selección del recurso", "lines": lines})
 
-        if not consulted_detail:
+        if not review_ok:
+            missing_reviews = max(0, minimum_details - len(set(opened_details)))
+            review_instruction = (
+                f"Abre {missing_reviews} ficha(s) adicional(es) y asegúrate de incluir "
+                "la del recurso seleccionado."
+            )
             details.append(
                 {
-                    "title": "Consulta de ficha",
+                    "title": "Contraste de fichas",
                     "lines": [
-                        "Antes de decidir conviene abrir la ficha del recurso correcto para comprobar nivel, licencia, accesibilidad, registro y compatibilidad con Moodle."
+                        review_instruction,
+                        "La decisión debe apoyarse en la comparación de objetivo, duración, accesibilidad, acceso, compatibilidad y alternativa ante fallos de conexión.",
                     ],
                 }
             )
@@ -498,6 +638,8 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
                 "expected_id": expected_id,
                 "opened_details": opened_details,
                 "consulted_expected_detail": consulted_detail,
+                "minimum_details_to_review": minimum_details,
+                "reviewed_enough_details": reviewed_enough,
             },
             "checks": [
                 {
@@ -529,9 +671,9 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
                     "evidence": str(selected_id),
                 },
                 {
-                    "check_id": "detail_consulted",
-                    "label": "Consulta la ficha del recurso antes de decidir",
-                    "passed": consulted_detail,
+                    "check_id": "candidate_details_compared",
+                    "label": "Contrasta suficientes fichas e incluye el recurso seleccionado",
+                    "passed": review_ok,
                     "weight": 5,
                     "evidence": ", ".join(opened_details),
                 },
@@ -575,7 +717,6 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
                     ft.DataColumn(ft.Text("Recurso")),
                     ft.DataColumn(ft.Text("Repositorio")),
                     ft.DataColumn(ft.Text("Formato")),
-                    ft.DataColumn(ft.Text("Compatibilidad")),
                     ft.DataColumn(ft.Text("Ficha")),
                 ],
                 rows=rows,

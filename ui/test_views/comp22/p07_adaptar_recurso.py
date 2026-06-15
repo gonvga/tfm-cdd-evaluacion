@@ -5,7 +5,7 @@ from pathlib import Path
 import flet as ft
 
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P07"
@@ -153,9 +153,13 @@ def build_block_feedback(block: dict, selected: bool, validated: bool) -> ft.Con
     if not validated:
         return ft.Container()
 
-    passed = selected == bool(block["expected"])
+    feedback_text, passed = checkbox_feedback(
+        selected,
+        bool(block["expected"]),
+        block["feedback"],
+    )
     return inline_feedback(
-        f"{'Correcta' if passed else 'Revisar'}. {block['feedback']}",
+        feedback_text,
         passed,
     )
 
