@@ -55,7 +55,7 @@ TEST_BUILDERS = {
 
 def initial_evaluation_state() -> dict:
     return {
-        "active_test": TEST_FLOW[11]["id"],
+        "active_test": TEST_FLOW[0]["id"],
         "show_results": False,
         "completed": {item["id"]: False for item in TEST_FLOW},
         "responses": {},
