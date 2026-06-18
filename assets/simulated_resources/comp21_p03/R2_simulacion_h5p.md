@@ -10,13 +10,9 @@
 **Accesibilidad:** navegacion con teclado e instrucciones claras  
 **Compatibilidad:** Moodle mediante insercion H5P  
 
-## Uso didactico
+## Evidencias para decidir
 
-Permite que todo el grupo participe en una actividad comun. El alumnado responde
-preguntas breves, compara decisiones cotidianas y obtiene retroalimentacion inmediata.
-
-## Valoracion para catalogo
-
-- Finalidad recomendada: Actividad comun
-- Dificultad: Media
-- Etiqueta principal: participacion
+Se completa por parejas en 15 minutos. Cada pareja toma decisiones cotidianas, compara
+su impacto y recibe retroalimentacion inmediata. El docente puede proyectar los
+resultados agregados sin identificar al alumnado. No requiere cuentas externas y
+dispone de una hoja equivalente para incidencias de conexion.

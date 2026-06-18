@@ -5,18 +5,15 @@
 **Autoría:** Investigadora especialista en modelizacion climatica  
 **Fecha de revision:** 2025  
 **Licencia:** CC BY-NC  
-**Nivel recomendado:** ESO avanzada o ampliacion  
+**Nivel recomendado:** 2-4 ESO con itinerario de ampliacion
 **Formato:** articulo web  
-**Accesibilidad:** estructura por apartados, texto complejo  
+**Duracion estimada:** 8-10 minutos para el itinerario breve
+**Accesibilidad:** estructura por apartados, glosario emergente y modo lectura
 **Compatibilidad:** enlace desde aula virtual  
 
-## Uso didactico
+## Evidencias para decidir
 
-Permite ampliar conceptos sobre prediccion, incertidumbre y modelos climaticos. Es
-mas exigente que los materiales de inicio, pero mantiene rigor y licencia clara.
-
-## Valoracion para catalogo
-
-- Finalidad recomendada: Ampliacion
-- Dificultad: Alta
-- Etiqueta principal: ampliacion
+Ofrece un itinerario breve sobre prediccion e incertidumbre y otro apartado opcional
+mas extenso. Incluye dos preguntas para relacionar modelos y toma de decisiones. El
+vocabulario es exigente, aunque el glosario permite trabajar de forma autonoma al
+alumnado que termina antes.

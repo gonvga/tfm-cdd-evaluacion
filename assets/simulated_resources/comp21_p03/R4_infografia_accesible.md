@@ -10,13 +10,9 @@
 **Accesibilidad:** alto contraste, texto alternativo y version de lectura  
 **Compatibilidad:** descargable e insertable en Moodle  
 
-## Uso didactico
+## Evidencias para decidir
 
-Sirve como apoyo visual para repasar acciones cotidianas vinculadas a sostenibilidad.
-Puede emplearse con alumnado que necesita una representacion clara y breve.
-
-## Valoracion para catalogo
-
-- Finalidad recomendada: Refuerzo
-- Dificultad: Basica
-- Etiqueta principal: accesibilidad
+Resume seis acciones cotidianas mediante iconos etiquetados y frases breves. La version
+textual conserva toda la informacion y permite ampliar el contenido sin perder
+legibilidad. Puede permanecer disponible durante la actividad como consulta y apoyo.
+No contiene preguntas ni retroalimentacion.

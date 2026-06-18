@@ -10,13 +10,8 @@
 **Accesibilidad:** sin texto alternativo  
 **Compatibilidad:** descargable, pero sin permisos claros  
 
-## Uso didactico
+## Evidencias para decidir
 
-La imagen puede resultar llamativa, pero no permite verificar autoria, rigor ni
-condiciones de reutilizacion. No deberia incorporarse al catalogo docente.
-
-## Valoracion para catalogo
-
-- Finalidad recomendada: No valido
-- Dificultad: No aplica
-- Etiqueta principal: no valido
+La imagen usa un dato numerico llamativo, pero no enlaza la fuente ni explica el
+periodo de referencia. Una busqueda inversa devuelve varias versiones con cifras
+distintas. No es posible comprobar la autoria, la licencia ni una alternativa textual.

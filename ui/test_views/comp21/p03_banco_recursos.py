@@ -1,6 +1,6 @@
 import json
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import flet as ft
@@ -308,11 +308,33 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
         validated,
     )
 
-    folder_options = dropdown_options(cataloging["folder_options"])
+    decision_options = dropdown_options(cataloging["decision_options"])
+    purpose_options = dropdown_options(cataloging["purpose_options"])
     difficulty_options = dropdown_options(cataloging["difficulty_options"])
     tag_options = dropdown_options(cataloging["tag_options"])
 
     catalog_controls = {}
+
+    def resource_detail(resource: dict) -> ft.Control:
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Text(
+                        f"Ficha simulada · {resource['id']}",
+                        size=16,
+                        weight=ft.FontWeight.BOLD,
+                    ),
+                    ft.Markdown(
+                        read_markdown(resource["file_path"]),
+                        selectable=True,
+                    ),
+                ],
+                spacing=8,
+            ),
+            bgcolor=ft.Colors.BLUE_50,
+            border_radius=12,
+            padding=15,
+        )
 
     def show_resource(resource: dict):
         if resource["id"] not in opened_resources:
@@ -320,7 +342,8 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
 
         state["responses"]["p03_opened_resources"] = opened_resources
         state["responses"]["p03_active_resource"] = resource["id"]
-        refresh_view()
+        detail_box.content = resource_detail(resource)
+        detail_box.update()
 
     active_resource = next(
         (
@@ -331,31 +354,16 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
         None,
     )
 
-    if active_resource:
-        detail_box = ft.Container(
-            content=ft.Column(
-                controls=[
-                    ft.Text(
-                        f"Ficha simulada · {active_resource['id']}",
-                        size=16,
-                        weight=ft.FontWeight.BOLD,
-                    ),
-                    ft.Markdown(
-                        read_markdown(active_resource["file_path"]),
-                        selectable=True,
-                    ),
-                ],
-                spacing=8,
-            ),
-            bgcolor=ft.Colors.BLUE_50,
-            border_radius=12,
-            padding=15,
+    detail_box = ft.Container(
+        content=(
+            resource_detail(active_resource)
+            if active_resource
+            else build_info_panel(
+                "Ficha simulada",
+                ["Abre una ficha para revisar autoría, licencia, formato, accesibilidad y uso didáctico antes de catalogar."],
+            )
         )
-    else:
-        detail_box = build_info_panel(
-            "Ficha simulada",
-            ["Abre una ficha para revisar autoría, licencia, formato, accesibilidad y uso didáctico antes de catalogar."],
-        )
+    )
 
     catalog_rows = []
     catalog_feedback_rows = []
@@ -363,15 +371,28 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
     for resource in cataloging["resources"]:
         saved_resource = saved_catalog.get(resource["id"], {})
         expected = {
-            "folder": resource["expected_folder"],
+            "decision": resource["expected_decision"],
+            "purpose": resource["expected_purpose"],
             "difficulty": resource["expected_difficulty"],
             "tag": resource["expected_tag"],
         }
-        resource_ok = saved_resource == expected
-        folder_dropdown = ft.Dropdown(
-            value=saved_resource.get("folder"),
-            width=180,
-            options=folder_options,
+        core_fields = ("decision", "purpose", "tag")
+        resource_ok = all(
+            saved_resource.get(field) == expected[field]
+            for field in core_fields
+        )
+        difficulty_matches = (
+            saved_resource.get("difficulty") == expected["difficulty"]
+        )
+        decision_dropdown = ft.Dropdown(
+            value=saved_resource.get("decision"),
+            width=135,
+            options=decision_options,
+        )
+        purpose_dropdown = ft.Dropdown(
+            value=saved_resource.get("purpose"),
+            width=175,
+            options=purpose_options,
         )
         difficulty_dropdown = ft.Dropdown(
             value=saved_resource.get("difficulty"),
@@ -385,31 +406,42 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
         )
 
         catalog_controls[resource["id"]] = {
-            "folder": folder_dropdown,
+            "decision": decision_dropdown,
+            "purpose": purpose_dropdown,
             "difficulty": difficulty_dropdown,
             "tag": tag_dropdown,
         }
 
-        reviewed_label = "Revisada" if resource["id"] in opened_resources else "Pendiente"
-        reviewed_color = ft.Colors.GREEN_700 if resource["id"] in opened_resources else ft.Colors.ORANGE_700
         resource_title = ft.Column(
             controls=[
                 ft.Text(resource["title"], weight=ft.FontWeight.W_600),
                 ft.Text(resource["format"], size=12, color=ft.Colors.GREY_700),
-                ft.Text(reviewed_label, size=12, color=reviewed_color),
             ],
             spacing=3,
         )
         if validated:
+            difficulty_note = (
+                f"La dificultad coincide con la referencia ({expected['difficulty']})."
+                if difficulty_matches
+                else (
+                    f"Has indicado dificultad {saved_resource.get('difficulty') or 'sin responder'}; "
+                    f"la referencia propone {expected['difficulty']}, pero este campo es "
+                    "orientativo y no penaliza el resultado."
+                )
+            )
             catalog_feedback_rows.append(
                 (
                     resource_ok,
                     (
-                        f"{resource['id']} · {resource['title']}: catalogación correcta"
+                        (
+                            f"{resource['id']} · {resource['title']}: decisión, uso y etiqueta "
+                            f"correctos. {difficulty_note} {resource['answer_explanation']}"
+                        )
                         if resource_ok
                         else (
-                            f"{resource['id']} · {resource['title']}: finalidad {expected['folder']}, "
-                            f"dificultad {expected['difficulty']}, etiqueta {expected['tag']}."
+                            f"{resource['id']} · {resource['title']}: decisión {expected['decision']}, "
+                            f"uso {expected['purpose']} y etiqueta {expected['tag']}. "
+                            f"{difficulty_note} {resource['answer_explanation']}"
                         )
                     ),
                 )
@@ -426,7 +458,8 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
                             on_click=lambda e, r=resource: show_resource(r),
                         )
                     ),
-                    ft.DataCell(folder_dropdown),
+                    ft.DataCell(decision_dropdown),
+                    ft.DataCell(purpose_dropdown),
                     ft.DataCell(difficulty_dropdown),
                     ft.DataCell(tag_dropdown),
                 ]
@@ -441,7 +474,8 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
         selected_systems = get_selected_ids(system_checkboxes)
         catalog_answers = {
             resource_id: {
-                "folder": controls["folder"].value,
+                "decision": controls["decision"].value,
+                "purpose": controls["purpose"].value,
                 "difficulty": controls["difficulty"].value,
                 "tag": controls["tag"].value,
             }
@@ -458,7 +492,8 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
 
         expected_catalog = {
             resource["id"]: {
-                "folder": resource["expected_folder"],
+                "decision": resource["expected_decision"],
+                "purpose": resource["expected_purpose"],
                 "difficulty": resource["expected_difficulty"],
                 "tag": resource["expected_tag"],
             }
@@ -467,26 +502,75 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
 
         catalog_correct_fields = []
         catalog_wrong_fields = []
+        difficulty_differences = []
 
         for resource_id, expected in expected_catalog.items():
             answer = catalog_answers[resource_id]
-            for field, expected_value in expected.items():
+            for field in ("decision", "purpose", "tag"):
+                expected_value = expected[field]
                 field_id = f"{resource_id}.{field}"
                 if answer.get(field) == expected_value:
                     catalog_correct_fields.append(field_id)
                 else:
                     catalog_wrong_fields.append(field_id)
+            if answer.get("difficulty") != expected["difficulty"]:
+                difficulty_differences.append(
+                    {
+                        "resource_id": resource_id,
+                        "selected": answer.get("difficulty"),
+                        "reference": expected["difficulty"],
+                    }
+                )
 
-        total_catalog_fields = len(expected_catalog) * 3
-        catalog_score_raw = len(catalog_correct_fields) / total_catalog_fields
-        catalog_ok = catalog_score_raw >= 0.83
+        resource_count = len(expected_catalog)
+        decision_accuracy = sum(
+            catalog_answers[resource_id].get("decision") == expected["decision"]
+            for resource_id, expected in expected_catalog.items()
+        ) / resource_count
+        purpose_accuracy = sum(
+            catalog_answers[resource_id].get("purpose") == expected["purpose"]
+            for resource_id, expected in expected_catalog.items()
+        ) / resource_count
+        tag_accuracy = sum(
+            catalog_answers[resource_id].get("tag") == expected["tag"]
+            for resource_id, expected in expected_catalog.items()
+        ) / resource_count
+        catalog_score_raw = (
+            decision_accuracy * 0.50
+            + tag_accuracy * 0.30
+            + purpose_accuracy * 0.20
+        )
+        selected_ids = [
+            resource_id
+            for resource_id, answer in catalog_answers.items()
+            if answer.get("decision") == "Incorporar"
+        ]
+        expected_selected_ids = [
+            resource["id"]
+            for resource in cataloging["resources"]
+            if resource["expected_decision"] == "Incorporar"
+        ]
+        selection_ok = set(selected_ids) == set(expected_selected_ids)
+        selected_formats = {
+            resource["format"]
+            for resource in cataloging["resources"]
+            if resource["id"] in selected_ids
+        }
+        format_coverage_ok = len(selected_formats) >= cataloging["minimum_selected_formats"]
+        catalog_ok = (
+            selection_ok
+            and format_coverage_ok
+            and tag_accuracy >= 0.75
+            and purpose_accuracy >= 0.75
+            and catalog_score_raw >= 0.85
+        )
 
-        required_review_count = min(4, len(cataloging["resources"]))
+        required_review_count = cataloging["minimum_resources_to_review"]
         review_ok = len(opened_resources) >= required_review_count
 
-        query_score = round((len(query_result["passed_task_ids"]) / len(queries["tasks"])) * 35)
+        query_score = round((len(query_result["passed_task_ids"]) / len(queries["tasks"])) * 30)
         review_score = 10 if review_ok else len(opened_resources) * 2
-        catalog_score = round(catalog_score_raw * 40)
+        catalog_score = round(catalog_score_raw * 45)
         systems_score = max(
             0,
             15
@@ -542,16 +626,45 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
             }
             for resource_id, expected in expected_catalog.items():
                 answer = catalog_answers[resource_id]
-                if answer == expected:
-                    lines.append(f"Correcta: {resource_id} · {resource_titles[resource_id]}.")
+                resource = next(
+                    item
+                    for item in cataloging["resources"]
+                    if item["id"] == resource_id
+                )
+                core_answer_ok = all(
+                    answer.get(field) == expected[field]
+                    for field in ("decision", "purpose", "tag")
+                )
+                if core_answer_ok:
+                    difficulty_note = (
+                        ""
+                        if answer.get("difficulty") == expected["difficulty"]
+                        else (
+                            f" Has indicado dificultad "
+                            f"{answer.get('difficulty') or 'sin responder'}; la referencia "
+                            f"propone {expected['difficulty']}, sin penalización."
+                        )
+                    )
+                    lines.append(
+                        f"Correcta: {resource_id} · {resource_titles[resource_id]}. "
+                        f"{resource['answer_explanation']}{difficulty_note}"
+                    )
                 else:
+                    difficulty_note = (
+                        f"En dificultad indicaste {answer.get('difficulty') or 'sin responder'} "
+                        f"y la referencia propone {expected['difficulty']}; esta diferencia "
+                        "es orientativa y no se penaliza."
+                    )
                     lines.append(
                         f"Revisa: {resource_id} · {resource_titles[resource_id]}. "
-                        f"Respuesta correcta: finalidad {expected['folder']}, "
-                        f"dificultad {expected['difficulty']}, etiqueta {expected['tag']}. "
-                        f"Tu respuesta: finalidad {answer.get('folder') or 'sin responder'}, "
-                        f"dificultad {answer.get('difficulty') or 'sin responder'}, "
-                        f"etiqueta {answer.get('tag') or 'sin responder'}."
+                        f"Respuesta esperada: decisión {expected['decision']}, "
+                        f"uso {expected['purpose']}, "
+                        f"etiqueta {expected['tag']}. "
+                        f"Tu respuesta: decisión {answer.get('decision') or 'sin responder'}, "
+                        f"uso {answer.get('purpose') or 'sin responder'}, "
+                        f"etiqueta {answer.get('tag') or 'sin responder'}. "
+                        f"{difficulty_note} "
+                        f"Explicación: {resource['answer_explanation']}"
                     )
             details.append({"title": "Catalogación de recursos", "lines": lines})
 
@@ -582,7 +695,7 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
             "test_id": TEST_ID,
             "scenario_id": test_data["scenario_id"],
             "scenario_title": test_data["scenario_title"],
-            "timestamp_utc": datetime.utcnow().isoformat(),
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "score_0_100": score,
             "level_hint": "B1" if ok else "A2",
             "payload": {
@@ -595,6 +708,16 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
                 "expected_catalog": expected_catalog,
                 "catalog_correct_fields": catalog_correct_fields,
                 "catalog_wrong_fields": catalog_wrong_fields,
+                "difficulty_differences_advisory": difficulty_differences,
+                "catalog_accuracy": {
+                    "decision": decision_accuracy,
+                    "purpose": purpose_accuracy,
+                    "tag": tag_accuracy,
+                },
+                "selected_resource_ids": selected_ids,
+                "expected_selected_resource_ids": expected_selected_ids,
+                "selected_formats": sorted(selected_formats),
+                "minimum_selected_formats": cataloging["minimum_selected_formats"],
                 "selected_systems": selected_systems,
                 "expected_systems": systems_result["expected_ids"],
                 "missing_systems": systems_result["missing_ids"],
@@ -605,7 +728,7 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
                     "check_id": "search_query_construction",
                     "label": "Construye búsquedas con operadores y criterios de formato, fuente, licencia o accesibilidad",
                     "passed": query_result["ok"],
-                    "weight": 35,
+                    "weight": 30,
                     "evidence": str(query_answers),
                 },
                 {
@@ -617,9 +740,9 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
                 },
                 {
                     "check_id": "systematic_cataloging",
-                    "label": "Cataloga contenidos por finalidad, dificultad y etiquetas",
+                    "label": "Selecciona el lote y lo cataloga por uso y etiquetas; la dificultad es orientativa",
                     "passed": catalog_ok,
-                    "weight": 40,
+                    "weight": 45,
                     "evidence": str(catalog_answers),
                 },
                 {
@@ -655,13 +778,18 @@ def build_test_p03(state: dict, refresh_view) -> ft.Control:
             ft.Divider(height=24),
             section_title(cataloging["title"]),
             ft.Text(cataloging["description"], size=14),
+            build_info_panel(
+                cataloging["assessment"]["title"],
+                cataloging["assessment"]["lines"],
+            ),
             ft.DataTable(
                 columns=[
                     ft.DataColumn(ft.Text("ID")),
                     ft.DataColumn(ft.Text("Recurso")),
                     ft.DataColumn(ft.Text("Ficha")),
-                    ft.DataColumn(ft.Text("Finalidad")),
-                    ft.DataColumn(ft.Text("Dificultad")),
+                    ft.DataColumn(ft.Text("Decisión")),
+                    ft.DataColumn(ft.Text("Uso")),
+                    ft.DataColumn(ft.Text("Dificultad (orientativa)")),
                     ft.DataColumn(ft.Text("Etiqueta")),
                 ],
                 rows=catalog_rows,

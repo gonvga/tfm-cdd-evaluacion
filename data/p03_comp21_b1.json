@@ -1,17 +1,19 @@
 {
   "test_id": "P03",
   "scenario_id": "comp21_b1_busqueda_catalogo_practico",
-  "scenario_title": "Búsqueda práctica y catalogación autónoma",
-  "title": "P03 · Búsqueda y catálogo práctico B1",
-  "statement": "Evalúa los indicadores 2.1.B1.1, 2.1.B1.2 y 2.1.B1.3 mediante consultas de búsqueda, revisión de fichas simuladas y catalogación sistemática de contenidos educativos digitales.",
-  "intro": "Escenario: preparas una situación de aprendizaje sobre cambio climático para 2º de ESO. El grupo es heterogéneo: parte del alumnado necesita refuerzo visual, otro grupo demanda ampliación y también quieres incluir una actividad común que favorezca motivación, implicación y participación.",
+  "scenario_title": "Diseño de un lote multimodal y catalogación autónoma",
+  "title": "P03 · Crear un banco de recursos para una situación de aprendizaje",
+  "statement": "Evalúa los indicadores 2.1.B1.1, 2.1.B1.2 y 2.1.B1.3 mediante una tarea profesional: construir búsquedas, seleccionar un lote multimodal ajustado al grupo y registrarlo con criterios estables en el catálogo docente.",
+  "intro": "Escenario: preparas una sesión de 55 minutos sobre cambio climático para 2.º de ESO. Debes crear un lote breve de cuatro recursos que combine una introducción común, apoyo visual, participación de todo el grupo y una opción de ampliación. Los materiales se usarán desde Moodle y después quedarán registrados en el catálogo compartido del departamento.",
   "diagnosis": {
     "title": "Contexto del alumnado",
     "lines": [
       "Conocimientos previos desiguales sobre causas y consecuencias del cambio climático.",
-      "Preferencia por vídeos breves, recursos interactivos e imágenes explicativas.",
-      "Necesidad de materiales accesibles y reutilizables desde el aula virtual del centro.",
-      "El equipo docente quiere conservar los recursos en un catálogo común por tema, nivel, área, finalidad y formato."
+      "Una parte del grupo necesita apoyos visuales y textos breves; seis estudiantes avanzan con rapidez y requieren ampliación.",
+      "El grupo responde bien a vídeos cortos y actividades con decisiones y retroalimentación inmediata.",
+      "Moodle admite enlaces, PDF, imágenes y H5P; no se crearán cuentas externas.",
+      "Los recursos deben tener autoría y condiciones de uso verificables, además de alternativas accesibles cuando el formato lo requiera.",
+      "El catálogo del departamento recupera materiales por tema, nivel, área, uso didáctico, dificultad, formato, licencia y fecha de revisión."
     ]
   },
   "queries": {
@@ -121,14 +123,28 @@
     ]
   },
   "cataloging": {
-    "title": "Fase B · Revisión de fichas y catalogación",
-    "description": "Abre las fichas simuladas, revisa sus metadatos y cataloga cada recurso para que el equipo docente pueda recuperarlo por finalidad, dificultad y etiqueta.",
-    "folder_options": [
-      "Refuerzo",
+    "title": "Fase B · Selección del lote y alta en catálogo",
+    "description": "Abre las seis fichas y forma un lote de cuatro recursos. Decide cuáles incorporarías y asigna a cada candidato un uso y una etiqueta recuperable. Indica también una dificultad como referencia docente: es un dato orientativo y una valoración distinta no penaliza el resultado.",
+    "assessment": {
+      "title": "Qué se evalúa en esta fase",
+      "lines": [
+        "Criterio imprescindible: seleccionar los cuatro recursos que mejor se ajustan al contexto y descartar los dos candidatos inadecuados.",
+        "Catalogación principal: asignar un uso didáctico y una etiqueta que permitan recuperar cada recurso; se admite un pequeño margen de discrepancia.",
+        "Dificultad: sirve como estimación docente para el catálogo, pero es interpretativa, no entra en la puntuación y nunca provoca por sí sola un resultado incorrecto."
+      ]
+    },
+    "minimum_resources_to_review": 6,
+    "minimum_selected_formats": 4,
+    "decision_options": [
+      "Incorporar",
+      "Descartar"
+    ],
+    "purpose_options": [
+      "Introducción común",
+      "Apoyo visual",
+      "Participación común",
       "Ampliación",
-      "Profundización",
-      "Actividad común",
-      "No válido"
+      "No catalogar"
     ],
     "difficulty_options": [
       "Básica",
@@ -140,12 +156,11 @@
       "clima",
       "2ESO",
       "ciencias",
-      "refuerzo",
-      "ampliación",
-      "profundización",
+      "inicio-clima",
+      "apoyo-visual",
       "participación",
-      "accesibilidad",
-      "no válido"
+      "ampliación-clima",
+      "no catalogar"
     ],
     "resources": [
       {
@@ -153,85 +168,97 @@
         "title": "Vídeo subtitulado: causas del cambio climático",
         "format": "Vídeo",
         "file_path": "assets/simulated_resources/comp21_p03/R1_video_subtitulado.md",
-        "expected_folder": "Refuerzo",
+        "expected_decision": "Incorporar",
+        "expected_purpose": "Introducción común",
         "expected_difficulty": "Básica",
-        "expected_tag": "refuerzo"
+        "expected_tag": "inicio-clima",
+        "answer_explanation": "Se incorpora como introducción porque dura solo cuatro minutos, activa conocimientos previos y presenta las causas con lenguaje visual y accesible. Su dificultad es básica y la etiqueta inicio-clima permite recuperarlo por su función."
       },
       {
         "id": "R2",
         "title": "Simulación H5P: calcula tu huella de carbono",
         "format": "Interactivo",
         "file_path": "assets/simulated_resources/comp21_p03/R2_simulacion_h5p.md",
-        "expected_folder": "Actividad común",
+        "expected_decision": "Incorporar",
+        "expected_purpose": "Participación común",
         "expected_difficulty": "Media",
-        "expected_tag": "participación"
+        "expected_tag": "participación",
+        "answer_explanation": "Se incorpora para la participación común porque todo el grupo puede tomar decisiones por parejas y recibir retroalimentación. Funciona en Moodle, no requiere cuentas y ofrece una alternativa si falla la conexión."
       },
       {
         "id": "R3",
         "title": "Informe científico resumido sobre escenarios climáticos",
         "format": "Web/PDF",
         "file_path": "assets/simulated_resources/comp21_p03/R3_informe_cientifico.md",
-        "expected_folder": "Profundización",
-        "expected_difficulty": "Alta",
-        "expected_tag": "profundización"
+        "expected_decision": "Descartar",
+        "expected_purpose": "No catalogar",
+        "expected_difficulty": "No aplica",
+        "expected_tag": "no catalogar",
+        "answer_explanation": "Aunque es una fuente científica fiable, se descarta para esta situación concreta: está dirigido a Bachillerato, exige unos 35 minutos y utiliza vocabulario no trabajado. La calidad científica no compensa el desajuste didáctico y temporal."
       },
       {
         "id": "R4",
         "title": "Infografía accesible: acciones cotidianas sostenibles",
         "format": "Imagen + texto",
         "file_path": "assets/simulated_resources/comp21_p03/R4_infografia_accesible.md",
-        "expected_folder": "Refuerzo",
+        "expected_decision": "Incorporar",
+        "expected_purpose": "Apoyo visual",
         "expected_difficulty": "Básica",
-        "expected_tag": "accesibilidad"
+        "expected_tag": "apoyo-visual",
+        "answer_explanation": "Se incorpora como apoyo visual porque sintetiza la información con iconos etiquetados, frases breves y una versión textual equivalente. Facilita la consulta autónoma del alumnado que necesita refuerzo sin separar al grupo."
       },
       {
         "id": "R5",
         "title": "Artículo divulgativo avanzado sobre modelos climáticos",
         "format": "Web",
         "file_path": "assets/simulated_resources/comp21_p03/R5_articulo_avanzado.md",
-        "expected_folder": "Ampliación",
+        "expected_decision": "Incorporar",
+        "expected_purpose": "Ampliación",
         "expected_difficulty": "Alta",
-        "expected_tag": "ampliación"
+        "expected_tag": "ampliación-clima",
+        "answer_explanation": "Se incorpora como ampliación porque ofrece un itinerario breve y autónomo para quienes terminan antes. El contenido es exigente, pero el glosario, el modo lectura y las preguntas permiten trabajarlo dentro del tiempo disponible."
       },
       {
         "id": "R6",
         "title": "Imagen viral sin autoría sobre calentamiento global",
         "format": "Imagen",
         "file_path": "assets/simulated_resources/comp21_p03/R6_imagen_sin_licencia.md",
-        "expected_folder": "No válido",
+        "expected_decision": "Descartar",
+        "expected_purpose": "No catalogar",
         "expected_difficulty": "No aplica",
-        "expected_tag": "no válido"
+        "expected_tag": "no catalogar",
+        "answer_explanation": "Se descarta porque no permite verificar autoría, licencia ni rigor científico, presenta versiones contradictorias y carece de alternativa textual. Su atractivo visual no satisface los criterios mínimos de calidad y reutilización."
       }
     ]
   },
   "system": {
-    "title": "Fase C · Sistema de catálogo",
-    "description": "Selecciona el sistema que usarías de forma sistemática para acceder rápidamente a los recursos según distintos criterios.",
+    "title": "Fase C · Procedimiento estable de catalogación",
+    "description": "Selecciona las prácticas que aplicarías de forma sistemática para que el lote pueda localizarse, revisarse y reutilizarse por el equipo docente.",
     "options": [
       {
         "id": "shared_catalog",
-        "label": "Catálogo compartido en la nube con campos de tema, nivel, área, dificultad, formato, licencia y finalidad",
+        "label": "Registrar en el catálogo compartido tema, nivel, área, uso, dificultad, formato, licencia, enlace y fecha de revisión",
         "expected": true
       },
       {
         "id": "browser_folders",
-        "label": "Carpetas de favoritos por tema, nivel y finalidad, mantenidas con criterios comunes",
+        "label": "Aplicar el vocabulario acordado y un nombre estable a los archivos o enlaces del lote",
         "expected": true
       },
       {
         "id": "random_downloads",
-        "label": "Carpeta de descargas sin nombres normalizados ni etiquetas",
+        "label": "Guardar copias en Descargas con el título original y confiar en la búsqueda del sistema",
         "expected": false
       },
       {
         "id": "chat_links",
-        "label": "Enlaces dispersos en conversaciones de mensajería",
+        "label": "Enviar los enlaces al chat del departamento para recuperarlos desde el historial",
         "expected": false
       }
     ]
   },
   "feedback": {
-    "success": "Prueba superada. Has construido búsquedas eficaces, revisado fichas simuladas y organizado los recursos en un catálogo recuperable por criterios didácticos, técnicos y científicos.",
-    "failure": "Prueba no superada. Revisa las consultas de búsqueda, abre las fichas simuladas y completa la catalogación por finalidad, dificultad y etiqueta."
+    "success": "Prueba superada. Has construido búsquedas eficaces, formado un lote multimodal ajustado al grupo y dejado evidencias de una catalogación sistemática y recuperable.",
+    "failure": "Prueba no superada. Revisa las consultas, la selección del lote y su catalogación por uso y etiquetas. Las diferencias en la dificultad asignada son orientativas y no provocan por sí solas que la prueba se considere incorrecta."
   }
 }

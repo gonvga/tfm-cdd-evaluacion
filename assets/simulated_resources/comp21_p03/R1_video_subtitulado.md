@@ -11,14 +11,9 @@
 **Accesibilidad:** subtitulos, transcripcion y contraste adecuado en graficos  
 **Compatibilidad:** enlace integrable en aula virtual  
 
-## Uso didactico
+## Evidencias para decidir
 
-Presenta las causas principales del cambio climatico con lenguaje claro y ejemplos
-visuales. Es adecuado para alumnado que necesita refuerzo inicial antes de abordar
-materiales mas complejos.
-
-## Valoracion para catalogo
-
-- Finalidad recomendada: Refuerzo
-- Dificultad: Basica
-- Etiqueta principal: refuerzo
+Presenta tres causas principales del cambio climatico mediante ejemplos cercanos y
+graficos sencillos. Incluye una pregunta inicial para activar conocimientos previos,
+pero no incorpora una actividad evaluable. Puede verse de forma conjunta al comienzo
+de la sesion y deja tiempo para trabajar con otros formatos.
