@@ -113,7 +113,12 @@ Para superar P08, el usuario debe construir una secuencia coherente, incluir rec
 ## Feedback E Interfaz
 
 Las pruebas P05-P08 ofrecen feedback contextual sobre licencia, accesibilidad, adecuacion didactica, autoria, metadatos y compatibilidad tecnica. En los niveles B1 y B2, la interfaz simula procesos de construccion de productos digitales para recoger evidencias mas cercanas al desempeño real.
+## Justificación MRCDD
 
+- **P05** se alinea con `2.2.A1.1`, `2.2.A1.2` y `2.2.A1.3` porque revisa licencias, citas, accesibilidad y selección de herramientas de autor antes de publicar un contenido.
+- **P06** se alinea con `2.2.A2.1`, `2.2.A2.2` y `2.2.A2.3` porque adapta un recurso para un grupo concreto, configura accesibilidad y prepara una salida compatible con Moodle.
+- **P07** se alinea con `2.2.B1.1`, `2.2.B1.2` y `2.2.B1.3` porque modifica un recurso abierto, aplica accesibilidad y licencia, y completa metadatos para una obra derivada.
+- **P08** se alinea con `2.2.B2.1`, `2.2.B2.2`, `2.2.B2.3` y `2.2.B2.4` porque genera una secuencia digital integrada, adaptada, colaborativa y empaquetable.
 ## Progresion A1-B2
 
 | Nivel | Desempeño principal |

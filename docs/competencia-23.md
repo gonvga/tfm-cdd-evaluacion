@@ -97,7 +97,12 @@ Para superar P12, el usuario debe configurar correctamente todas las funciones a
 ## Feedback E Interfaz
 
 Las pruebas P09-P12 ofrecen feedback contextual sobre seguridad, permisos, licencias, metadatos y publicacion. P12 presenta toda la informacion necesaria dentro de la interfaz y genera evidencias estructuradas de los indicadores B2.1 y B2.2.
+## Justificación MRCDD
 
+- **P09** se alinea con `2.3.A1.1`, `2.3.A1.2`, `2.3.A1.3` y `2.3.A1.4` porque exige seleccionar entornos seguros, configurar permisos por rol, respetar licencias y completar metadatos de catálogo.
+- **P10** se alinea con `2.3.A2.1`, `2.3.A2.2` y `2.3.A2.3` porque configura destinos, permisos y catalogación institucional en la publicación guiada de un paquete SCORM.
+- **P11** se alinea con `2.3.B1.1`, `2.3.B1.2` y `2.3.B1.3` porque organiza un expediente autónomo de publicación con repositorio, permisos selectivos y preparación IMSCP.
+- **P12** se alinea con `2.3.B2.1` y `2.3.B2.2` porque optimiza un repositorio institucional y asesora al profesorado sobre licencia, catalogación y accesibilidad.
 ## Progresion A1-B2
 
 | Nivel | Desempeño principal |

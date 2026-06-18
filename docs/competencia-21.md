@@ -108,6 +108,13 @@ Para superar P04, el usuario debe completar correctamente la matriz relacional, 
 
 Las pruebas P01-P04 ofrecen feedback contextual. Las opciones correctas e incorrectas se diferencian visualmente y, cuando la corrección podría ocupar demasiado espacio, se muestra en paneles compactos bajo el bloque correspondiente.
 
+## Justificación MRCDD
+
+- **P01** se alinea con `2.1.A1.1`, `2.1.A1.2` y `2.1.A1.3` porque solicita clasificar criterios científicos, técnicos y didácticos, elegir buscadores neutros o académicos, reconocer metadatos y organizar recursos básicos.
+- **P02** se alinea con `2.1.A2.1` y `2.1.A2.2` porque convierte el contexto del grupo y del centro en requisitos operativos, elige repositorios institucionales y compara fichas antes de seleccionar el recurso más adecuado.
+- **P03** se alinea con `2.1.B1.1`, `2.1.B1.2` y `2.1.B1.3` porque exige construir búsquedas, revisar fichas multimodales y catalogar recursos con criterios de finalidad, dificultad y etiqueta.
+- **P04** se alinea con `2.1.B2.1`, `2.1.B2.2` y `2.1.B2.3` porque utiliza un protocolo relacional, genera asesoramiento basado en criterios justificables y propone una actualización proactiva del repositorio.
+
 ## Progresión A1-B2
 
 | Nivel | Desempeño principal |
