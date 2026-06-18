@@ -1,61 +1,165 @@
 {
   "test_id": "P12",
   "scenario_id": "comp23_b2_optimizar_repositorio",
-  "scenario_title": "Optimización y asesoramiento en repositorio digital",
-  "title": "P12 - Optimizar repositorio digital",
-  "statement": "Evalúa los indicadores 2.3.B2.1 y 2.3.B2.2 mediante la entrega de un PDF que documente mejoras en un repositorio digital.",
-  "intro": "Escenario: gestionas un repositorio digital institucional con recursos para 4.º de ESO. Prepara un informe breve en PDF que exponga propuestas de mejora, criterios de licencia y accesibilidad.",
-  "plan": {
-    "title": "Tareas principales",
+  "scenario_title": "Optimización y asesoramiento en el repositorio educativo",
+  "title": "P12 - Optimizar el repositorio y asesorar al equipo docente",
+  "statement": "Resuelve una simulación autocontenida sobre catalogación, acceso, navegación, publicación y asesoramiento informal para los indicadores 2.3.B2.1 y 2.3.B2.2.",
+  "intro": "Escenario: coordinas la mejora del repositorio institucional «Aula Abierta». Una auditoría ha detectado búsquedas poco precisas, fichas incompletas, recursos inaccesibles para algunos usuarios y dudas del profesorado al publicar. Configura una respuesta eficiente usando únicamente la información del caso.",
+  "context": {
+    "title": "Normas y funcionalidades disponibles en Aula Abierta",
     "lines": [
-      "Prepara un texto claro que describa una propuesta de mejora del repositorio.",
-      "Identifica los aspectos clave de organización, acceso y metadatos.",
-      "Recoge recomendaciones relevantes sobre licencias y accesibilidad.",
-      "Presenta tu propuesta de forma coherente en un único documento PDF."
+      "El repositorio permite vocabularios controlados, metadatos obligatorios, filtros facetados, colecciones, relaciones entre recursos, insignias de accesibilidad y previsualización.",
+      "La taxonomía oficial combina etapa, curso, materia, competencia, tipo de recurso y palabras clave normalizadas.",
+      "Los recursos validados se publican en una colección profesional; los borradores solo son visibles para su autoría y el equipo revisor.",
+      "El alumnado accede mediante búsquedas guardadas y filtros, sin permisos para modificar fichas ni consultar materiales en revisión.",
+      "Toda publicación debe mostrar autoría, procedencia, licencia, fecha de actualización y nivel de accesibilidad."
     ]
   },
-  "requirements": {
-    "title": "Entrega en PDF",
-    "description": "Sube un PDF con un texto estructurado que justifique la propuesta de mejora del repositorio digital.",
-    "guidance": [
-      "Explica la propuesta de mejora con claridad.",
-      "Incluye elementos que permitan evaluar la gestión del repositorio.",
-      "Asegura que el texto hace referencia a licencias y accesibilidad."
-    ],
-    "expected_title": "Optimización de repositorio digital con enfoque en licencias y accesibilidad",
-    "required_sections": [
-      "Resumen",
-      "Mejoras propuestas",
-      "Licencia recomendada",
-      "Accesibilidad"
-    ],
-    "expected_keywords": [
-      "metadatos",
-      "catalogacion",
-      "repositorio",
-      "acceso",
-      "publicacion"
-    ],
-    "license_phrases": [
-      "Licencia Creative Commons",
-      "CC BY",
-      "licencia abierta",
-      "dominio publico"
-    ],
-    "accessibility_phrases": [
-      "accesible",
-      "texto alternativo",
-      "subtitulos",
-      "descripcion de imagenes",
-      "etiquetas de accesibilidad"
-    ],
-    "section_weight": 20,
-    "keywords_weight": 25,
-    "license_weight": 20,
-    "accessibility_weight": 15
+  "catalog_navigation": {
+    "title": "1. Mejorar identificación y navegación",
+    "description": "Selecciona todas las funcionalidades que activarías como configuración común del repositorio. Evita medidas que reduzcan la calidad de la identificación o la recuperación.",
+    "weight": 35,
+    "options": [
+      {
+        "id": "controlled_vocabulary",
+        "label": "Aplicar la taxonomía oficial y sugerir términos del vocabulario controlado al etiquetar.",
+        "expected": true
+      },
+      {
+        "id": "required_metadata",
+        "label": "Hacer obligatorios autoría, procedencia, licencia, etapa, materia, tipo, fecha y accesibilidad.",
+        "expected": true
+      },
+      {
+        "id": "faceted_search",
+        "label": "Activar filtros combinables por etapa, curso, materia, competencia, tipo, licencia y accesibilidad.",
+        "expected": true
+      },
+      {
+        "id": "related_resources",
+        "label": "Relacionar versiones, materiales docentes y adaptaciones accesibles de un mismo recurso.",
+        "expected": true
+      },
+      {
+        "id": "accessibility_badge",
+        "label": "Mostrar una insignia de accesibilidad en resultados y fichas antes de abrir el recurso.",
+        "expected": true
+      },
+      {
+        "id": "free_tags_only",
+        "label": "Sustituir la taxonomía por etiquetas libres para que cada docente escriba términos diferentes.",
+        "expected": false
+      },
+      {
+        "id": "hide_metadata",
+        "label": "Ocultar los metadatos en los resultados y mostrar únicamente el nombre del archivo.",
+        "expected": false
+      }
+    ]
+  },
+  "access_publication": {
+    "title": "2. Mejorar acceso y publicación profesional",
+    "description": "Selecciona todas las medidas coherentes con las normas del caso y con un acceso eficiente y seguro.",
+    "weight": 30,
+    "options": [
+      {
+        "id": "saved_student_view",
+        "label": "Crear para el alumnado una búsqueda guardada con los filtros de su curso y materia.",
+        "expected": true
+      },
+      {
+        "id": "draft_review_workflow",
+        "label": "Mantener borradores privados y usar el flujo de revisión antes de publicar en la colección profesional.",
+        "expected": true
+      },
+      {
+        "id": "preview_before_publish",
+        "label": "Comprobar en la previsualización metadatos, licencia, enlaces y nivel de accesibilidad.",
+        "expected": true
+      },
+      {
+        "id": "professional_collection",
+        "label": "Publicar la versión validada, bien identificada y etiquetada en la colección profesional.",
+        "expected": true
+      },
+      {
+        "id": "anonymous_edit",
+        "label": "Permitir edición anónima mediante enlace para acelerar las correcciones.",
+        "expected": false
+      },
+      {
+        "id": "publish_drafts",
+        "label": "Hacer públicos todos los borradores para que cualquier usuario decida cuál utilizar.",
+        "expected": false
+      }
+    ]
+  },
+  "teacher_advice": {
+    "title": "3. Asesorar informalmente a otros docentes",
+    "description": "Elige la recomendación más útil y completa para cada consulta. Toda la información necesaria está en el caso.",
+    "weight": 35,
+    "cases": [
+      {
+        "id": "license",
+        "prompt": "Lucía ha creado una infografía desde cero y quiere que otros docentes puedan adaptarla citándola y manteniendo la misma licencia. ¿Qué le aconsejas?",
+        "expected": "cc_by_sa",
+        "options": [
+          {
+            "id": "cc_by_sa",
+            "label": "Indicar su autoría y aplicar CC BY-SA, explicando que permite adaptar con atribución y compartir igual."
+          },
+          {
+            "id": "no_license",
+            "label": "Publicarla sin licencia: si está en el repositorio se entiende que cualquiera puede adaptarla."
+          },
+          {
+            "id": "cc0_unknown_assets",
+            "label": "Aplicar CC0 sin comprobar si incorpora recursos de terceros."
+          }
+        ]
+      },
+      {
+        "id": "metadata",
+        "prompt": "Diego va a subir un cuestionario de 3.º de ESO llamado «Actividad final». ¿Cómo mejoras su catalogación?",
+        "expected": "complete_record",
+        "options": [
+          {
+            "id": "complete_record",
+            "label": "Proponer un título descriptivo y completar etapa, curso, materia, competencia, tipo, palabras clave, autoría, licencia y fecha."
+          },
+          {
+            "id": "many_free_tags",
+            "label": "Mantener el título y añadir muchas etiquetas libres, aunque no coincidan con la taxonomía."
+          },
+          {
+            "id": "filename_only",
+            "label": "Usar solo el nombre del archivo porque el buscador indexará su contenido."
+          }
+        ]
+      },
+      {
+        "id": "accessibility",
+        "prompt": "Nora publica un vídeo subtitulado y con transcripción. ¿Qué metadato adicional facilita identificarlo antes de abrirlo?",
+        "expected": "accessibility_level",
+        "options": [
+          {
+            "id": "accessibility_level",
+            "label": "Registrar sus características y nivel de accesibilidad para mostrar la insignia y permitir filtrar el recurso."
+          },
+          {
+            "id": "generic_accessible_tag",
+            "label": "Escribir «accesible» solo en la descripción, sin completar el campo de accesibilidad."
+          },
+          {
+            "id": "omit_accessibility",
+            "label": "No añadir nada: los subtítulos se descubrirán después de reproducir el vídeo."
+          }
+        ]
+      }
+    ]
   },
   "feedback": {
-    "success": "Prueba superada. Has entregado un PDF con el título y las evidencias de licencia, accesibilidad y mejora del repositorio.",
-    "failure": "Prueba no superada. Revisa el PDF: debe incluir el título, los apartados esperados y referencias claras a licencia y accesibilidad."
+    "success": "Prueba superada. Has aprovechado las funciones de catalogación, navegación, acceso y publicación, y has asesorado correctamente sobre licencias, metadatos y accesibilidad.",
+    "failure": "Prueba no superada. Revisa las funciones del repositorio, el flujo de publicación y las recomendaciones al profesorado; deben ser coherentes con todas las normas del caso."
   }
 }

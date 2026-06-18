@@ -9,7 +9,7 @@ La competencia 2.3 del MRCDD se evalua mediante cuatro pruebas progresivas: P09,
 | P09 | A1 | Comparticion segura, permisos basicos, autoria, licencias y metadatos iniciales | `data/p09_comp23_a1.json` | `ui/test_views/comp23/p09_compartir_catalogar.py` |
 | P10 | A2 | Asistente guiado de destinos, permisos, catalogacion y configuracion SCORM | `data/p10_comp23_a2.json` | `ui/test_views/comp23/p10_configurar_publicacion.py` |
 | P11 | B1 | Simulacion autonoma de publicacion en repositorio, CLMS, carpeta docente e IMSCP | `data/p11_comp23_b1.json` | `ui/test_views/comp23/p11_publicar_recurso.py` |
-| P12 | B2 | Entrega de un PDF con propuestas de mejora de repositorio, licencias y accesibilidad | `data/p12_comp23_b2.json` | `ui/test_views/comp23/p12_optimizar_repositorio.py` |
+| P12 | B2 | Simulacion autocontenida de optimizacion del repositorio y asesoramiento docente | `data/p12_comp23_b2.json` | `ui/test_views/comp23/p12_optimizar_repositorio.py` |
 
 ## P09 - Nivel A1
 
@@ -77,27 +77,26 @@ Para superar P11, el usuario debe distribuir correctamente los materiales, prote
 
 ## P12 - Nivel B2
 
-P12 evalua un desempeño avanzado mediante la entrega de un informe en PDF. El usuario documenta mejoras para un repositorio digital institucional con especial atencion a organizacion, acceso, metadatos, licencias y accesibilidad.
+P12 evalua un desempeño avanzado mediante una simulacion autocontenida. El usuario optimiza un repositorio digital institucional y asesora al equipo docente sobre catalogacion, licencias, metadatos y accesibilidad.
 
 **Indicadores evaluados**
 
-- `2.3.B2.1`: mejora y optimizacion de repositorios digitales educativos.
-- `2.3.B2.2`: asesoramiento sobre criterios de publicacion, licencia y accesibilidad.
+- `2.3.B2.1`: empleo de las funciones de catalogacion, acceso y navegacion de CMS, bases de datos, repositorios y CLMS.
+- `2.3.B2.2`: asesoramiento informal a otros docentes sobre licencias, catalogacion e inclusion de metadatos.
 
 **Tareas**
 
 | Fase | Accion del usuario | Evidencia generada |
 |---|---|---|
-| Propuesta de mejora | Redactar un texto claro sobre optimizacion del repositorio | Informe entregado |
-| Estructura | Incluir resumen, mejoras, licencia recomendada y accesibilidad | Secciones del PDF |
-| Metadatos y acceso | Incorporar referencias a catalogacion, repositorio, acceso y publicacion | Palabras clave detectadas |
-| Licencia y accesibilidad | Mencionar licencia abierta y medidas de accesibilidad | Evidencias textuales |
+| Catalogacion y navegacion | Activar taxonomia, metadatos, filtros, relaciones e indicadores de accesibilidad | Configuracion del repositorio |
+| Acceso y publicacion | Configurar busquedas guardadas, revision, previsualizacion y coleccion profesional | Flujo de acceso y publicacion |
+| Asesoramiento informal | Resolver consultas sobre licencia, catalogacion y accesibilidad | Recomendaciones al profesorado |
 
-Para superar P12, el usuario debe entregar un PDF con el titulo esperado, los apartados requeridos y referencias claras a metadatos, catalogacion, acceso, publicacion, licencias abiertas y accesibilidad.
+Para superar P12, el usuario debe configurar correctamente todas las funciones adecuadas del repositorio, descartar practicas que dificultan la identificacion o comprometen el acceso y resolver correctamente los tres casos de asesoramiento.
 
 ## Feedback E Interfaz
 
-Las pruebas P09-P12 ofrecen feedback contextual sobre seguridad, permisos, licencias, metadatos y publicacion. P12 incorpora una evidencia documental en PDF, lo que permite valorar no solo selecciones dentro de la interfaz, sino tambien una propuesta argumentada de mejora.
+Las pruebas P09-P12 ofrecen feedback contextual sobre seguridad, permisos, licencias, metadatos y publicacion. P12 presenta toda la informacion necesaria dentro de la interfaz y genera evidencias estructuradas de los indicadores B2.1 y B2.2.
 
 ## Progresion A1-B2
 

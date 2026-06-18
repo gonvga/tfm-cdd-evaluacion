@@ -49,12 +49,13 @@ TEST_BUILDERS = {
     "p09": build_test_p09,
     "p10": build_test_p10,
     "p11": build_test_p11,
+    "p12": build_test_p12,
 }
 
 
 def initial_evaluation_state() -> dict:
     return {
-        "active_test": TEST_FLOW[0]["id"],
+        "active_test": TEST_FLOW[11]["id"],
         "show_results": False,
         "completed": {item["id"]: False for item in TEST_FLOW},
         "responses": {},

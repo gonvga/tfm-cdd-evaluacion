@@ -347,19 +347,17 @@ def correct_p11(data):
 
 
 def correct_p12(data):
-    content_lines = [
-        data["requirements"]["expected_title"],
-        "Resumen",
-        "Mejoras propuestas",
-        "Licencia recomendada",
-        "Accesibilidad",
-        "Este informe describe cómo mejorar el repositorio digital con metadatos, catalogacion, repositorio, acceso y publicacion.",
-        "Se recomienda usar una licencia abierta, como Licencia Creative Commons o CC BY.",
-        "También se sugiere que el repositorio sea accesible, con texto alternativo, subtitulos y etiquetas de accesibilidad.",
-    ]
-
     return {
-        "p12_pdf_text": "\n".join(content_lines),
+        "p12_catalog_navigation": expected_ids(
+            data["catalog_navigation"]["options"]
+        ),
+        "p12_access_publication": expected_ids(
+            data["access_publication"]["options"]
+        ),
+        "p12_teacher_advice": {
+            case["id"]: case["expected"]
+            for case in data["teacher_advice"]["cases"]
+        },
     }
 
 
