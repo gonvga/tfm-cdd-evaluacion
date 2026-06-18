@@ -1,11 +1,13 @@
 import json
-from datetime import datetime
+import re
+import unicodedata
+from datetime import datetime, timezone
 
 import flet as ft
 
+from core.paths import resource_path
 from core.storage import save_result
-from core.paths import asset_path, resource_path
-from ui.components import checkbox_feedback, question_block
+from ui.components import question_block
 
 
 TEST_ID = "P07"
@@ -16,26 +18,127 @@ def load_test_data() -> dict:
     return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
-def feedback_colors(is_correct: bool) -> tuple[str, str]:
-    return ("#DCFCE7", "#16A34A") if is_correct else ("#FEE2E2", "#DC2626")
+def normalize_text(value: str | None) -> str:
+    text = unicodedata.normalize("NFD", (value or "").strip().lower())
+    text = "".join(char for char in text if unicodedata.category(char) != "Mn")
+    return re.sub(r"\s+", " ", text)
 
 
-def inline_feedback(text: str, is_correct: bool) -> ft.Control:
-    bgcolor, color = feedback_colors(is_correct)
+def word_count(value: str | None) -> int:
+    return len(re.findall(r"\b[\wáéíóúüñ]+\b", value or "", flags=re.IGNORECASE))
+
+
+def evaluate_text(field: dict, value: str | None) -> dict:
+    normalized = normalize_text(value)
+    words = word_count(value)
+    missing_groups = []
+    for group in field.get("required_groups", []):
+        if not any(normalize_text(term) in normalized for term in group):
+            missing_groups.append(group)
+    length_ok = (
+        words >= field.get("minimum_words", 1)
+        and words <= field.get("maximum_words", 10_000)
+    )
+    return {
+        "ok": bool(normalized) and not missing_groups and length_ok,
+        "words": words,
+        "missing_groups": missing_groups,
+        "length_ok": length_ok,
+    }
+
+
+def inline_feedback(text: str, ok: bool) -> ft.Control:
+    bgcolor, color = (
+        ("#DCFCE7", "#166534")
+        if ok
+        else ("#FEE2E2", "#991B1B")
+    )
     return ft.Container(
         content=ft.Text(text, size=12, color=color),
         bgcolor=bgcolor,
         border=ft.border.all(1, color),
         border_radius=8,
-        padding=8,
+        padding=9,
     )
 
 
-def build_result_box(feedback_data: dict) -> ft.Control:
-    if feedback_data["ok"] is None:
-        return ft.Container()
+def section_header(icon: str, title: str, subtitle: str) -> ft.Control:
+    return ft.Row(
+        controls=[
+            ft.Container(
+                content=ft.Icon(icon, size=21, color="#1D4ED8"),
+                bgcolor="#DBEAFE",
+                border_radius=10,
+                padding=8,
+            ),
+            ft.Column(
+                controls=[
+                    ft.Text(
+                        title,
+                        size=17,
+                        weight=ft.FontWeight.BOLD,
+                        color="#111827",
+                    ),
+                    ft.Text(subtitle, size=12, color="#6B7280"),
+                ],
+                spacing=2,
+                expand=True,
+            ),
+        ],
+        spacing=10,
+    )
 
-    ok = feedback_data["ok"]
+
+def info_panel(title: str, lines: list[str], warning: bool = False) -> ft.Control:
+    return ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(
+                    title,
+                    size=14,
+                    weight=ft.FontWeight.BOLD,
+                    color="#92400E" if warning else "#1E3A8A",
+                ),
+                *[
+                    ft.Text(f"• {line}", size=13, color="#374151")
+                    for line in lines
+                ],
+            ],
+            spacing=6,
+        ),
+        bgcolor="#FFFBEB" if warning else "#EFF6FF",
+        border=ft.border.all(1, "#FDE68A" if warning else "#BFDBFE"),
+        border_radius=12,
+        padding=14,
+    )
+
+
+def field_feedback(field: dict, value: str | None, validated: bool) -> ft.Control:
+    if not validated:
+        return ft.Container()
+    result = evaluate_text(field, value)
+    if result["ok"]:
+        return inline_feedback(
+            f"Campo suficientemente documentado ({result['words']} palabras).",
+            True,
+        )
+    issues = []
+    if not result["length_ok"]:
+        issues.append(
+            f"usa entre {field.get('minimum_words', 1)} y "
+            f"{field.get('maximum_words', '∞')} palabras"
+        )
+    if result["missing_groups"]:
+        issues.append(
+            "faltan referencias a "
+            + ", ".join("/".join(group) for group in result["missing_groups"])
+        )
+    return inline_feedback("Revisa el campo: " + "; ".join(issues) + ".", False)
+
+
+def build_result_box(feedback: dict) -> ft.Control:
+    if feedback["ok"] is None:
+        return ft.Container()
     return ft.Container(
         content=ft.Column(
             controls=[
@@ -45,503 +148,550 @@ def build_result_box(feedback_data: dict) -> ft.Control:
                     weight=ft.FontWeight.BOLD,
                     color=ft.Colors.WHITE,
                 ),
-                ft.Text(feedback_data["message"], size=14, color=ft.Colors.WHITE),
+                ft.Text(feedback["message"], size=14, color=ft.Colors.WHITE),
             ],
             spacing=8,
         ),
-        bgcolor=ft.Colors.GREEN if ok else ft.Colors.RED,
+        bgcolor=ft.Colors.GREEN if feedback["ok"] else ft.Colors.RED,
         border_radius=12,
         padding=20,
     )
 
 
-def section_title(text: str) -> ft.Text:
-    return ft.Text(text, size=18, weight=ft.FontWeight.BOLD)
-
-
-def info_panel(title: str, lines: list[str], bgcolor: str = "#EFF6FF") -> ft.Control:
-    return ft.Container(
-        content=ft.Column(
-            controls=[
-                ft.Text(title, size=15, weight=ft.FontWeight.BOLD),
-                *[ft.Text(line, size=13, color=ft.Colors.GREY_700) for line in lines],
-            ],
-            spacing=5,
-        ),
-        bgcolor=bgcolor,
-        border=ft.border.all(1, "#DBEAFE"),
-        border_radius=12,
-        padding=14,
-    )
-
-
-def image_or_placeholder(src: str | None, label: str = "Imagen pendiente", width: int = 128, height: int = 82) -> ft.Control:
-    resolved_src = asset_path(src)
-    if resolved_src and resolved_src.exists():
-        return ft.Image(src=src, width=width, height=height, fit="cover")
-
-    return ft.Container(
-        content=ft.Column(
-            controls=[
-                ft.Icon(ft.Icons.IMAGE_OUTLINED, size=24, color="#6B7280"),
-                ft.Text(label, size=10, color="#6B7280", text_align=ft.TextAlign.CENTER),
-            ],
-            spacing=4,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-        ),
-        width=width,
-        height=height,
-        bgcolor="#F3F4F6",
-        border=ft.border.all(1, "#D1D5DB"),
-        border_radius=8,
-        alignment=ft.Alignment.CENTER,
-        padding=6,
-    )
-
-
-def get_expected_id(options: list[dict]) -> str | None:
-    return next((option["id"] for option in options if option["expected"]), None)
-
-
-def find_block(blocks: list[dict], block_id: str) -> dict | None:
-    return next((block for block in blocks if block["id"] == block_id), None)
-
-
-def get_block_ids(state: dict) -> list[str]:
-    return list(state["responses"].get("p07_blocks", []))
-
-
-def build_radio_option(option: dict, validated: bool) -> ft.Control:
-    option_ok = bool(option["expected"])
-    bgcolor, border_color = (
-        feedback_colors(option_ok) if validated else ("#F9FAFB", "#E5E7EB")
-    )
-    return ft.Container(
-        content=ft.Column(
-            controls=[
-                ft.Radio(value=option["id"], label=option["label"]),
-                *(
-                    [
-                        inline_feedback(
-                            f"{'Correcta' if option_ok else 'Incorrecta'}. {option['feedback']}",
-                            option_ok,
-                        )
-                    ]
-                    if validated
-                    else []
-                ),
-            ],
-            spacing=6,
-        ),
-        bgcolor=bgcolor,
-        border=ft.border.all(1, border_color),
-        border_radius=10,
-        padding=12,
-    )
-
-
-def build_radio_group(options: list[dict], selected_id: str | None, validated: bool) -> ft.RadioGroup:
-    return ft.RadioGroup(
-        value=selected_id,
-        content=ft.Column(
-            controls=[build_radio_option(option, validated) for option in options],
-            spacing=8,
-        ),
-    )
-
-
-def build_block_feedback(block: dict, selected: bool, validated: bool) -> ft.Control:
-    if not validated:
-        return ft.Container()
-
-    feedback_text, passed = checkbox_feedback(
-        selected,
-        bool(block["expected"]),
-        block["feedback"],
-    )
-    return inline_feedback(
-        feedback_text,
-        passed,
-    )
-
-
 def build_test_p07(state: dict, refresh_view) -> ft.Control:
-    test_data = load_test_data()
+    data = load_test_data()
+    source = data["source"]
+    operations = data["operations"]
+    authoring = data["authoring"]
+    license_data = data["license"]
+    metadata = data["metadata"]
+    saved = state["responses"].get("p07_answers", {})
     validated = state["feedback"]["p07"]["ok"] is not None
-    blocks = test_data["builder"]["blocks"]
-    saved_license = state["responses"].get("p07_license")
-    saved_metadata = state["responses"].get("p07_metadata", {})
 
-    license_control = build_radio_group(
-        test_data["license"]["options"],
-        saved_license,
-        validated,
-    )
-    metadata_controls = {
-        field["id"]: build_radio_group(
-            field["options"],
-            saved_metadata.get(field["id"]),
-            validated,
+    saved_operations = saved.get("operations", {})
+    operation_controls = {
+        component["id"]: ft.Dropdown(
+            label="Modificación aplicada",
+            value=saved_operations.get(component["id"]),
+            options=[
+                ft.dropdown.Option(option)
+                for option in component["options"]
+            ],
         )
-        for field in test_data["metadata"]["fields"]
+        for component in operations["components"]
     }
 
-    def persist_form():
-        state["responses"]["p07_license"] = license_control.value
-        state["responses"]["p07_metadata"] = {
-            field_id: control.value for field_id, control in metadata_controls.items()
+    saved_settings = set(saved.get("settings", []))
+    setting_controls = {
+        setting["id"]: ft.Checkbox(
+            label=setting["label"],
+            value=setting["id"] in saved_settings,
+        )
+        for setting in authoring["settings"]
+    }
+    export_control = ft.Dropdown(
+        label=authoring["export"]["label"],
+        value=saved.get("export"),
+        options=[
+            ft.dropdown.Option(option)
+            for option in authoring["export"]["options"]
+        ],
+    )
+    change_log = ft.TextField(
+        label=data["change_log"]["label"],
+        hint_text=data["change_log"]["hint"],
+        value=saved.get("change_log", ""),
+        multiline=True,
+        min_lines=4,
+        max_lines=7,
+    )
+    attribution = ft.TextField(
+        label=license_data["attribution"]["label"],
+        hint_text=license_data["attribution"]["hint"],
+        value=saved.get("attribution", ""),
+        multiline=True,
+        min_lines=3,
+        max_lines=5,
+    )
+    derivative_license = ft.Dropdown(
+        label=license_data["derivative_license"]["label"],
+        value=saved.get("derivative_license"),
+        options=[
+            ft.dropdown.Option(option)
+            for option in license_data["derivative_license"]["options"]
+        ],
+    )
+    saved_metadata = saved.get("metadata", {})
+    metadata_controls = {
+        field["id"]: ft.TextField(
+            label=field["label"],
+            hint_text=field["hint"],
+            value=saved_metadata.get(field["id"], ""),
+            multiline=True,
+            min_lines=2,
+            max_lines=4,
+        )
+        for field in metadata["fields"]
+    }
+
+    preview_controls = {
+        component["id"]: ft.Text(
+            saved_operations.get(component["id"]) or "Sin configurar",
+            size=12,
+            color="#374151",
+        )
+        for component in operations["components"]
+    }
+
+    def update_operation_preview(component_id: str):
+        def handler(e):
+            preview_controls[component_id].value = e.control.value or "Sin configurar"
+            preview_controls[component_id].update()
+        return handler
+
+    for component_id, control in operation_controls.items():
+        control.on_change = update_operation_preview(component_id)
+
+    def collect_answers() -> dict:
+        return {
+            "operations": {
+                component_id: control.value
+                for component_id, control in operation_controls.items()
+            },
+            "settings": [
+                setting_id
+                for setting_id, control in setting_controls.items()
+                if control.value
+            ],
+            "export": export_control.value,
+            "change_log": change_log.value or "",
+            "attribution": attribution.value or "",
+            "derivative_license": derivative_license.value,
+            "metadata": {
+                field_id: control.value or ""
+                for field_id, control in metadata_controls.items()
+            },
         }
 
-    def set_blocks(new_blocks: list[str]):
-        state["responses"]["p07_blocks"] = new_blocks
-        persist_form()
-        update_builder_lists()
-
-    def add_block(block_id: str):
-        current_blocks = get_block_ids(state)
-        if block_id not in current_blocks:
-            set_blocks([*current_blocks, block_id])
-
-    def remove_block(block_id: str):
-        current_blocks = get_block_ids(state)
-        set_blocks([item for item in current_blocks if item != block_id])
-
-    def move_block(index: int, delta: int):
-        current_blocks = get_block_ids(state)
-        target = index + delta
-        if target < 0 or target >= len(current_blocks):
-            return
-        reordered = current_blocks[:]
-        reordered[index], reordered[target] = reordered[target], reordered[index]
-        set_blocks(reordered)
-
     def validate(e):
-        persist_form()
-        selected_license = state["responses"].get("p07_license")
-        selected_metadata = state["responses"].get("p07_metadata", {})
-        current_blocks = get_block_ids(state)
+        answers = collect_answers()
+        state["responses"]["p07_answers"] = answers
 
-        expected_blocks = [block["id"] for block in blocks if block["expected"]]
-        unexpected_blocks = [block["id"] for block in blocks if not block["expected"]]
-        selected_expected = [block_id for block_id in current_blocks if block_id in expected_blocks]
-        selected_unexpected = [block_id for block_id in current_blocks if block_id in unexpected_blocks]
+        operation_results = {
+            component["id"]: (
+                answers["operations"].get(component["id"])
+                == component["expected"]
+            )
+            for component in operations["components"]
+        }
+        operations_correct = sum(operation_results.values())
+        operations_ok = operations_correct == len(operation_results)
+        operations_score = operations_correct * 7
 
-        required_order = test_data["builder"]["required_order"]
-        order_ok = selected_expected == required_order
-        expected_selection_ok = set(selected_expected) == set(expected_blocks) and not selected_unexpected
-        accessibility_ok = any(
-            bool(find_block(blocks, block_id) and find_block(blocks, block_id)["accessibility"])
-            for block_id in current_blocks
+        expected_settings = {
+            setting["id"]
+            for setting in authoring["settings"]
+            if setting["expected"]
+        }
+        forbidden_settings = {
+            setting["id"]
+            for setting in authoring["settings"]
+            if not setting["expected"]
+        }
+        selected_settings = set(answers["settings"])
+        settings_ok = (
+            expected_settings.issubset(selected_settings)
+            and not selected_settings.intersection(forbidden_settings)
+        )
+        export_ok = answers["export"] == authoring["export"]["expected"]
+        authoring_ok = settings_ok and export_ok
+        authoring_score = (10 if settings_ok else 0) + (5 if export_ok else 0)
+
+        change_result = evaluate_text(
+            data["change_log"],
+            answers["change_log"],
+        )
+        change_score = 10 if change_result["ok"] else 0
+
+        attribution_result = evaluate_text(
+            license_data["attribution"],
+            answers["attribution"],
+        )
+        derivative_license_ok = (
+            answers["derivative_license"]
+            == license_data["derivative_license"]["expected"]
+        )
+        license_ok = attribution_result["ok"] and derivative_license_ok
+        license_score = (
+            (7 if attribution_result["ok"] else 0)
+            + (3 if derivative_license_ok else 0)
         )
 
-        selection_points = round(
-            sum(
-                1
-                for block in blocks
-                if (block["id"] in current_blocks) == bool(block["expected"])
+        metadata_results = {
+            field["id"]: evaluate_text(
+                field,
+                answers["metadata"].get(field["id"]),
             )
-            / len(blocks)
-            * 30
+            for field in metadata["fields"]
+        }
+        metadata_correct = sum(
+            result["ok"] for result in metadata_results.values()
         )
-        order_points = 20 if order_ok else 0
-        accessibility_points = 15 if accessibility_ok and "accessible_diagram" in current_blocks else 0
+        metadata_ok = metadata_correct >= metadata["minimum_correct"]
+        metadata_score = metadata_correct * 6
 
-        license_expected = get_expected_id(test_data["license"]["options"])
-        license_ok = selected_license == license_expected
-        license_points = 15 if license_ok else 0
-
-        metadata_checks = []
-        metadata_points = 0
-        expected_metadata = {}
-        for field in test_data["metadata"]["fields"]:
-            expected = get_expected_id(field["options"])
-            selected = selected_metadata.get(field["id"])
-            field_ok = selected == expected
-            expected_metadata[field["id"]] = expected
-            metadata_points += field["weight"] if field_ok else 0
-            metadata_checks.append(
-                {
-                    "check_id": f"metadata_{field['id']}",
-                    "label": field["label"],
-                    "passed": field_ok,
-                    "weight": field["weight"],
-                    "evidence": str(selected),
-                }
-            )
-
-        metadata_ok = all(check["passed"] for check in metadata_checks)
-        score = selection_points + order_points + accessibility_points + license_points + metadata_points
+        score = (
+            operations_score
+            + authoring_score
+            + change_score
+            + license_score
+            + metadata_score
+        )
         ok = (
             score >= 80
-            and expected_selection_ok
-            and order_ok
-            and accessibility_ok
+            and operations_ok
+            and authoring_ok
+            and change_result["ok"]
             and license_ok
             and metadata_ok
         )
 
-        message = test_data["feedback"]["success"] if ok else test_data["feedback"]["failure"]
-        state["completed"]["p07"] = ok
-        state["feedback"]["p07"] = {"ok": ok, "message": message}
+        details = []
+        if not operations_ok:
+            failed = [
+                component["label"]
+                for component in operations["components"]
+                if not operation_results[component["id"]]
+            ]
+            details.append(
+                "Revisa las operaciones aplicadas a: " + ", ".join(failed) + "."
+            )
+        if not authoring_ok:
+            details.append(
+                "La configuración debe asegurar orden de lectura, teclado, foco visible, "
+                "adaptación responsive y salida HTML5 editable."
+            )
+        if not change_result["ok"]:
+            details.append(
+                "El registro de cambios debe documentar estructura, audio o transcripción, "
+                "teclado, retroalimentación y ampliación opcional."
+            )
+        if not license_ok:
+            details.append(
+                "Identifica la obra y su autoría, indica que se ha adaptado y selecciona "
+                "CC BY-SA 4.0 como licencia de la nueva versión."
+            )
+        if not metadata_ok:
+            details.append(
+                f"Completa correctamente al menos {metadata['minimum_correct']} de los "
+                f"{len(metadata['fields'])} metadatos."
+            )
 
+        message = data["feedback"]["success"] if ok else data["feedback"]["failure"]
+        state["completed"]["p07"] = ok
+        state["feedback"]["p07"] = {
+            "ok": ok,
+            "message": message,
+            "details": details,
+        }
+        checks = [
+            {
+                "check_id": "component_adaptation",
+                "label": "Aplica modificaciones didácticas, técnicas y de accesibilidad a los componentes",
+                "passed": operations_ok,
+                "weight": 35,
+                "evidence": json.dumps(answers["operations"], ensure_ascii=False),
+            },
+            {
+                "check_id": "authoring_configuration",
+                "label": "Configura la herramienta y una publicación accesible",
+                "passed": authoring_ok,
+                "weight": 15,
+                "evidence": json.dumps(
+                    {
+                        "settings": answers["settings"],
+                        "export": answers["export"],
+                    },
+                    ensure_ascii=False,
+                ),
+            },
+            {
+                "check_id": "change_documentation",
+                "label": "Documenta de forma autónoma los cambios realizados",
+                "passed": change_result["ok"],
+                "weight": 10,
+                "evidence": answers["change_log"],
+            },
+            {
+                "check_id": "compatible_license",
+                "label": "Atribuye la obra original, declara los cambios y selecciona una licencia compatible",
+                "passed": license_ok,
+                "weight": 10,
+                "evidence": answers["attribution"],
+            },
+            {
+                "check_id": "authoring_metadata",
+                "label": "Registra metadatos suficientes para reutilizar y mantener la obra",
+                "passed": metadata_ok,
+                "weight": 30,
+                "evidence": json.dumps(answers["metadata"], ensure_ascii=False),
+            },
+        ]
         result = {
             "test_id": TEST_ID,
-            "scenario_id": test_data["scenario_id"],
-            "scenario_title": test_data["scenario_title"],
-            "timestamp_utc": datetime.utcnow().isoformat(),
+            "scenario_id": data["scenario_id"],
+            "scenario_title": data["scenario_title"],
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "score_0_100": score,
             "level_hint": "B1" if ok else "A2",
             "payload": {
-                "selected_blocks": current_blocks,
-                "expected_blocks": expected_blocks,
-                "required_order": required_order,
-                "selected_license": selected_license,
-                "expected_license": license_expected,
-                "selected_metadata": selected_metadata,
-                "expected_metadata": expected_metadata,
+                "answers": answers,
+                "operation_results": operation_results,
+                "authoring_results": {
+                    "settings": settings_ok,
+                    "export": export_ok,
+                },
+                "change_log_result": change_result,
+                "license_results": {
+                    "attribution": attribution_result,
+                    "derivative_license": derivative_license_ok,
+                },
+                "metadata_results": metadata_results,
             },
-            "checks": [
-                {
-                    "check_id": "block_selection",
-                    "label": "Selecciona y descarta elementos segun criterios didacticos, disciplinares y tecnicos",
-                    "passed": expected_selection_ok,
-                    "weight": 30,
-                    "evidence": ", ".join(current_blocks),
-                },
-                {
-                    "check_id": "didactic_order",
-                    "label": "Ordena la ficha adaptada con una secuencia didactica adecuada",
-                    "passed": order_ok,
-                    "weight": 20,
-                    "evidence": ", ".join(current_blocks),
-                },
-                {
-                    "check_id": "accessibility_elements",
-                    "label": "Incluye elementos de accesibilidad en el contenido modificado",
-                    "passed": accessibility_ok,
-                    "weight": 15,
-                    "evidence": ", ".join(current_blocks),
-                },
-                {
-                    "check_id": "compatible_license",
-                    "label": "Incluye licencia compatible con la obra original",
-                    "passed": license_ok,
-                    "weight": 15,
-                    "evidence": str(selected_license),
-                },
-                *metadata_checks,
-            ],
-            "notes": [message],
+            "checks": checks,
+            "notes": [message, *details],
         }
-
         saved_path = save_result(result)
         state["responses"]["p07_saved_path"] = str(saved_path)
         refresh_view()
 
-    def build_library_card(block: dict, index: int) -> ft.Control:
-        selected = block["id"] in get_block_ids(state)
-        return ft.Container(
-            content=ft.Column(
-                controls=[
-                    ft.Text(f"Recurso {index + 1:02d}", size=13, weight=ft.FontWeight.BOLD, color="#374151"),
-                    ft.Container(
-                        content=image_or_placeholder(block["thumbnail"], width=220, height=135),
-                        alignment=ft.Alignment.CENTER,
-                    ),
-                    ft.Row(
-                        controls=[
-                            ft.ElevatedButton(
-                                "Añadir",
-                                on_click=lambda e, block_id=block["id"]: add_block(block_id),
+    operation_cards = []
+    for component in operations["components"]:
+        selected = saved_operations.get(component["id"])
+        item_ok = selected == component["expected"]
+        operation_cards.append(
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Text(
+                            component["label"],
+                            size=15,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+                        ft.Container(
+                            content=ft.Text(
+                                f"Estado original: {component['current']}",
+                                size=12,
+                                color="#92400E",
                             ),
-                            ft.OutlinedButton(
-                                "Quitar",
-                                on_click=lambda e, block_id=block["id"]: remove_block(block_id),
-                            ),
-                        ],
-                        spacing=8,
-                    ),
-                    build_block_feedback(block, selected, validated),
-                ],
-                spacing=10,
-            ),
-            col={"xs": 12, "md": 6},
-            bgcolor="#FFFFFF",
-            border=ft.border.all(1, "#E5E7EB"),
-            border_radius=10,
-            padding=12,
-        )
-
-    def build_selected_card(block_id: str, index: int) -> ft.Control:
-        block = find_block(blocks, block_id)
-        if not block:
-            return ft.Container()
-
-        return ft.Container(
-            content=ft.Row(
-                controls=[
-                    ft.Container(
-                        content=ft.Text(str(index + 1), size=13, weight=ft.FontWeight.BOLD, color="#1E40AF"),
-                        width=28,
-                        height=28,
-                        border_radius=999,
-                        bgcolor="#DBEAFE",
-                        alignment=ft.Alignment.CENTER,
-                    ),
-                    ft.Container(
-                        content=image_or_placeholder(block["thumbnail"], width=180, height=110),
-                        alignment=ft.Alignment.CENTER_LEFT,
-                        expand=True,
-                    ),
-                    ft.IconButton(
-                        icon=ft.Icons.KEYBOARD_ARROW_UP,
-                        tooltip="Subir",
-                        on_click=lambda e, i=index: move_block(i, -1),
-                        disabled=index == 0,
-                    ),
-                    ft.IconButton(
-                        icon=ft.Icons.KEYBOARD_ARROW_DOWN,
-                        tooltip="Bajar",
-                        on_click=lambda e, i=index: move_block(i, 1),
-                        disabled=index == len(get_block_ids(state)) - 1,
-                    ),
-                    ft.IconButton(
-                        icon=ft.Icons.DELETE_OUTLINE,
-                        tooltip="Quitar",
-                        on_click=lambda e, block_id=block_id: remove_block(block_id),
-                    ),
-                ],
-                spacing=8,
-                vertical_alignment=ft.CrossAxisAlignment.CENTER,
-            ),
-            bgcolor="#F9FAFB",
-            border=ft.border.all(1, "#E5E7EB"),
-            border_radius=10,
-            padding=10,
-        )
-
-    def build_preview_card(block_id: str) -> ft.Control:
-        block = find_block(blocks, block_id)
-        if not block:
-            return ft.Container()
-
-        return ft.Container(
-            content=image_or_placeholder(block["thumbnail"], width=360, height=220),
-            alignment=ft.Alignment.CENTER,
-            bgcolor="#FFFFFF",
-            border=ft.border.all(1, "#E5E7EB"),
-            border_radius=10,
-            padding=12,
-        )
-
-    def build_empty_selected_notice() -> ft.Control:
-        return ft.Container(
-            content=ft.Text("La ficha adaptada todavia no tiene bloques.", size=13, color=ft.Colors.GREY_700),
-            bgcolor="#F9FAFB",
-            border=ft.border.all(1, "#E5E7EB"),
-            border_radius=10,
-            padding=14,
-        )
-
-    def build_empty_preview_notice() -> ft.Control:
-        return ft.Container(
-            content=ft.Text("Añade bloques desde la biblioteca para ver la ficha.", size=13, color=ft.Colors.GREY_700),
-            bgcolor="#FFFFFF",
-            border=ft.border.all(1, "#E5E7EB"),
-            border_radius=10,
-            padding=14,
-        )
-
-    def build_selected_controls() -> list[ft.Control]:
-        current_blocks = get_block_ids(state)
-        if not current_blocks:
-            return [build_empty_selected_notice()]
-        return [
-            build_selected_card(block_id, index)
-            for index, block_id in enumerate(current_blocks)
-        ]
-
-    def build_preview_controls() -> list[ft.Control]:
-        current_blocks = get_block_ids(state)
-        if not current_blocks:
-            return [build_empty_preview_notice()]
-        return [build_preview_card(block_id) for block_id in current_blocks]
-
-    selected_blocks_column = ft.Column(controls=build_selected_controls(), spacing=10)
-    preview_column = ft.Column(controls=build_preview_controls(), spacing=10)
-
-    def update_builder_lists():
-        selected_blocks_column.controls = build_selected_controls()
-        preview_column.controls = build_preview_controls()
-        selected_blocks_column.update()
-        preview_column.update()
-
-    metadata_sections = []
-    for field in test_data["metadata"]["fields"]:
-        metadata_sections.append(
-            ft.Column(
-                controls=[
-                    ft.Text(field["label"], size=15, weight=ft.FontWeight.BOLD),
-                    metadata_controls[field["id"]],
-                ],
-                spacing=8,
+                            bgcolor="#FFFBEB",
+                            border_radius=8,
+                            padding=9,
+                        ),
+                        operation_controls[component["id"]],
+                        *(
+                            [
+                                inline_feedback(
+                                    (
+                                        f"Modificación adecuada. {component['feedback']}"
+                                        if item_ok
+                                        else f"Revisa esta operación. {component['feedback']}"
+                                    ),
+                                    item_ok,
+                                )
+                            ]
+                            if validated
+                            else []
+                        ),
+                    ],
+                    spacing=8,
+                ),
+                col={"xs": 12, "md": 6},
+                bgcolor="#FFFFFF",
+                border=ft.border.all(1, "#E5E7EB"),
+                border_radius=12,
+                padding=14,
             )
         )
 
-    content = ft.Column(
-        controls=[
-            ft.Text(test_data["intro"], size=15, weight=ft.FontWeight.W_600),
-            ft.ResponsiveRow(
+    settings_rows = []
+    for setting in authoring["settings"]:
+        selected = setting["id"] in saved_settings
+        expected = bool(setting["expected"])
+        settings_rows.append(
+            ft.Column(
                 controls=[
-                    ft.Container(
-                        col={"xs": 12, "lg": 6},
-                        content=ft.Column(
-                            controls=[
-                                info_panel(test_data["source"]["title"], test_data["source"]["lines"]),
-                                image_or_placeholder(test_data["source"]["image"], "Recurso original", 460, 250),
-                            ],
-                            spacing=12,
-                        ),
-                    ),
-                    ft.Container(
-                        col={"xs": 12, "lg": 6},
-                        content=info_panel(test_data["classroom"]["title"], test_data["classroom"]["lines"], "#F0FDF4"),
+                    setting_controls[setting["id"]],
+                    *(
+                        [
+                            inline_feedback(
+                                (
+                                    "Configuración correcta."
+                                    if selected == expected
+                                    else (
+                                        "Falta activar esta función."
+                                        if expected
+                                        else "Esta configuración introduce una barrera."
+                                    )
+                                ),
+                                selected == expected,
+                            )
+                        ]
+                        if validated
+                        else []
                     ),
                 ],
-                spacing=16,
-                run_spacing=16,
+                spacing=4,
+            )
+        )
+
+    settings_panel = ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(
+                    "Funciones aplicadas",
+                    size=14,
+                    weight=ft.FontWeight.BOLD,
+                    color="#1E3A8A",
+                ),
+                *settings_rows,
+            ],
+            spacing=8,
+        ),
+        bgcolor="#F8FAFC",
+        border=ft.border.all(1, "#CBD5E1"),
+        border_radius=12,
+        padding=14,
+    )
+
+    preview = ft.Container(
+        content=ft.Column(
+            controls=[
+                ft.Text(
+                    "RESUMEN DE LA OBRA ADAPTADA",
+                    size=10,
+                    weight=ft.FontWeight.BOLD,
+                    color="#1D4ED8",
+                ),
+                *[
+                    ft.Container(
+                        content=ft.Column(
+                            controls=[
+                                ft.Text(
+                                    component["label"],
+                                    size=12,
+                                    weight=ft.FontWeight.BOLD,
+                                ),
+                                preview_controls[component["id"]],
+                            ],
+                            spacing=3,
+                        ),
+                        bgcolor="#F8FAFC",
+                        border=ft.border.all(1, "#E2E8F0"),
+                        border_radius=8,
+                        padding=9,
+                    )
+                    for component in operations["components"]
+                ],
+            ],
+            spacing=8,
+        ),
+        bgcolor="#FFFFFF",
+        border=ft.border.all(1, "#CBD5E1"),
+        border_radius=14,
+        padding=14,
+    )
+
+    feedback_details = state["feedback"]["p07"].get("details", [])
+    content = ft.Column(
+        controls=[
+            ft.Text(data["intro"], size=15, weight=ft.FontWeight.W_600),
+            info_panel(data["context"]["title"], data["context"]["lines"]),
+            ft.Divider(height=20, color="#E5E7EB"),
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        section_header(
+                            ft.Icons.DESCRIPTION_OUTLINED,
+                            source["title"],
+                            "Revisa todos sus componentes antes de modificarla.",
+                        ),
+                        ft.Text(
+                            source["heading"],
+                            size=21,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+                        ft.Text(source["intro"], size=14, color="#374151"),
+                        ft.Container(
+                            content=ft.Column(
+                                controls=[
+                                    ft.Text(
+                                        "CONTENIDO ESENCIAL QUE DEBE CONSERVARSE",
+                                        size=10,
+                                        weight=ft.FontWeight.BOLD,
+                                        color="#1D4ED8",
+                                    ),
+                                    *[
+                                        ft.Text(f"• {line}", size=13)
+                                        for line in source["key_content"]
+                                    ],
+                                ],
+                                spacing=5,
+                            ),
+                            bgcolor="#EFF6FF",
+                            border_radius=10,
+                            padding=12,
+                        ),
+                        info_panel(
+                            "Otros componentes originales",
+                            [
+                                source["audio"],
+                                source["activity"],
+                                source["extension"],
+                                f"Licencia: {source['license']}.",
+                                f"Metadatos: {source['metadata_status']}",
+                            ],
+                            warning=True,
+                        ),
+                    ],
+                    spacing=11,
+                ),
+                bgcolor="#F8FAFC",
+                border=ft.border.all(1, "#CBD5E1"),
+                border_radius=14,
+                padding=16,
             ),
-            ft.Divider(height=24),
-            section_title(test_data["builder"]["title"]),
-            ft.Text(test_data["builder"]["description"], size=14),
+            ft.Divider(height=20, color="#E5E7EB"),
             ft.ResponsiveRow(
                 controls=[
                     ft.Container(
-                        col={"xs": 12, "xl": 7},
+                        col={"xs": 12, "lg": 8},
                         content=ft.Column(
                             controls=[
-                                ft.Text("Biblioteca de elementos", size=16, weight=ft.FontWeight.BOLD),
+                                section_header(
+                                    ft.Icons.EDIT_NOTE,
+                                    operations["title"],
+                                    operations["description"],
+                                ),
                                 ft.ResponsiveRow(
-                                    controls=[
-                                        build_library_card(block, index)
-                                        for index, block in enumerate(blocks)
-                                    ],
-                                    spacing=8,
-                                    run_spacing=8,
+                                    controls=operation_cards,
+                                    spacing=10,
+                                    run_spacing=10,
                                 ),
                             ],
                             spacing=10,
                         ),
                     ),
                     ft.Container(
-                        col={"xs": 12, "xl": 5},
+                        col={"xs": 12, "lg": 4},
                         content=ft.Column(
                             controls=[
-                                ft.Text("Ficha adaptada", size=16, weight=ft.FontWeight.BOLD),
-                                selected_blocks_column,
-                                ft.Divider(height=18),
-                                ft.Text("Vista previa", size=16, weight=ft.FontWeight.BOLD),
-                                preview_column,
+                                section_header(
+                                    ft.Icons.PREVIEW_OUTLINED,
+                                    "Vista de cambios",
+                                    "Se actualiza al elegir cada operación.",
+                                ),
+                                preview,
                             ],
                             spacing=10,
                         ),
@@ -550,23 +700,140 @@ def build_test_p07(state: dict, refresh_view) -> ft.Control:
                 spacing=18,
                 run_spacing=18,
             ),
-            ft.Divider(height=24),
-            section_title(test_data["license"]["title"]),
-            ft.Text(test_data["license"]["description"], size=14),
-            license_control,
-            ft.Divider(height=24),
-            section_title(test_data["metadata"]["title"]),
-            ft.Text(test_data["metadata"]["description"], size=14),
-            *metadata_sections,
-            ft.Container(height=8),
+            ft.Divider(height=20, color="#E5E7EB"),
+            section_header(
+                ft.Icons.TUNE,
+                authoring["title"],
+                "Configura funciones globales de edición y publicación.",
+            ),
+            settings_panel,
+            ft.Container(
+                content=export_control,
+                bgcolor="#FFFFFF",
+                border=ft.border.all(1, "#E5E7EB"),
+                border_radius=12,
+                padding=12,
+            ),
+            *(
+                [
+                    inline_feedback(
+                        (
+                            "Formato de publicación adecuado."
+                            if saved.get("export") == authoring["export"]["expected"]
+                            else f"Formato esperado: {authoring['export']['expected']}."
+                        ),
+                        saved.get("export") == authoring["export"]["expected"],
+                    )
+                ]
+                if validated
+                else []
+            ),
+            ft.Divider(height=20, color="#E5E7EB"),
+            section_header(
+                ft.Icons.HISTORY_EDU_OUTLINED,
+                data["change_log"]["title"],
+                "La herramienta guardará esta información junto a la nueva versión.",
+            ),
+            change_log,
+            field_feedback(
+                data["change_log"],
+                saved.get("change_log"),
+                validated,
+            ),
+            ft.Divider(height=20, color="#E5E7EB"),
+            section_header(
+                ft.Icons.COPYRIGHT,
+                license_data["title"],
+                "Registra la procedencia y las condiciones de reutilización.",
+            ),
+            attribution,
+            field_feedback(
+                license_data["attribution"],
+                saved.get("attribution"),
+                validated,
+            ),
+            derivative_license,
+            *(
+                [
+                    inline_feedback(
+                        (
+                            "Licencia compatible con CompartirIgual."
+                            if saved.get("derivative_license")
+                            == license_data["derivative_license"]["expected"]
+                            else "La obra derivada debe mantener CC BY-SA 4.0."
+                        ),
+                        saved.get("derivative_license")
+                        == license_data["derivative_license"]["expected"],
+                    )
+                ]
+                if validated
+                else []
+            ),
+            ft.Divider(height=20, color="#E5E7EB"),
+            section_header(
+                ft.Icons.DATA_OBJECT,
+                metadata["title"],
+                "Completa información para localizar, mantener y reutilizar la ficha.",
+            ),
+            *[
+                ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            metadata_controls[field["id"]],
+                            field_feedback(
+                                field,
+                                saved_metadata.get(field["id"]),
+                                validated,
+                            ),
+                        ],
+                        spacing=5,
+                    ),
+                    bgcolor="#F8FAFC",
+                    border=ft.border.all(1, "#E5E7EB"),
+                    border_radius=12,
+                    padding=12,
+                )
+                for field in metadata["fields"]
+            ],
+            *(
+                [
+                    ft.Container(
+                        content=ft.Column(
+                            controls=[
+                                ft.Text(
+                                    "Qué debes revisar",
+                                    size=14,
+                                    weight=ft.FontWeight.BOLD,
+                                    color="#991B1B",
+                                ),
+                                *[
+                                    ft.Text(
+                                        f"• {detail}",
+                                        size=13,
+                                        color="#7F1D1D",
+                                    )
+                                    for detail in feedback_details
+                                ],
+                            ],
+                            spacing=6,
+                        ),
+                        bgcolor="#FEF2F2",
+                        border=ft.border.all(1, "#FECACA"),
+                        border_radius=12,
+                        padding=14,
+                    )
+                ]
+                if validated and feedback_details
+                else []
+            ),
             ft.ElevatedButton("Validar prueba", on_click=validate),
             build_result_box(state["feedback"]["p07"]),
         ],
-        spacing=12,
+        spacing=14,
     )
 
     return question_block(
-        title=test_data["title"],
-        statement=test_data["statement"],
+        title=data["title"],
+        statement=data["statement"],
         content=content,
     )

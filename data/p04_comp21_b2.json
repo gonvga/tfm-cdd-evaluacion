@@ -3,11 +3,11 @@
   "scenario_id": "comp21_b2_protocolo_curacion",
   "scenario_title": "Protocolo B2 de evaluación, asesoramiento y actualización",
   "title": "P04 · Protocolo de curación avanzada B2",
-  "statement": "Evalúa los indicadores 2.1.B2.1, 2.1.B2.2 y 2.1.B2.3 mediante un instrumento relacional de catalogación, asesoramiento informal a otro docente y actualización proactiva de repositorios.",
-  "intro": "Escenario: coordinas una pequeña selección de contenidos digitales sobre pensamiento crítico y desinformación para 3º de ESO. El equipo docente quiere recursos de calidad, accesibles, verificables, reutilizables y catalogados con criterios comunes.",
+  "statement": "Evalúa los indicadores 2.1.B2.1, 2.1.B2.2 y 2.1.B2.3 mediante un instrumento relacional, asesoramiento razonado y un plan de actualización de repositorios.",
+  "intro": "Escenario: coordinas una selección de contenidos digitales sobre pensamiento crítico y desinformación para 3.º de ESO. El equipo necesita un protocolo común que permita justificar decisiones, mejorar búsquedas futuras y compartir novedades fiables.",
   "protocol": {
     "title": "Fase A · Instrumento relacional de evaluación y catalogación",
-    "description": "Evalúa cada recurso con una tabla relacional: nivel cognitivo, competencia trabajada, decisión de curación y puntuaciones de calidad.",
+    "description": "Analiza las evidencias de cada ficha y completa el instrumento de catalogación. Relaciona el recurso con el uso cognitivo y competencial más adecuado, decide si lo recomendarías, adaptarías o descartarías y valora su calidad técnica, veracidad y relevancia.",
     "bloom_options": [
       "Comprender",
       "Aplicar",
@@ -26,160 +26,165 @@
       "Adaptar",
       "Descartar"
     ],
-    "score_options": [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5"
-    ],
+    "score_options": ["1", "2", "3", "4", "5"],
     "resources": [
       {
         "id": "A",
         "title": "Guía institucional para verificar noticias",
         "format": "PDF accesible",
-        "evidence": "Autoría institucional, fecha 2026, licencia CC BY, rúbrica de verificación y ejemplos para aula.",
-        "expected_bloom": "Evaluar",
-        "expected_competence": "Alfabetización mediática",
-        "expected_decision": "Recomendar",
-        "minimum_scores": {
-          "technical": 4,
-          "truth": 4,
-          "relevance": 4
-        }
+        "source": "Portal institucional de alfabetización mediática",
+        "authorship": "Equipo técnico identificado",
+        "date_license": "Actualizada en 2026 · CC BY 4.0",
+        "accessibility": "PDF etiquetado, índice navegable y contraste adecuado",
+        "classroom_use": "Incluye rúbrica de verificación, ejemplos comentados y propuesta para 3.º de ESO",
+        "evidence": "Presenta autoría, fuentes, fecha reciente, permiso de reutilización y una estructura directamente aplicable al aula.",
+        "accepted_bloom": ["Evaluar", "Analizar"],
+        "accepted_competences": ["Alfabetización mediática", "Ciudadanía digital"],
+        "accepted_decisions": ["Recomendar"],
+        "reference_scores": {"technical": 5, "truth": 5, "relevance": 5},
+        "explanation": "Es un recurso actual, verificable, accesible y reutilizable; puede recomendarse directamente."
       },
       {
         "id": "B",
         "title": "Vídeo viral sobre bulos sin fuente contrastada",
         "format": "Vídeo",
-        "evidence": "No indica autoría, no aporta fuentes, no tiene subtítulos y la licencia no permite reutilización.",
-        "expected_bloom": "Comprender",
-        "expected_competence": "Ciudadanía digital",
-        "expected_decision": "Descartar",
-        "minimum_scores": {
-          "technical": 1,
-          "truth": 1,
-          "relevance": 2
-        }
+        "source": "Cuenta personal en una plataforma de vídeo",
+        "authorship": "No identificada",
+        "date_license": "Sin fecha verificable · sin licencia de reutilización",
+        "accessibility": "Sin subtítulos, transcripción ni descripción",
+        "classroom_use": "Mensaje llamativo y breve, pero no aporta referencias ni actividad didáctica",
+        "evidence": "No permite comprobar quién lo creó, de dónde procede la información ni si puede reutilizarse legalmente.",
+        "accepted_bloom": ["Comprender", "Analizar"],
+        "accepted_competences": ["Ciudadanía digital", "Alfabetización mediática"],
+        "accepted_decisions": ["Descartar"],
+        "reference_scores": {"technical": 1, "truth": 1, "relevance": 2},
+        "explanation": "Las carencias de autoría, fuentes, accesibilidad y licencia impiden incorporarlo al catálogo."
       },
       {
         "id": "C",
         "title": "Actividad H5P: compara dos titulares",
         "format": "Interactivo",
-        "evidence": "Repositorio del centro, accesible con teclado, licencia de uso educativo y requiere breve contextualización docente.",
-        "expected_bloom": "Analizar",
-        "expected_competence": "Comunicación",
-        "expected_decision": "Adaptar",
-        "minimum_scores": {
-          "technical": 4,
-          "truth": 3,
-          "relevance": 4
-        }
+        "source": "Repositorio compartido del centro",
+        "authorship": "Departamento de Lengua",
+        "date_license": "Revisada este curso · licencia de uso y adaptación educativa",
+        "accessibility": "Compatible con teclado y con retroalimentación textual",
+        "classroom_use": "Compara titulares reales; necesita añadir contexto sobre desinformación y criterios de verificación",
+        "evidence": "La base técnica es adecuada y la actividad promueve análisis, aunque requiere contextualización antes de utilizarla.",
+        "accepted_bloom": ["Analizar", "Evaluar"],
+        "accepted_competences": ["Comunicación", "Alfabetización mediática"],
+        "accepted_decisions": ["Adaptar", "Recomendar"],
+        "reference_scores": {"technical": 4, "truth": 3, "relevance": 4},
+        "explanation": "Tiene buena base técnica y didáctica; adaptar o recomendar con contextualización son decisiones defendibles."
       },
       {
         "id": "D",
         "title": "Banco de imágenes satíricas sin licencia visible",
         "format": "Imágenes",
-        "evidence": "Puede motivar debate, pero no hay autoría clara, licencia ni texto alternativo.",
-        "expected_bloom": "Analizar",
-        "expected_competence": "Alfabetización mediática",
-        "expected_decision": "Descartar",
-        "minimum_scores": {
-          "technical": 2,
-          "truth": 2,
-          "relevance": 3
-        }
+        "source": "Colección enlazada desde varias redes sociales",
+        "authorship": "Incompleta o no verificable",
+        "date_license": "Sin fecha común · licencia no visible",
+        "accessibility": "Sin textos alternativos ni descripciones",
+        "classroom_use": "Algunas imágenes podrían iniciar un debate, pero no incluyen contexto ni propuesta educativa",
+        "evidence": "El posible interés didáctico no resuelve los problemas de procedencia, derechos de uso y accesibilidad.",
+        "accepted_bloom": ["Analizar", "Evaluar"],
+        "accepted_competences": ["Alfabetización mediática", "Comunicación"],
+        "accepted_decisions": ["Descartar"],
+        "reference_scores": {"technical": 2, "truth": 2, "relevance": 3},
+        "explanation": "La posible relevancia no compensa la falta de licencia, autoría y accesibilidad."
       }
     ]
   },
   "advice": {
     "title": "Fase B · Asesoramiento informal a otro docente",
-    "description": "Escribe dos consultas que recomendarías a una compañera para localizar recursos verificables y reutilizables.",
+    "description": "Una compañera te pide ayuda para localizar dos tipos de recursos. Para cada caso, escribe la consulta que le recomendarías usar, explica qué aporta cada filtro o término y describe las comprobaciones que debería realizar al abrir los resultados. No basta con encontrar enlaces: debes mostrar cómo reducir ruido, verificar la calidad y decidir si el recurso puede incorporarse o necesita otra búsqueda.",
     "tasks": [
       {
         "id": "institutional_pdf",
-        "label": "Consulta para localizar una guía institucional reutilizable",
-        "hint": "Debe acotar fuente, formato y licencia.",
-        "required_patterns": [
-          {
-            "id": "site",
-            "label": "site:",
-            "regex": "(?i)\\bsite\\s*:\\s*\\S+"
-          },
-          {
-            "id": "pdf",
-            "label": "filetype:pdf",
-            "regex": "(?i)\\bfiletype\\s*:\\s*pdf\\b"
-          },
-          {
-            "id": "license",
-            "label": "licencia abierta o Creative Commons",
-            "regex": "(?i)licencia\\s+abierta|creative\\s+commons|\\bcc\\b"
-          }
+        "label": "Localizar una guía institucional reutilizable",
+        "query_hint": "Acota fuente, formato y licencia.",
+        "query_patterns": [
+          {"id": "site", "label": "dominio o fuente institucional", "regex": "(?i)\\bsite\\s*:\\s*\\S+|intef|ministerio|universidad|organismo"},
+          {"id": "pdf", "label": "formato PDF", "regex": "(?i)\\bfiletype\\s*:\\s*pdf\\b|\\bpdf\\b"},
+          {"id": "license", "label": "licencia abierta", "regex": "(?i)licencia\\s+abierta|creative\\s+commons|\\bcc\\b"}
+        ],
+        "rationale_hint": "Explica qué reduce o mejora cada criterio de la consulta.",
+        "rationale_patterns": [
+          {"id": "source_reason", "label": "fiabilidad de la fuente", "regex": "(?i)fiable|institucional|autoridad|autor[ií]a|fuente"},
+          {"id": "reuse_reason", "label": "reutilización o licencia", "regex": "(?i)reutil|licencia|creative\\s+commons|adaptar"},
+          {"id": "format_reason", "label": "utilidad del formato", "regex": "(?i)formato|pdf|descarg|accesib"}
+        ],
+        "verification_hint": "Indica qué revisarías al abrir un resultado.",
+        "verification_patterns": [
+          {"id": "authorship", "label": "autoría o procedencia", "regex": "(?i)autor[ií]a|procedencia|instituci[oó]n|fuente"},
+          {"id": "currency", "label": "fecha o actualización", "regex": "(?i)fecha|actualiz|vigencia|año"},
+          {"id": "license_access", "label": "licencia y accesibilidad", "regex": "(?i)licencia|accesib|texto\\s+alternativo|etiquetado"}
         ]
       },
       {
         "id": "interactive_repository",
-        "label": "Consulta para localizar actividad interactiva en repositorios educativos",
-        "hint": "Debe buscar un formato activo y un repositorio educativo.",
-        "required_patterns": [
-          {
-            "id": "interactive",
-            "label": "H5P, interactivo o actividad",
-            "regex": "(?i)h5p|interactiv[oa]|actividad"
-          },
-          {
-            "id": "repository",
-            "label": "repositorio, INTEF, Procomún o aula virtual",
-            "regex": "(?i)repositorio|intef|procom[uú]n|aula\\s+virtual"
-          },
-          {
-            "id": "topic",
-            "label": "desinformación, bulos o verificación",
-            "regex": "(?i)desinformaci[oó]n|bulos|verificaci[oó]n"
-          }
+        "label": "Localizar una actividad interactiva educativa",
+        "query_hint": "Incluye formato activo, tema y repositorio.",
+        "query_patterns": [
+          {"id": "interactive", "label": "formato interactivo", "regex": "(?i)h5p|interactiv[oa]|actividad"},
+          {"id": "repository", "label": "repositorio educativo", "regex": "(?i)repositorio|intef|procom[uú]n|aula\\s+virtual"},
+          {"id": "topic", "label": "tema de desinformación", "regex": "(?i)desinformaci[oó]n|bulos|verificaci[oó]n"}
+        ],
+        "rationale_hint": "Explica cómo la consulta ayuda a encontrar un recurso aplicable.",
+        "rationale_patterns": [
+          {"id": "active_learning", "label": "aprendizaje activo", "regex": "(?i)interacci[oó]n|pr[aá]ctica|particip|aprendizaje\\s+activo|comprobar"},
+          {"id": "repository_reason", "label": "valor del repositorio", "regex": "(?i)repositorio|catalog|educativ|metadatos|fiable"},
+          {"id": "context_reason", "label": "ajuste al contexto", "regex": "(?i)contexto|curso|alumnado|objetivo|competencia"}
+        ],
+        "verification_hint": "Explica cómo probarías el recurso antes de recomendarlo.",
+        "verification_patterns": [
+          {"id": "technical_test", "label": "prueba técnica y accesibilidad", "regex": "(?i)teclado|accesib|compatib|probar|dispositivo"},
+          {"id": "content_test", "label": "veracidad y adecuación", "regex": "(?i)veracidad|fuentes|contenido|adecuaci[oó]n|nivel"},
+          {"id": "license_test", "label": "licencia", "regex": "(?i)licencia|reutil|permiso|creative\\s+commons"}
         ]
       }
     ]
   },
   "repositories": {
-    "title": "Fase C · Actualización proactiva de repositorios",
-    "description": "Selecciona acciones que mantendrían actualizado el catálogo del equipo docente.",
-    "options": [
+    "title": "Fase C · Plan proactivo de actualización",
+    "description": "Convierte la actualización del catálogo en un procedimiento estable para el departamento. Indica dónde y cómo detectarías repositorios nuevos, con qué periodicidad revisarías recursos y metadatos, y cómo compartirías las novedades y conclusiones con el equipo. El plan debe permitir aprender de la experiencia de aula y mejorar las búsquedas siguientes, no limitarse a guardar enlaces.",
+    "fields": [
       {
-        "id": "monitor_institutional",
-        "label": "Revisar periódicamente repositorios institucionales y bancos del centro",
-        "expected": true,
-        "feedback": "Permite detectar nuevos recursos fiables y alineados con el marco del centro."
+        "id": "discovery",
+        "label": "Fuentes y método para descubrir nuevos repositorios",
+        "hint": "Incluye fuentes institucionales y alguna forma activa de detectar novedades.",
+        "required_patterns": [
+          {"id": "institutional", "label": "repositorios institucionales o educativos", "regex": "(?i)institucional|intef|procom[uú]n|universidad|repositorio\\s+educativo"},
+          {"id": "active_monitoring", "label": "seguimiento activo", "regex": "(?i)alerta|bolet[ií]n|suscrip|rss|seguimiento|revisi[oó]n\\s+peri[oó]dica"},
+          {"id": "new_sources", "label": "incorporación de nuevas fuentes", "regex": "(?i)nuevo|ampliar|localizar|descubrir|explorar"}
+        ],
+        "minimum_words": 16
       },
       {
-        "id": "record_metadata",
-        "label": "Registrar metadatos, licencia, accesibilidad, uso previo y valoración del aula",
-        "expected": true,
-        "feedback": "Convierte el catálogo en una herramienta útil para mejorar búsquedas futuras."
+        "id": "review",
+        "label": "Periodicidad y criterios de revisión",
+        "hint": "Indica cuándo revisar y qué datos actualizar.",
+        "required_patterns": [
+          {"id": "cadence", "label": "periodicidad concreta", "regex": "(?i)mensual|trimestral|cada\\s+(mes|trimestre|curso)|inicio\\s+de\\s+curso"},
+          {"id": "criteria", "label": "licencia, accesibilidad y vigencia", "regex": "(?i)(licencia.*accesib|accesib.*licencia).*(fecha|vigencia|actualiz)|(fecha|vigencia|actualiz).*(licencia|accesib)"},
+          {"id": "experience", "label": "uso y valoración en el aula", "regex": "(?i)uso\\s+en\\s+el\\s+aula|experiencia|valoraci[oó]n|resultado|contexto"}
+        ],
+        "minimum_words": 18
       },
       {
-        "id": "share_protocol",
-        "label": "Compartir el protocolo de búsqueda y catalogación con el departamento",
-        "expected": true,
-        "feedback": "Es una forma directa de asesoramiento informal a otros docentes."
-      },
-      {
-        "id": "social_only",
-        "label": "Guardar enlaces de redes sociales sin verificar autoría ni licencia",
-        "expected": false,
-        "feedback": "No asegura calidad técnica, veracidad ni reutilización legal."
-      },
-      {
-        "id": "no_review",
-        "label": "Mantener el catálogo sin revisar recursos antiguos",
-        "expected": false,
-        "feedback": "Un protocolo B2 exige actualización y revisión periódica."
+        "id": "sharing",
+        "label": "Cómo compartir y mejorar el protocolo",
+        "hint": "Explica cómo llegarán las novedades y conclusiones al equipo.",
+        "required_patterns": [
+          {"id": "team", "label": "departamento o equipo docente", "regex": "(?i)departamento|equipo\\s+docente|compañer|claustro"},
+          {"id": "channel", "label": "canal o catálogo compartido", "regex": "(?i)cat[aá]logo|repositorio\\s+compartido|reuni[oó]n|bolet[ií]n|documento\\s+compartido"},
+          {"id": "improvement", "label": "conclusiones para mejorar búsquedas", "regex": "(?i)mejorar.*b[uú]squeda|ajustar.*criterio|conclusi[oó]n|reformular|actualizar.*protocolo"}
+        ],
+        "minimum_words": 16
       }
     ]
   },
   "feedback": {
-    "success": "Prueba superada. Has aplicado un protocolo relacional, formulado estrategias de búsqueda para asesorar y seleccionado acciones de actualización de repositorios.",
-    "failure": "Prueba no superada. Revisa la catalogación relacional, las consultas de asesoramiento y las acciones de actualización del catálogo."
+    "success": "Prueba superada. Has aplicado un protocolo relacional con criterio, asesorado mediante estrategias justificadas y definido un plan proactivo de actualización.",
+    "failure": "Prueba no superada. Revisa la coherencia del protocolo, la justificación del asesoramiento o la operatividad del plan de actualización."
   }
 }
