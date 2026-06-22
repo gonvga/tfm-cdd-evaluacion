@@ -94,6 +94,208 @@ P12 evalua un desempeño avanzado mediante una simulacion autocontenida. El usua
 
 Para superar P12, el usuario debe configurar correctamente todas las funciones adecuadas del repositorio, descartar practicas que dificultan la identificacion o comprometen el acceso y resolver correctamente los tres casos de asesoramiento.
 
+## Guía de respuestas y aprendizaje
+
+Las soluciones siguientes explican la lógica de cada opción. La regla general de esta competencia es que compartir no significa simplemente «dar acceso»: implica elegir el entorno, limitar permisos, conservar derechos y autoría, describir el recurso y comprobar que su publicación sea recuperable y segura.
+
+### Soluciones de P09
+
+#### Entornos de compartición
+
+- **Correctos:** aula virtual del centro, nube institucional del departamento y repositorio educativo con licencia, autoría y metadatos. Los tres ofrecen control, organización o trazabilidad apropiados.
+
+- **Incorrecto:** enlace público de edición. Cualquier persona con la URL podría modificar o borrar contenido sin control.
+
+- **Incorrecto:** perfil personal en una red social. No garantiza cuentas educativas, permisos selectivos ni condiciones institucionales de tratamiento y uso.
+
+#### Permisos por rol
+
+| Rol | Permiso correcto | Por qué las otras opciones son incorrectas |
+|---|---|---|
+| Alumnado | Ver y descargar, sin editar | Editar aumenta el riesgo de cambios; ser propietario mediante enlace público elimina control y selectividad. |
+| Profesorado del departamento | Editar la carpeta y mantener versiones | Solo lectura impediría actualizar; la edición anónima impide atribuir los cambios. |
+| Familias | Ver una copia informativa, sin editar | No necesitan modificar la carpeta y un enlace abierto sin restricción no aplica permisos selectivos. |
+
+Se aplica el principio de mínimo privilegio: cada persona recibe solo la capacidad necesaria para su tarea.
+
+#### Autoría y licencias
+
+- **Correctas:** citar autora, fuente y enlace de la imagen CC BY; mantener visible la licencia CC BY-NC-SA del vídeo; elegir y mostrar una licencia para la ficha propia.
+
+- **Incorrecto:** eliminar atribuciones para «limpiar» la carpeta. La presentación visual no justifica borrar la autoría.
+
+- **Incorrecto:** permitir cualquier uso comercial del vídeo. Estar accesible en Internet no anula la condición `NC`.
+
+#### Metadatos
+
+- **Título correcto:** `Ecosistemas: observación y relaciones entre seres vivos`. Describe el tema y la finalidad. `Documento final` y `Unidad 3 - versión definitiva` son nombres de trabajo; `Recursos de Biología para clase` es demasiado amplio.
+
+- **Materia correcta:** `Biología y Geología`. Tutoría, Geografía e Historia y Educación Plástica no representan el área principal.
+
+- **Nivel correcto:** `1.º de ESO`. Los demás niveles no coinciden con el grupo destinatario, aunque alguno sea próximo.
+
+- **Palabras clave correctas:** `ecosistema; cadena trófica; biodiversidad`. Son términos concretos y coherentes. `cosas de ciencias` es vago; `seres vivos; naturaleza; medio ambiente` resulta demasiado amplio; y `células; sistema solar` introduce ruido temático.
+
+### Soluciones de P10
+
+#### Destinos y gestión
+
+- **Actividad evaluable:** curso oficial de Biología y Geología de 3.º de ESO. Allí se asigna al alumnado y se registra su realización.
+
+- **Copia reutilizable:** repositorio del departamento, en 3.º ESO y alfabetización científica. Esta versión puede mantenerse sin alterar la actividad activa.
+
+- **Acciones correctas:** acceso con cuentas educativas y registro de versión, fecha y responsable.
+
+- **Acciones incorrectas:** permitir editar la actividad activa o crear una copia mediante enlace público. La primera puede cambiar una tarea en curso; la segunda no es una copia segura ni trazable.
+
+#### Acceso selectivo
+
+| Agente | Respuesta correcta | Explicación |
+|---|---|---|
+| 3.º ESO A | Visible ahora; realizar y consultar feedback | Es el grupo activo, pero no debe editar la configuración. |
+| 3.º ESO B | Programada para la semana siguiente | Respeta la planificación indicada. |
+| Equipo docente | Consultar la actividad y editar una copia versionada | Permite colaboración sin tocar la versión del alumnado. |
+| Personas externas | Sin acceso | El caso no autoriza publicación pública ni edición externa. |
+
+#### Catalogación
+
+- **Título modelo:** `Lectura crítica de noticias científicas`. Debe incluir lectura, noticias y científicas, con 4-12 palabras.
+
+- **Etapa y nivel:** ESO · 3.º.
+
+- **Materia:** Biología y Geología.
+
+- **Tipo:** actividad interactiva evaluable.
+
+- **Licencia:** CC BY-NC-SA 4.0, exactamente la declarada en el paquete.
+
+- **Etiquetas correctas:** `fuentes de información`, `alfabetización científica` y `pensamiento crítico`.
+
+- **Etiquetas incorrectas:** `interesante` y `varios`, porque expresan una valoración subjetiva o una categoría vacía, no conceptos recuperables del tesauro.
+
+#### Configuración SCORM
+
+- **Tipo de elemento:** actividad SCORM importada. Un ZIP descargable no activa el contenido ni comunica resultados; tampoco es una aplicación externa.
+
+- **Estándar:** SCORM 1.2, según el manifiesto. Elegir SCORM 2004 o IMSCP contradice el informe.
+
+- **Seguimiento:** finalización y puntuación. El paquete declara esos datos, no el texto completo de interacciones ni solo descargas.
+
+- **Evaluación:** enviar la puntuación al libro de calificaciones. Desactivar la comunicación desaprovecha el seguimiento y publicarla mediante enlace vulnera la privacidad.
+
+### Soluciones de P11
+
+#### Mapa de publicación
+
+| Pieza | Destino correcto | Razón |
+|---|---|---|
+| Unidad completa reutilizable | Repositorio institucional | Es el espacio catalogado y estable para reutilización. |
+| Actividad del alumnado | Curso oficial del CLMS | Permite acceso de grupo y seguimiento. |
+| Copia editable | Carpeta colaborativa docente | Facilita mantenimiento y versiones por el equipo. |
+| Resumen para familias | Blog de aula | Publica orientación general sin exponer la unidad restringida. |
+
+La nube personal con enlace público no es correcta para ninguna pieza: queda fuera de los entornos institucionales y debilita el control.
+
+#### Matriz de permisos
+
+- **Alumnado:** ver en el CLMS y descargar IMSCP, sin editar.
+
+- **Equipo docente:** editar una copia versionada.
+
+- **Familias:** consultar solo el resumen informativo.
+
+- **Público no autenticado:** sin acceso a la unidad completa.
+
+Intercambiar estos permisos produce dos tipos de error: impedir una función necesaria —por ejemplo, que el profesorado mantenga la copia— o conceder más acceso del necesario —por ejemplo, edición pública—.
+
+#### Ficha de catalogación
+
+- **Título:** `Consumo responsable y toma de decisiones - 2 ESO`.
+
+- **Palabras clave:** deben incluir `sostenibilidad`, `consumo responsable` y `ciudadanía global`.
+
+- **Etiquetas sociales:** deben incluir `ODS12`, `compra ética` y `presupuesto familiar`.
+
+- **Etapa y nivel:** Educación Secundaria Obligatoria · 2.º ESO.
+
+- **Materia y bloque:** Geografía e Historia · Sostenibilidad y consumo.
+
+- **Tipo:** unidad didáctica interactiva.
+
+- **Licencia:** CC BY-NC-SA 4.0 con autoría del equipo docente.
+
+- **Formato:** IMS Content Packaging.
+
+Primaria, Bachillerato, Matemáticas o Tutoría no coinciden con el contexto curricular. «Archivo suelto» y «entrada informativa» no describen una unidad interactiva. Una licencia sin autoría o no visible impide conocer los usos permitidos. Un ZIP sin manifiesto y un enlace externo no equivalen a IMSCP.
+
+#### Preparación IMSCP
+
+- **Incluir:** `imsmanifest.xml`, `index.html`, carpeta `assets` y archivo de licencia y autoría.
+
+- **No incluir:** notas privadas del profesorado. El paquete será descargable por alumnado y no debe exponer documentación interna.
+
+- **Ámbito:** solo alumnado autenticado del grupo. El acceso público es excesivo y limitarlo al profesorado impediría cumplir la finalidad.
+
+- **Comprobación:** validar manifiesto, metadatos, licencia y enlaces. Que el ZIP suba no demuestra que su estructura y recursos funcionen; omitir la revisión deja errores sin detectar.
+
+### Soluciones de P12
+
+#### Identificación y navegación
+
+- **Activar la taxonomía oficial y el vocabulario controlado.** Unifica términos y evita variantes que fragmenten los resultados.
+
+- **Hacer obligatorios autoría, procedencia, licencia, etapa, materia, tipo, fecha y accesibilidad.** Sin esos datos no se puede valorar ni filtrar adecuadamente.
+
+- **Activar filtros facetados combinables.** Permiten reducir resultados mediante varias características simultáneas.
+
+- **Relacionar versiones, materiales docentes y adaptaciones accesibles.** Ayuda a navegar entre recursos vinculados sin confundirlos.
+
+- **Mostrar una insignia de accesibilidad.** Permite conocer y filtrar esta característica antes de abrir cada recurso.
+
+- **No sustituir la taxonomía por etiquetas libres.** Cada docente usaría términos distintos y disminuiría la precisión.
+
+- **No ocultar metadatos.** Un nombre de archivo aislado no informa sobre nivel, materia, licencia o accesibilidad.
+
+#### Acceso y publicación
+
+- **Crear una búsqueda guardada para el alumnado.** Ofrece una entrada eficiente con los filtros de curso y materia ya aplicados.
+
+- **Mantener borradores privados y revisión previa.** Separa el trabajo en curso de los materiales validados.
+
+- **Previsualizar metadatos, licencia, enlaces y accesibilidad.** Permite corregir la ficha y el recurso antes de hacerlo visible.
+
+- **Publicar la versión validada en la colección profesional.** Garantiza que la colección reúna materiales identificados y revisados.
+
+- **No permitir edición anónima.** Elimina trazabilidad y control sobre las correcciones.
+
+- **No publicar todos los borradores.** Traslada al usuario la responsabilidad de distinguir versiones incompletas y puede exponer errores.
+
+#### Asesoramiento docente
+
+**Caso de Lucía: licencia**
+
+- **Correcta:** indicar su autoría y aplicar CC BY-SA. Permite adaptación con atribución y obliga a compartir la derivada bajo la misma licencia.
+
+- **Incorrecta:** publicar sin licencia. Estar en el repositorio no concede por sí solo derechos de adaptación.
+
+- **Incorrecta:** aplicar CC0 sin revisar recursos de terceros. Lucía no puede renunciar a derechos que no posee.
+
+**Caso de Diego: metadatos**
+
+- **Correcta:** crear un título descriptivo y completar etapa, curso, materia, competencia, tipo, palabras clave, autoría, licencia y fecha. Así el cuestionario puede identificarse, filtrarse y evaluarse antes de abrirlo.
+
+- **Incorrecta:** conservar `Actividad final` y añadir muchas etiquetas libres. El título sigue siendo ambiguo y las etiquetas pueden no coincidir con la taxonomía.
+
+- **Incorrecta:** confiar solo en el nombre del archivo. No garantiza la indexación de los campos educativos y legales necesarios.
+
+**Caso de Nora: accesibilidad**
+
+- **Correcta:** registrar características y nivel de accesibilidad para mostrar la insignia y habilitar filtros.
+
+- **Incorrecta:** escribir únicamente «accesible» en la descripción. Es una afirmación genérica que no alimenta el campo estructurado.
+
+- **Incorrecta:** omitirlo hasta que se reproduzca el vídeo. Obliga a abrir cada recurso y excluye la accesibilidad de la búsqueda previa.
+
 ## Feedback E Interfaz
 
 Las pruebas P09-P12 ofrecen feedback contextual sobre seguridad, permisos, licencias, metadatos y publicacion. P12 presenta toda la informacion necesaria dentro de la interfaz y genera evidencias estructuradas de los indicadores B2.1 y B2.2.
