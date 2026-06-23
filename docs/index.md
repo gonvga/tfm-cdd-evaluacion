@@ -11,7 +11,7 @@ Esta aplicación evalúa el Área 2 del Marco de Referencia de la Competencia Di
   <span class="download-meta">Windows 10 y 11 · Archivo ZIP · Versión más reciente</span>
 </div>
 
-## Abrirla es así de sencillo
+## Cómo abrir la aplicación
 
 <div class="simple-steps">
   <div class="simple-step">
@@ -67,3 +67,9 @@ Los niveles B1 y B2 profundizan en la autonomía y el protocolo, garantizando qu
 ## Privacidad y resultados
 
 La aplicación se ejecuta en el propio equipo. Los resultados se guardan automáticamente en la carpeta `results` y no se envían a ningún servicio externo.
+
+## Licencia
+
+[![Licencia Creative Commons Atribución-CompartirIgual 4.0](images/licencia_cc_by_sa.png){ .license-badge }](https://creativecommons.org/licenses/by-sa/4.0/deed.es)
+
+Esta obra se distribuye bajo una licencia [Creative Commons Atribución-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-sa/4.0/deed.es).

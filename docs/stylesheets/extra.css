@@ -76,6 +76,11 @@
   margin-bottom: 0.35rem;
 }
 
+.license-badge {
+  width: 240px;
+  height: auto;
+}
+
 @media screen and (max-width: 44.9844em) {
   .simple-steps {
     grid-template-columns: 1fr;
