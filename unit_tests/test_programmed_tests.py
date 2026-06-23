@@ -172,7 +172,8 @@ def correct_p03(data):
         },
         "p03_catalog": {
             resource["id"]: {
-                "folder": resource["expected_folder"],
+                "decision": resource["expected_decision"],
+                "purpose": resource["expected_purpose"],
                 "difficulty": resource["expected_difficulty"],
                 "tag": resource["expected_tag"],
             }
@@ -189,20 +190,47 @@ def correct_p04(data):
     return {
         "p04_catalog": {
             resource["id"]: {
-                "bloom": resource["expected_bloom"],
-                "competence": resource["expected_competence"],
-                "decision": resource["expected_decision"],
-                "technical": str(resource["minimum_scores"]["technical"]),
-                "truth": str(resource["minimum_scores"]["truth"]),
-                "relevance": str(resource["minimum_scores"]["relevance"]),
+                "bloom": resource["accepted_bloom"][0],
+                "competence": resource["accepted_competences"][0],
+                "decision": resource["accepted_decisions"][0],
+                "technical": str(resource["reference_scores"]["technical"]),
+                "truth": str(resource["reference_scores"]["truth"]),
+                "relevance": str(resource["reference_scores"]["relevance"]),
             }
             for resource in data["protocol"]["resources"]
         },
-        "p04_queries": {
-            task["id"]: passing_query()
+        "p04_advice": {
+            task["id"]: {
+                "query": passing_query(),
+                "rationale": (
+                    "La fuente fiable institucional y el repositorio educativo reducen ruido. "
+                    "La licencia Creative Commons permite reutilizar o adaptar, el formato PDF "
+                    "accesible ayuda a descargar y catalogar, y la actividad interactiva favorece "
+                    "la participacion, el aprendizaje activo y el ajuste al contexto del curso, "
+                    "al alumnado y a la competencia."
+                ),
+                "verification": (
+                    "Revisaria autoria, procedencia, institucion, fecha de actualizacion, "
+                    "licencia, accesibilidad, teclado, fuentes, veracidad, contenido, "
+                    "adecuacion al nivel y compatibilidad tecnica."
+                ),
+            }
             for task in data["advice"]["tasks"]
         },
-        "p04_repository_actions": expected_ids(data["repositories"]["options"]),
+        "p04_repository_plan": {
+            "discovery": (
+                "Revisar repositorio educativo institucional como INTEF y Procomun, "
+                "activar alerta, boletin o RSS y explorar nuevo repositorio cada trimestre."
+            ),
+            "review": (
+                "Revision trimestral de fecha, vigencia, licencia y accesibilidad, junto "
+                "con la experiencia y valoracion de uso en el aula para actualizar criterios."
+            ),
+            "sharing": (
+                "Compartir en el departamento mediante catalogo compartido y reunion breve; "
+                "registrar conclusion para mejorar busqueda, reformular criterios y actualizar protocolo."
+            ),
+        },
     }
 
 
@@ -250,24 +278,99 @@ def correct_p06(data):
 
 def correct_p07(data):
     return {
-        "p07_blocks": list(data["builder"]["required_order"]),
-        "p07_license": expected_id(data["license"]["options"]),
-        "p07_metadata": {
-            field["id"]: expected_id(field["options"])
-            for field in data["metadata"]["fields"]
+        "p07_answers": {
+            "operations": {
+                component["id"]: component["expected"]
+                for component in data["operations"]["components"]
+            },
+            "settings": [
+                setting["id"]
+                for setting in data["authoring"]["settings"]
+                if setting["expected"]
+            ],
+            "export": data["authoring"]["export"]["expected"],
+            "change_log": (
+                "Version 1 con estructura en secciones y encabezado, transcripcion "
+                "del audio, accesibilidad por teclado, actividad con pista y "
+                "retroalimentacion, glosario contextual y ampliacion opcional."
+            ),
+            "attribution": (
+                "Adaptacion de Procesos y cambios en un sistema natural, Banco de "
+                "Recursos Abiertos, con cambios de estructura, audio y actividad."
+            ),
+            "derivative_license": data["license"]["derivative_license"]["expected"],
+            "metadata": {
+                "audience": "1 ESO con distinto ritmo de lectura y necesidades de teclado, transcripcion y accesibilidad.",
+                "purpose": "Comprender y ordenar los tres procesos consecutivos de la secuencia natural.",
+                "accessibility": "Incluye transcripcion, teclado, foco visible, orden de lectura y glosario accesible.",
+                "format": "HTML5 editable para Moodle probado en tableta y pantalla estrecha.",
+                "version": "Version 1 con estructura por encabezado, audio con transcripcion y actividad con retroalimentacion.",
+            },
         },
     }
 
 
 def correct_p08(data):
     return {
-        "p08_sequence": list(data["resource_bank"]["required_order"]),
-        "p08_modifications": expected_ids(data["modifications"]["options"]),
-        "p08_safety": expected_ids(data["safety"]["options"]),
-        "p08_evaluation_matrix": expected_ids(data["evaluation_matrix"]["options"]),
-        "p08_export": {
-            field["id"]: expected_id(field["options"])
-            for field in data["export"]["fields"]
+        "p08_answers": {
+            "sequence": list(data["resource_bank"]["required_resources"]),
+            "modifications": {
+                "open_infographic": (
+                    "Simplificar vocabulario y nivel, reorganizar la estructura visual, "
+                    "mejorar contraste y color, anadir texto alternativo y descripcion, "
+                    "manteniendo el SVG editable para Moodle."
+                ),
+                "captioned_video": (
+                    "Recortar el fragmento relevante, conservar subtitulo revisado, "
+                    "integrar transcripcion descargable y situarlo en la secuencia de Moodle."
+                ),
+                "label_simulator": (
+                    "Redactar instruccion y consigna claras, organizar paso guiada con apoyo, "
+                    "anadir retroalimentacion y pista, y comprobar teclado y accesibilidad."
+                ),
+            },
+            "own_elements": {
+                "opening_challenge": (
+                    "Reto de merienda y compra: leer una etiqueta, comparar opciones de consumo, "
+                    "responder una pregunta guia y elaborar una recomendacion como producto."
+                ),
+                "guided_support": (
+                    "Plantilla con tabla, pregunta por paso y criterio visible para distintos "
+                    "ritmos, con apoyo de nivel para interpretar etiquetas."
+                ),
+                "final_assessment": (
+                    "Producto final: recomendacion y presentacion breve. Rubrica con criterio "
+                    "sobre datos, interpretacion, justificacion, comunicacion y uso de fuentes. "
+                    "El alumnado compara evidencias y explica una decision responsable."
+                ),
+            },
+            "safety_settings": [
+                setting["id"]
+                for setting in data["safety"]["settings"]
+                if setting["expected"]
+            ],
+            "recovery": (
+                "Usar historial de version para restaurar, recuperar desde copia de respaldo "
+                "y comprobar, comparar y validar el paquete."
+            ),
+            "evaluation_criteria": (
+                "Registrar pertinencia al objetivo y nivel, veracidad de fuente y autoria, "
+                "licencia, accesibilidad, compatibilidad de formato con Moodle y decision "
+                "documentada para recomendar, adaptar o descartar, con evidencias de aula."
+            ),
+            "evaluation_follow_up": (
+                "Tras el uso con alumnado en aula, recoger resultado, dificultad e incidencia "
+                "tecnica o de accesibilidad, actualizar criterios y mejorar el catalogo y registro."
+            ),
+            "export": {
+                field["id"]: field["expected"]
+                for field in data["export"]["fields"]
+            },
+            "package_metadata": (
+                "Titulo unidad consumo responsable, autoria docente, 2 ESO, objetivo, "
+                "licencia, accesibilidad, formato SCORM, recursos incluidos y version v1 "
+                "para despliegue en Moodle."
+            ),
         },
     }
 
