@@ -1,54 +1,21 @@
 # Evaluación CDD
 
-Aplicación de evaluación práctica del Área 2 del MRCDD.
+Aplicación práctica para evaluar el Área 2 del Marco de Referencia de la Competencia Digital Docente (MRCDD).
+
+## Documentación
+
+Toda la información sobre la aplicación, las pruebas y su uso está disponible en:
+
+### [Abrir la documentación de Evaluación CDD](https://gonvga.github.io/tfm-cdd-evaluacion/)
 
 ## Descargar para Windows
 
 [Descargar la versión portable más reciente](https://github.com/gonvga/tfm-cdd-evaluacion/releases/latest/download/EvaluacionCDD-portable-windows.zip)
 
-No requiere instalación ni Python:
+No requiere instalación ni Python. Descomprime el ZIP y ejecuta `EvaluacionCDD-portable.exe`.
 
-1. Descomprime `EvaluacionCDD-portable-windows.zip`.
-2. Abre la carpeta `EvaluacionCDD-portable`.
-3. Ejecuta `EvaluacionCDD-portable.exe`.
+## Licencia
 
-El `.exe` debe permanecer junto a la carpeta `_internal`.
+[![Licencia Creative Commons BY-SA](assets/licencia_cc_by_sa.png)](https://creativecommons.org/licenses/by-sa/4.0/deed.es)
 
-Consulta la [guía detallada](https://gonvga.github.io/tfm-cdd-evaluacion/instalacion/) si Windows muestra una advertencia.
-
-## Ejecutar desde el código
-
-```powershell
-.\venv\Scripts\python.exe app.py
-```
-
-## Crear el portable
-
-```powershell
-.\venv\Scripts\python.exe -m pip install -r requirements-build.txt
-.\build_portable.ps1
-```
-
-La salida se crea en:
-
-- `dist/EvaluacionCDD-portable/`
-- `dist/EvaluacionCDD-portable-windows.zip`
-
-## Publicar una nueva versión
-
-Al subir una etiqueta con formato `vX.Y.Z`, GitHub Actions crea el portable y lo adjunta automáticamente a una nueva Release:
-
-```powershell
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-El enlace de descarga de esta página y de la documentación apuntará siempre a la Release más reciente.
-
-## Ver la documentación
-
-```powershell
-.\venv\Scripts\python.exe -m mkdocs serve
-```
-
-Después abre `http://127.0.0.1:8000`.
+Esta obra se distribuye bajo una licencia [Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/deed.es).
