@@ -3,8 +3,8 @@
 Esta aplicación evalúa el Área 2 del Marco de Referencia de la Competencia Digital Docente mediante tareas prácticas.
 
 <div class="download-hero">
-  <h2>Aplicación portable para Windows</h2>
-  <p>Descárgala, descomprime el archivo y empieza. No requiere instalación, Python ni una cuenta de GitHub.</p>
+  <h2>Descargar aplicación</h2>
+  <p>Accede a la herramienta completa en tu equipo y realiza las pruebas sin conexión ni registro previo.</p>
   <a class="download-button" href="https://github.com/gonvga/tfm-cdd-evaluacion/releases/latest/download/EvaluacionCDD-portable-windows.zip">
     Descargar para Windows
   </a>
