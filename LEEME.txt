@@ -1,0 +1,36 @@
+EVALUACIÓN CDD - INSTRUCCIONES PARA WINDOWS
+=============================================
+
+No necesitas instalar la aplicación ni tener conocimientos informáticos.
+
+CÓMO ABRIR LA APLICACIÓN
+
+1. Extrae todo el contenido del archivo ZIP.
+2. Abre la carpeta "EvaluacionCDD-portable".
+3. Haz doble clic en "EvaluacionCDD-portable.exe".
+
+IMPORTANTE
+
+- No ejecutes la aplicación directamente desde el archivo ZIP.
+- No separes el archivo .exe de la carpeta "_internal".
+- Puedes mover la carpeta completa a otro lugar o a una memoria USB.
+
+SI WINDOWS MUESTRA UNA ADVERTENCIA
+
+La aplicación no está firmada digitalmente. Si aparece la ventana
+"Windows protegió su PC":
+
+1. Pulsa "Más información".
+2. Pulsa "Ejecutar de todas formas".
+
+DÓNDE SE GUARDAN LOS RESULTADOS
+
+Los resultados se guardan normalmente en la carpeta "results", situada
+junto a la aplicación.
+
+Si Windows no permite escribir ahí, se guardan en:
+%LOCALAPPDATA%\EvaluacionCDD\results
+
+AYUDA Y NUEVAS VERSIONES
+
+https://gonvga.github.io/tfm-cdd-evaluacion/

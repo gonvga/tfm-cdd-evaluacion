@@ -1,0 +1,57 @@
+name: Publicar aplicación portable
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Crear portable para Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-build.txt
+
+      - name: Crear entorno e instalar dependencias
+        shell: pwsh
+        run: |
+          python -m venv venv
+          .\venv\Scripts\python.exe -m pip install --upgrade pip
+          .\venv\Scripts\python.exe -m pip install -r requirements-build.txt
+
+      - name: Construir y comprimir la aplicación
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          .\build_portable.ps1 -Version $version
+
+      - name: Publicar GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/EvaluacionCDD-portable-windows.zip
+          generate_release_notes: true
+          name: Evaluación CDD ${{ github.ref_name }}
+          body: |
+            ## Descargar y ejecutar
+
+            1. Descarga `EvaluacionCDD-portable-windows.zip`.
+            2. Extrae todo el contenido.
+            3. Abre la carpeta y haz doble clic en `EvaluacionCDD-portable.exe`.
+
+            No requiere instalación ni Python. Consulta la
+            [guía de uso](https://gonvga.github.io/tfm-cdd-evaluacion/instalacion/)
+            si Windows muestra una advertencia.

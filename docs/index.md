@@ -2,6 +2,34 @@
 
 Esta aplicación evalúa el Área 2 del Marco de Referencia de la Competencia Digital Docente mediante tareas prácticas.
 
+<div class="download-hero">
+  <h2>Aplicación portable para Windows</h2>
+  <p>Descárgala, descomprime el archivo y empieza. No requiere instalación, Python ni una cuenta de GitHub.</p>
+  <a class="download-button" href="https://github.com/gonvga/tfm-cdd-evaluacion/releases/latest/download/EvaluacionCDD-portable-windows.zip">
+    Descargar para Windows
+  </a>
+  <span class="download-meta">Windows 10 y 11 · Archivo ZIP · Versión más reciente</span>
+</div>
+
+## Abrirla es así de sencillo
+
+<div class="simple-steps">
+  <div class="simple-step">
+    <strong>Descarga el archivo</strong>
+    Pulsa el botón anterior y espera a que termine la descarga.
+  </div>
+  <div class="simple-step">
+    <strong>Extrae todo</strong>
+    Haz clic derecho sobre el ZIP y elige <em>Extraer todo</em>.
+  </div>
+  <div class="simple-step">
+    <strong>Abre la aplicación</strong>
+    Entra en la carpeta y haz doble clic en <code>EvaluacionCDD-portable.exe</code>.
+  </div>
+</div>
+
+[Ver las instrucciones detalladas](instalacion.md){ .md-button }
+
 ## Competencias evaluadas
 
 | Competencia | Descripción |
@@ -36,14 +64,6 @@ Las pruebas A2 evalúan la aplicación práctica con ayuda:
 
 Los niveles B1 y B2 profundizan en la autonomía y el protocolo, garantizando que el conjunto de pruebas represente la progresión esperada del MRCDD.
 
-## Uso rápido
+## Privacidad y resultados
 
-La forma más sencilla de usar la aplicación es la versión portable de Windows:
-
-1. Descomprime `EvaluacionCDD-portable-windows.zip`.
-2. Abre la carpeta `EvaluacionCDD-portable`.
-3. Ejecuta `EvaluacionCDD-portable.exe`.
-
-El ejecutable debe permanecer junto a la carpeta `_internal`.
-
-Los resultados se guardan automáticamente en la carpeta `results`.
+La aplicación se ejecuta en el propio equipo. Los resultados se guardan automáticamente en la carpeta `results` y no se envían a ningún servicio externo.

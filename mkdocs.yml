@@ -32,6 +32,9 @@ theme:
         icon: material/weather-sunny
         name: Cambiar a modo claro
 
+extra_css:
+  - stylesheets/extra.css
+
 plugins:
   - search:
       lang: es
@@ -52,9 +55,9 @@ markdown_extensions:
 
 nav:
   - Inicio: index.md
+  - Descargar: instalacion.md
   - Arquitectura: arquitectura.md
   - Desarrollo de pruebas: desarrollo-pruebas.md
   - Competencia 2.1: competencia-21.md
   - Competencia 2.2: competencia-22.md
   - Competencia 2.3: competencia-23.md
-  - Ejecutar la aplicación: instalacion.md
