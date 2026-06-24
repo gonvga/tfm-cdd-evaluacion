@@ -2,7 +2,7 @@ import os
 
 import flet as ft
 
-from ui.components import info_box, modern_card, primary_button
+from ui.components import apply_accessibility, info_box, modern_card, primary_button
 from ui.test_views.comp21.p01_identificar_recursos import build_test_p01
 from ui.test_views.comp21.p02_seleccionar_recurso import build_test_p02
 from ui.test_views.comp21.p03_banco_recursos import build_test_p03
@@ -271,6 +271,7 @@ def build_evaluation_view(page: ft.Page, state: dict, restart_evaluation) -> ft.
 
     def refresh():
         root.controls = build_layout()
+        apply_accessibility(root)
         page.update()
 
     def go_next(e=None):
