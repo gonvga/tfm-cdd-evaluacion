@@ -6,6 +6,12 @@ La idea principal es mantener una evaluación basada en desempeño: no preguntar
 
 Todo el código y la documentación del proyecto están disponibles en GitHub: [gonvga/tfm-cdd-evaluacion](https://github.com/gonvga/tfm-cdd-evaluacion). Para colaborar, lo habitual es revisar el repositorio, clonarlo o descargarlo, realizar los cambios en una copia local y comprobar que la aplicación y la documentación siguen funcionando.
 
+## Licencia
+
+[![Licencia Creative Commons Atribución-CompartirIgual 4.0](images/licencia_cc_by_sa.png){ .license-badge }](https://creativecommons.org/licenses/by-sa/4.0/deed.es)
+
+Al reutilizar, modificar o redistribuir materiales del proyecto, recuerda respetar la licencia indicada en la documentación y en el repositorio. En particular, debe mantenerse la atribución correspondiente y compartir las obras derivadas bajo las condiciones de la licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es).
+
 ## Qué se puede ampliar
 
 Las contribuciones pueden orientarse a:
