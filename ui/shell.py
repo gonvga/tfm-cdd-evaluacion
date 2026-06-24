@@ -25,7 +25,7 @@ def build_shell(page: ft.Page) -> ft.Control:
     current_view = "welcome"
 
     def apply_shell_accessibility():
-        shell.bgcolor = "#FFFFFF" if ACCESSIBILITY["high_contrast"] else "#F3F4F6"
+        shell.bgcolor = "#000000" if ACCESSIBILITY["high_contrast"] else "#F3F4F6"
         page.bgcolor = shell.bgcolor
         apply_accessibility(toolbar_slot.content)
         apply_accessibility(container.content)

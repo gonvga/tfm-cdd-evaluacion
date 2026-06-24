@@ -9,6 +9,21 @@ TEXT = "#111827"
 MUTED = "#6B7280"
 BORDER = "#E5E7EB"
 
+HC_BG = "#000000"
+HC_SURFACE = "#050505"
+HC_PANEL = "#111111"
+HC_TEXT = "#FFFFFF"
+HC_MUTED = "#E5E7EB"
+HC_ACCENT = "#FFFF00"
+HC_ACCENT_TEXT = "#000000"
+HC_LINK = "#00E5FF"
+HC_SUCCESS = "#00FF66"
+HC_SUCCESS_BG = "#002B14"
+HC_ERROR = "#FF4D4D"
+HC_ERROR_BG = "#330000"
+HC_WARNING = "#FFD400"
+HC_WARNING_BG = "#332600"
+
 ACCESSIBILITY = {
     "scale": 1.0,
     "high_contrast": False,
@@ -38,6 +53,47 @@ SOFT_BACKGROUNDS = {
     "#FFF7ED",
     "#FFFBEB",
     "#DCFCE7",
+}
+
+SUCCESS_COLORS = {
+    ft.Colors.GREEN,
+    "#16A34A",
+    "#166534",
+    "#22C55E",
+    "#86EFAC",
+    "#DCFCE7",
+}
+
+ERROR_COLORS = {
+    ft.Colors.RED,
+    "#DC2626",
+    "#991B1B",
+    "#7F1D1D",
+    "#FEE2E2",
+    "#FEF2F2",
+    "#FECACA",
+}
+
+WARNING_COLORS = {
+    "#EA580C",
+    "#92400E",
+    "#78350F",
+    "#B45309",
+    "#FDE68A",
+    "#FFFBEB",
+}
+
+ACCENT_COLORS = {
+    PRIMARY,
+    PRIMARY_DARK,
+    "#1D4ED8",
+    "#1E40AF",
+    "#1E3A8A",
+    "#2563EB",
+    "#93C5FD",
+    "#DBEAFE",
+    "#EFF6FF",
+    ft.Colors.BLUE_50,
 }
 
 
@@ -112,27 +168,100 @@ def _scale_text_style(
 
 def _apply_high_contrast(control) -> None:
     color = getattr(control, "color", None)
-    if color in LOW_CONTRAST_TEXT_COLORS:
-        control.color = "#111111"
-    elif color in {PRIMARY, PRIMARY_DARK, "#1D4ED8", "#1E40AF"}:
-        control.color = "#003A8C"
-    elif color in {ft.Colors.GREEN, "#16A34A", "#166534"}:
-        control.color = "#005A1F"
-    elif color in {ft.Colors.RED, "#991B1B", "#7F1D1D"}:
-        control.color = "#8B0000"
+    contrast_border = HC_ACCENT
+    if isinstance(control, ft.Text) and color is None:
+        control.color = HC_TEXT
+    elif color in SUCCESS_COLORS:
+        control.color = HC_SUCCESS
+    elif color in ERROR_COLORS:
+        control.color = HC_ERROR
+    elif color in WARNING_COLORS:
+        control.color = HC_WARNING
+    elif color in ACCENT_COLORS:
+        control.color = HC_LINK
+    elif color not in {None, HC_ACCENT_TEXT}:
+        control.color = HC_TEXT
 
     bgcolor = getattr(control, "bgcolor", None)
-    if bgcolor in SOFT_BACKGROUNDS:
-        control.bgcolor = "#FFFFFF"
-    elif bgcolor == PRIMARY:
-        control.bgcolor = "#003A8C"
-    elif bgcolor == ft.Colors.GREEN:
-        control.bgcolor = "#005A1F"
-    elif bgcolor == ft.Colors.RED:
-        control.bgcolor = "#8B0000"
+    if bgcolor in SUCCESS_COLORS:
+        control.bgcolor = HC_SUCCESS_BG
+        contrast_border = HC_SUCCESS
+    elif bgcolor in ERROR_COLORS:
+        control.bgcolor = HC_ERROR_BG
+        contrast_border = HC_ERROR
+    elif bgcolor in WARNING_COLORS:
+        control.bgcolor = HC_WARNING_BG
+        contrast_border = HC_WARNING
+    elif bgcolor in ACCENT_COLORS:
+        control.bgcolor = "#001F29"
+        contrast_border = HC_LINK
+    elif bgcolor is not None:
+        control.bgcolor = HC_PANEL
 
     if hasattr(control, "border") and getattr(control, "border", None):
-        control.border = ft.border.all(1.5, "#111111")
+        control.border = ft.border.all(2, contrast_border)
+
+    if isinstance(control, ft.Icon):
+        control.color = HC_ACCENT
+
+    if isinstance(control, (ft.Radio, ft.Checkbox)):
+        control.active_color = HC_ACCENT
+        control.fill_color = HC_ACCENT
+        control.hover_color = HC_PANEL
+        control.focus_color = HC_ACCENT
+        _scale_text_style(control, "label_style", BODY_TEXT_SIZE, color=HC_TEXT)
+        control.label_style.color = HC_TEXT
+        if isinstance(control, ft.Checkbox):
+            control.check_color = HC_ACCENT_TEXT
+
+    if isinstance(control, (ft.Dropdown, ft.TextField)):
+        control.color = HC_TEXT
+        control.bgcolor = HC_BG
+        control.fill_color = HC_BG
+        control.filled = True
+        control.border_color = HC_ACCENT
+        control.focused_border_color = HC_ACCENT
+        control.focused_border_width = 3
+        control.hover_color = "#1A1A00"
+        control.focus_color = "#1A1A00"
+        for attr in ("text_style", "label_style", "hint_style", "helper_style"):
+            style = getattr(control, attr, None)
+            if style is not None:
+                style.color = HC_TEXT if attr == "text_style" else HC_MUTED
+        if getattr(control, "error_style", None) is not None:
+            control.error_style.color = HC_ERROR
+
+    if isinstance(control, ft.Dropdown):
+        for option in control.options:
+            if option.content is not None:
+                apply_accessibility(option.content)
+
+    if isinstance(control, ft.DataTable):
+        control.bgcolor = HC_BG
+        control.data_text_style = _text_style(BODY_TEXT_SIZE, color=HC_TEXT)
+        control.heading_text_style = _text_style(
+            LABEL_TEXT_SIZE,
+            color=HC_ACCENT,
+            minimum=LABEL_TEXT_SIZE,
+        )
+        control.heading_row_color = HC_PANEL
+        control.data_row_color = HC_BG
+        control.horizontal_lines = ft.BorderSide(2, HC_MUTED)
+        control.vertical_lines = ft.BorderSide(1, "#444444")
+
+    if isinstance(control, ft.Divider):
+        control.color = HC_ACCENT
+
+    if isinstance(control, ft.ProgressBar):
+        control.color = HC_ACCENT
+        control.bgcolor = "#333333"
+
+    if isinstance(control, (ft.ElevatedButton, ft.OutlinedButton, ft.TextButton)):
+        if control.style is None:
+            control.style = ft.ButtonStyle()
+        control.style.bgcolor = HC_ACCENT
+        control.style.color = HC_ACCENT_TEXT
+        control.style.side = ft.BorderSide(2, HC_ACCENT)
 
 
 def _apply_text_sizing(control) -> None:
@@ -215,7 +344,7 @@ def apply_accessibility(control) -> None:
 
 
 def build_accessibility_toolbar(on_decrease, on_increase, on_contrast, on_reset) -> ft.Control:
-    contrast_label = "Contraste alto: sí" if ACCESSIBILITY["high_contrast"] else "Contraste alto"
+    contrast_label = "Contraste alto: SI" if ACCESSIBILITY["high_contrast"] else "Contraste alto"
     return ft.Container(
         content=ft.Row(
             controls=[
