@@ -4,6 +4,8 @@ Este proyecto está pensado como una base ampliable para evaluar la competencia 
 
 La idea principal es mantener una evaluación basada en desempeño: no preguntar solo qué sabe declarar una persona, sino proponer una situación docente concreta y recoger evidencias observables de lo que decide, selecciona, adapta, publica o documenta.
 
+Todo el código y la documentación del proyecto están disponibles en GitHub: [gonvga/tfm-cdd-evaluacion](https://github.com/gonvga/tfm-cdd-evaluacion). Para colaborar, lo habitual es revisar el repositorio, clonarlo o descargarlo, realizar los cambios en una copia local y comprobar que la aplicación y la documentación siguen funcionando.
+
 ## Qué se puede ampliar
 
 Las contribuciones pueden orientarse a:
