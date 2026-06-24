@@ -51,7 +51,14 @@ def build_choice_card(
     return ft.Container(
         content=ft.Column(
             controls=[
-                ft.Radio(value=option["id"], label=option[text_key]),
+                ft.Row(
+                    controls=[
+                        ft.Radio(value=option["id"]),
+                        ft.Text(option[text_key], size=15, expand=True),
+                    ],
+                    spacing=8,
+                    vertical_alignment=ft.CrossAxisAlignment.START,
+                ),
                 *(
                     [
                         inline_feedback(

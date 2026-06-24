@@ -64,7 +64,8 @@ def reset_accessibility() -> None:
 
 def scaled(size: int | float | None, minimum: int = MIN_READABLE_SIZE) -> int:
     base = BODY_TEXT_SIZE if size is None else size
-    return max(minimum, round(base * ACCESSIBILITY["scale"]))
+    zoom_minimum = max(minimum, LABEL_TEXT_SIZE) if ACCESSIBILITY["scale"] > 1 else minimum
+    return max(zoom_minimum, round(base * ACCESSIBILITY["scale"]))
 
 
 def scaled_dimension(size: int | float | None) -> int | None:
@@ -155,8 +156,9 @@ def _apply_text_sizing(control) -> None:
 
     if isinstance(control, ft.Dropdown):
         for option in control.options:
-            if option.content is None and option.text:
-                option.content = ft.Text(option.text, size=BODY_TEXT_SIZE, color=TEXT)
+            option_label = option.text or option.key
+            if option.content is None and option_label:
+                option.content = ft.Text(str(option_label), size=BODY_TEXT_SIZE, color=TEXT)
             if option.content is not None:
                 apply_accessibility(option.content)
 
