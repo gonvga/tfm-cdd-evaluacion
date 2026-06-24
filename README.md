@@ -14,6 +14,17 @@ Toda la información sobre la aplicación, las pruebas y su uso está disponible
 
 No requiere instalación ni Python. Descomprime el ZIP y ejecuta `EvaluacionCDD-portable.exe`.
 
+## Desarrollo
+
+Para pruebas manuales, se puede permitir avanzar aunque una prueba no esté superada:
+
+```powershell
+$env:CDD_ALLOW_FAILED_ADVANCE="1"
+.\venv\Scripts\python.exe app.py
+```
+
+Sin esa variable, la evaluación mantiene el bloqueo normal al fallar una prueba.
+
 ## Licencia
 
 [![Licencia Creative Commons BY-SA](assets/licencia_cc_by_sa.png)](https://creativecommons.org/licenses/by-sa/4.0/deed.es)
