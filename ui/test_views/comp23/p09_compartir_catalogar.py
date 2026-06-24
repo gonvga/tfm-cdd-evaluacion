@@ -67,8 +67,13 @@ def get_selected_ids(checkboxes: dict[str, ft.Checkbox]) -> list[str]:
     return [key for key, checkbox in checkboxes.items() if checkbox.value]
 
 
-def build_radio_option(option: dict, validated: bool) -> ft.Control:
-    option_ok = bool(option["expected"])
+def build_radio_option(option: dict, selected_id: str | None, validated: bool) -> ft.Control:
+    selected = selected_id == option["id"]
+    feedback_text, option_ok = checkbox_feedback(
+        selected,
+        bool(option["expected"]),
+        option["feedback"],
+    )
     bgcolor, border_color = (
         feedback_colors(option_ok) if validated else ("#F9FAFB", "#E5E7EB")
     )
@@ -79,7 +84,7 @@ def build_radio_option(option: dict, validated: bool) -> ft.Control:
                 *(
                     [
                         inline_feedback(
-                            f"{'Correcta' if option_ok else 'Incorrecta'}. {option['feedback']}",
+                            feedback_text,
                             option_ok,
                         )
                     ]
@@ -100,7 +105,10 @@ def build_radio_group(options: list[dict], selected_id: str | None, validated: b
     return ft.RadioGroup(
         value=selected_id,
         content=ft.Column(
-            controls=[build_radio_option(option, validated) for option in options],
+            controls=[
+                build_radio_option(option, selected_id, validated)
+                for option in options
+            ],
             spacing=8,
         ),
     )

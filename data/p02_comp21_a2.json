@@ -19,15 +19,21 @@
     "description": "Selecciona solo las condiciones que usarías para decidir. Algunas opciones pueden ser deseables en general, pero no son requisitos relevantes en este caso.",
     "options": [
       {
+        "id": "editable_source",
+        "label": "Entrega obligatoriamente todos los archivos fuente para modificar el recurso",
+        "description": "Sería útil para una adaptación profunda, pero no es necesario para usar esta actividad breve.",
+        "expected": false
+      },
+      {
+        "id": "maximum_multimedia",
+        "label": "Utiliza el mayor número posible de vídeos, animaciones y sonidos",
+        "description": "La cantidad de elementos multimedia no garantiza ajuste didáctico ni accesibilidad.",
+        "expected": false
+      },
+      {
         "id": "learning_evidence",
         "label": "Incluye una comprobación breve sobre los tres roles de la cadena trófica",
         "description": "Responde al objetivo y permite obtener evidencia dentro de los 25 minutos.",
-        "expected": true
-      },
-      {
-        "id": "accessible_display",
-        "label": "Permite ampliar el contenido y no transmite información únicamente mediante color",
-        "description": "Traduce la necesidad de baja visión en condiciones observables del recurso.",
         "expected": true
       },
       {
@@ -37,28 +43,22 @@
         "expected": true
       },
       {
-        "id": "connection_fallback",
-        "label": "Ofrece una alternativa descargable o imprimible para la tarea esencial",
-        "description": "Reduce el impacto de una conexión inestable sin renunciar al recurso principal.",
-        "expected": true
-      },
-      {
-        "id": "editable_source",
-        "label": "Entrega obligatoriamente todos los archivos fuente para modificar el recurso",
-        "description": "Sería útil para una adaptación profunda, pero no es necesario para usar esta actividad breve.",
-        "expected": false
-      },
-      {
         "id": "individual_tracking",
         "label": "Registra individualmente cada clic del alumnado en una plataforma externa",
         "description": "No es imprescindible para la evidencia solicitada y contradice la restricción de cuentas.",
         "expected": false
       },
       {
-        "id": "maximum_multimedia",
-        "label": "Utiliza el mayor número posible de vídeos, animaciones y sonidos",
-        "description": "La cantidad de elementos multimedia no garantiza ajuste didáctico ni accesibilidad.",
-        "expected": false
+        "id": "accessible_display",
+        "label": "Permite ampliar el contenido y no transmite información únicamente mediante color",
+        "description": "Traduce la necesidad de baja visión en condiciones observables del recurso.",
+        "expected": true
+      },
+      {
+        "id": "connection_fallback",
+        "label": "Ofrece una alternativa descargable o imprimible para la tarea esencial",
+        "description": "Reduce el impacto de una conexión inestable sin renunciar al recurso principal.",
+        "expected": true
       }
     ]
   },
@@ -73,12 +73,6 @@
         "expected": true
       },
       {
-        "id": "school_collection",
-        "label": "Colección de Moodle revisada por el departamento de Biología",
-        "description": "Reúne recursos ya utilizados en el entorno técnico y educativo del centro.",
-        "expected": true
-      },
-      {
         "id": "general_search_first",
         "label": "Buscador general, empezando por los resultados patrocinados",
         "description": "Puede ampliar la búsqueda después, pero no aprovecha primero los repositorios indicados por el centro y la A. E.",
@@ -89,6 +83,12 @@
         "label": "Publicaciones recientes de docentes en una red social, ordenadas por interacción",
         "description": "La popularidad y la novedad no acreditan compatibilidad, licencia ni ajuste al grupo.",
         "expected": false
+      },
+      {
+        "id": "school_collection",
+        "label": "Colección de Moodle revisada por el departamento de Biología",
+        "description": "Reúne recursos ya utilizados en el entorno técnico y educativo del centro.",
+        "expected": true
       }
     ]
   },
@@ -97,10 +97,22 @@
     "description": "Selecciona las dos configuraciones de búsqueda que aplicarías. Valora el conjunto de filtros, no palabras aisladas.",
     "options": [
       {
+        "id": "overrestricted_route",
+        "label": "A. E.: 2.º ESO + PDF exclusivamente + publicación del último mes",
+        "description": "Introduce límites no derivados del contexto y puede excluir opciones compatibles mejores.",
+        "expected": false
+      },
+      {
         "id": "institutional_route",
         "label": "A. E.: 2.º ESO + cadenas tróficas + HTML/H5P + sin registro + accesibilidad documentada",
         "description": "Acota por currículo, formato utilizable, acceso y necesidad del grupo.",
         "expected": true
+      },
+      {
+        "id": "popularity_route",
+        "label": "Moodle del centro: más abierto + más descargado + cualquier duración",
+        "description": "La frecuencia de uso no sustituye la revisión del objetivo, la duración y la accesibilidad.",
+        "expected": false
       },
       {
         "id": "school_route",
@@ -112,18 +124,6 @@
         "id": "format_first",
         "label": "A. E.: solo SCORM + máxima interactividad + cualquier etapa educativa",
         "description": "Prioriza un formato no habilitado y elimina el ajuste por nivel.",
-        "expected": false
-      },
-      {
-        "id": "popularity_route",
-        "label": "Moodle del centro: más abierto + más descargado + cualquier duración",
-        "description": "La frecuencia de uso no sustituye la revisión del objetivo, la duración y la accesibilidad.",
-        "expected": false
-      },
-      {
-        "id": "overrestricted_route",
-        "label": "A. E.: 2.º ESO + PDF exclusivamente + publicación del último mes",
-        "description": "Introduce límites no derivados del contexto y puede excluir opciones compatibles mejores.",
         "expected": false
       }
     ]

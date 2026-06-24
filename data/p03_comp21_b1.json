@@ -236,9 +236,9 @@
     "description": "Selecciona las prácticas que aplicarías de forma sistemática para que el lote pueda localizarse, revisarse y reutilizarse por el equipo docente.",
     "options": [
       {
-        "id": "shared_catalog",
-        "label": "Registrar en el catálogo compartido tema, nivel, área, uso, dificultad, formato, licencia, enlace y fecha de revisión",
-        "expected": true
+        "id": "random_downloads",
+        "label": "Guardar copias en Descargas con el título original y confiar en la búsqueda del sistema",
+        "expected": false
       },
       {
         "id": "browser_folders",
@@ -246,14 +246,14 @@
         "expected": true
       },
       {
-        "id": "random_downloads",
-        "label": "Guardar copias en Descargas con el título original y confiar en la búsqueda del sistema",
-        "expected": false
-      },
-      {
         "id": "chat_links",
         "label": "Enviar los enlaces al chat del departamento para recuperarlos desde el historial",
         "expected": false
+      },
+      {
+        "id": "shared_catalog",
+        "label": "Registrar en el catálogo compartido tema, nivel, área, uso, dificultad, formato, licencia, enlace y fecha de revisión",
+        "expected": true
       }
     ]
   },

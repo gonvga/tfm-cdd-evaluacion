@@ -34,8 +34,8 @@
         "label": "Destino de la actividad evaluable",
         "options": [
           "Repositorio del departamento · Recursos reutilizables",
-          "Curso oficial · Biología y Geología · 3.º ESO",
-          "Carpeta personal con enlace al alumnado"
+          "Carpeta personal con enlace al alumnado",
+          "Curso oficial · Biología y Geología · 3.º ESO"
         ],
         "expected": "Curso oficial · Biología y Geología · 3.º ESO"
       },
@@ -43,8 +43,8 @@
         "id": "teacher_copy",
         "label": "Destino de la copia reutilizable",
         "options": [
-          "La misma actividad asignada al alumnado, con edición compartida",
           "Enlace público editable sin control de versiones",
+          "La misma actividad asignada al alumnado, con edición compartida",
           "Repositorio del departamento · 3.º ESO · Alfabetización científica"
         ],
         "expected": "Repositorio del departamento · 3.º ESO · Alfabetización científica"
@@ -82,8 +82,8 @@
         "label": "3.º ESO A",
         "options": [
           "Visible ahora; puede editar la configuración de la actividad",
-          "Visible ahora; puede realizarla y consultar su retroalimentación",
-          "Oculta hasta la semana siguiente"
+          "Oculta hasta la semana siguiente",
+          "Visible ahora; puede realizarla y consultar su retroalimentación"
         ],
         "expected": "Visible ahora; puede realizarla y consultar su retroalimentación"
       },
@@ -92,8 +92,8 @@
         "label": "3.º ESO B",
         "options": [
           "Visible ahora con los mismos intentos que el grupo A",
-          "Acceso anónimo mediante enlace",
-          "Programada para la semana siguiente"
+          "Programada para la semana siguiente",
+          "Acceso anónimo mediante enlace"
         ],
         "expected": "Programada para la semana siguiente"
       },
@@ -102,8 +102,8 @@
         "label": "Equipo docente",
         "options": [
           "Puede editar la actividad activa del alumnado",
-          "Solo puede realizarla con rol de estudiante",
-          "Puede consultar la actividad y editar una copia versionada"
+          "Puede consultar la actividad y editar una copia versionada",
+          "Solo puede realizarla con rol de estudiante"
         ],
         "expected": "Puede consultar la actividad y editar una copia versionada"
       },
@@ -126,7 +126,11 @@
       "label": "Título catalogable",
       "placeholder": "Describe contenido y finalidad",
       "example": "Lectura crítica de noticias científicas",
-      "required_terms": ["lectura", "noticias", "científicas"],
+      "required_terms": [
+        "lectura",
+        "noticias",
+        "científicas"
+      ],
       "minimum_words": 4,
       "maximum_words": 12
     },
@@ -134,25 +138,41 @@
       {
         "id": "stage_level",
         "label": "Etapa y nivel",
-        "options": ["ESO · Todos los niveles", "Bachillerato · 1.º", "ESO · 3.º"],
+        "options": [
+          "ESO · Todos los niveles",
+          "ESO · 3.º",
+          "Bachillerato · 1.º"
+        ],
         "expected": "ESO · 3.º"
       },
       {
         "id": "subject",
         "label": "Materia",
-        "options": ["Lengua Castellana y Literatura", "Biología y Geología", "Competencia digital general"],
+        "options": [
+          "Competencia digital general",
+          "Biología y Geología",
+          "Lengua Castellana y Literatura"
+        ],
         "expected": "Biología y Geología"
       },
       {
         "id": "resource_type",
         "label": "Tipo de recurso",
-        "options": ["Documento informativo", "Archivo comprimido", "Actividad interactiva evaluable"],
+        "options": [
+          "Documento informativo",
+          "Actividad interactiva evaluable",
+          "Archivo comprimido"
+        ],
         "expected": "Actividad interactiva evaluable"
       },
       {
         "id": "license",
         "label": "Licencia",
-        "options": ["CC BY 4.0", "CC BY-NC-SA 4.0", "Todos los derechos reservados"],
+        "options": [
+          "CC BY 4.0",
+          "CC BY-NC-SA 4.0",
+          "Todos los derechos reservados"
+        ],
         "expected": "CC BY-NC-SA 4.0"
       }
     ],
@@ -192,8 +212,8 @@
         "id": "resource_mode",
         "label": "Tipo de elemento en el CLMS",
         "options": [
-          "Archivo ZIP para descargar",
           "Enlace a una aplicación externa",
+          "Archivo ZIP para descargar",
           "Actividad SCORM importada"
         ],
         "expected": "Actividad SCORM importada"
@@ -201,7 +221,11 @@
       {
         "id": "standard",
         "label": "Estándar detectado",
-        "options": ["SCORM 2004", "SCORM 1.2", "IMS Content Packaging sin seguimiento"],
+        "options": [
+          "IMS Content Packaging sin seguimiento",
+          "SCORM 1.2",
+          "SCORM 2004"
+        ],
         "expected": "SCORM 1.2"
       },
       {
@@ -209,8 +233,8 @@
         "label": "Datos que registrará el CLMS",
         "options": [
           "Solo número de descargas",
-          "Texto completo de cada interacción del alumnado",
-          "Finalización y puntuación"
+          "Finalización y puntuación",
+          "Texto completo de cada interacción del alumnado"
         ],
         "expected": "Finalización y puntuación"
       },

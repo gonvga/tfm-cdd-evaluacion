@@ -20,16 +20,10 @@
     "description": "Selecciona los entornos adecuados para almacenar, organizar y compartir estos contenidos con fines educativos.",
     "options": [
       {
-        "id": "center_lms",
-        "label": "Aula virtual del centro con acceso mediante cuenta educativa",
-        "expected": true,
-        "feedback": "Es un entorno controlado y adecuado para compartir contenidos con el alumnado."
-      },
-      {
-        "id": "department_cloud",
-        "label": "Carpeta compartida del departamento en la nube institucional",
-        "expected": true,
-        "feedback": "Permite organizar archivos y compartirlos con docentes autorizados."
+        "id": "personal_social_network",
+        "label": "Perfil personal en una red social sin revisar condiciones de uso",
+        "expected": false,
+        "feedback": "No garantiza control de acceso ni adecuacion de las politicas de uso."
       },
       {
         "id": "educational_repository",
@@ -38,16 +32,22 @@
         "feedback": "Facilita catalogacion, reutilizacion y trazabilidad del recurso."
       },
       {
+        "id": "center_lms",
+        "label": "Aula virtual del centro con acceso mediante cuenta educativa",
+        "expected": true,
+        "feedback": "Es un entorno controlado y adecuado para compartir contenidos con el alumnado."
+      },
+      {
         "id": "public_edit_link",
         "label": "Enlace publico de edicion abierto a cualquier persona con la URL",
         "expected": false,
         "feedback": "No es seguro para un contexto educativo porque permite cambios no controlados."
       },
       {
-        "id": "personal_social_network",
-        "label": "Perfil personal en una red social sin revisar condiciones de uso",
-        "expected": false,
-        "feedback": "No garantiza control de acceso ni adecuacion de las politicas de uso."
+        "id": "department_cloud",
+        "label": "Carpeta compartida del departamento en la nube institucional",
+        "expected": true,
+        "feedback": "Permite organizar archivos y compartirlos con docentes autorizados."
       }
     ]
   },
@@ -61,16 +61,16 @@
         "weight": 8,
         "options": [
           {
-            "id": "view_download",
-            "label": "Puede ver y descargar, sin editar",
-            "expected": true,
-            "feedback": "Es suficiente para consultar los materiales y evita cambios accidentales."
-          },
-          {
             "id": "edit",
             "label": "Puede editar todos los archivos",
             "expected": false,
             "feedback": "No responde a la necesidad indicada y aumenta el riesgo de modificaciones."
+          },
+          {
+            "id": "view_download",
+            "label": "Puede ver y descargar, sin editar",
+            "expected": true,
+            "feedback": "Es suficiente para consultar los materiales y evita cambios accidentales."
           },
           {
             "id": "public_owner",
@@ -86,6 +86,12 @@
         "weight": 8,
         "options": [
           {
+            "id": "anonymous_edit",
+            "label": "Edita sin identificarse",
+            "expected": false,
+            "feedback": "No permite trazabilidad de cambios."
+          },
+          {
             "id": "edit",
             "label": "Puede editar la carpeta y mantener versiones",
             "expected": true,
@@ -96,12 +102,6 @@
             "label": "Solo puede ver, sin posibilidad de actualizar",
             "expected": false,
             "feedback": "Impide la colaboracion docente descrita en el caso."
-          },
-          {
-            "id": "anonymous_edit",
-            "label": "Edita sin identificarse",
-            "expected": false,
-            "feedback": "No permite trazabilidad de cambios."
           }
         ]
       },
@@ -111,10 +111,10 @@
         "weight": 8,
         "options": [
           {
-            "id": "view_only",
-            "label": "Puede ver una copia informativa, sin editar",
-            "expected": true,
-            "feedback": "Mantiene acceso limitado y protege los archivos originales."
+            "id": "no_control",
+            "label": "Accede mediante enlace abierto sin restriccion",
+            "expected": false,
+            "feedback": "No aplica permisos de forma selectiva."
           },
           {
             "id": "edit",
@@ -123,10 +123,10 @@
             "feedback": "No es necesario ni seguro para una consulta informativa."
           },
           {
-            "id": "no_control",
-            "label": "Accede mediante enlace abierto sin restriccion",
-            "expected": false,
-            "feedback": "No aplica permisos de forma selectiva."
+            "id": "view_only",
+            "label": "Puede ver una copia informativa, sin editar",
+            "expected": true,
+            "feedback": "Mantiene acceso limitado y protege los archivos originales."
           }
         ]
       }
@@ -137,10 +137,10 @@
     "description": "Marca las acciones correctas antes de compartir los tres recursos.",
     "options": [
       {
-        "id": "cite_image_author",
-        "label": "Incluir autora, fuente y enlace de la imagen CC BY 4.0",
+        "id": "own_pdf_license",
+        "label": "Elegir y mostrar una licencia para la ficha propia",
         "expected": true,
-        "feedback": "La licencia CC BY exige atribucion."
+        "feedback": "Aclara como puede reutilizarse el material creado por la docente."
       },
       {
         "id": "keep_video_license",
@@ -149,16 +149,16 @@
         "feedback": "Identifica claramente las condiciones de reutilizacion del video."
       },
       {
-        "id": "own_pdf_license",
-        "label": "Elegir y mostrar una licencia para la ficha propia",
-        "expected": true,
-        "feedback": "Aclara como puede reutilizarse el material creado por la docente."
-      },
-      {
         "id": "remove_attribution",
         "label": "Eliminar autoria y enlaces para que la carpeta quede mas limpia",
         "expected": false,
         "feedback": "La atribucion no debe eliminarse al compartir recursos de terceros."
+      },
+      {
+        "id": "cite_image_author",
+        "label": "Incluir autora, fuente y enlace de la imagen CC BY 4.0",
+        "expected": true,
+        "feedback": "La licencia CC BY exige atribucion."
       },
       {
         "id": "ignore_noncommercial",
@@ -178,6 +178,12 @@
         "weight": 8,
         "options": [
           {
+            "id": "recursos_biologia",
+            "label": "Recursos de Biologia para clase",
+            "expected": false,
+            "feedback": "Indica el area general, pero no concreta el tema ni el contenido del recurso."
+          },
+          {
             "id": "ecosistemas_eso",
             "label": "Ecosistemas: observacion y relaciones entre seres vivos",
             "expected": true,
@@ -194,12 +200,6 @@
             "label": "Unidad 3 - version definitiva",
             "expected": false,
             "feedback": "Describe una version de trabajo, pero no permite identificar el contenido."
-          },
-          {
-            "id": "recursos_biologia",
-            "label": "Recursos de Biologia para clase",
-            "expected": false,
-            "feedback": "Indica el area general, pero no concreta el tema ni el contenido del recurso."
           }
         ]
       },
@@ -209,16 +209,16 @@
         "weight": 8,
         "options": [
           {
-            "id": "biology_geology",
-            "label": "Biologia y Geologia",
-            "expected": true,
-            "feedback": "Corresponde al area curricular del recurso."
-          },
-          {
             "id": "general_tutoring",
             "label": "Tutoria general",
             "expected": false,
             "feedback": "No identifica el area disciplinar principal."
+          },
+          {
+            "id": "visual_arts",
+            "label": "Educacion Plastica, Visual y Audiovisual",
+            "expected": false,
+            "feedback": "No corresponde al contenido disciplinar sobre ecosistemas."
           },
           {
             "id": "geography_history",
@@ -227,10 +227,10 @@
             "feedback": "No corresponde al area curricular principal del recurso."
           },
           {
-            "id": "visual_arts",
-            "label": "Educacion Plastica, Visual y Audiovisual",
-            "expected": false,
-            "feedback": "No corresponde al contenido disciplinar sobre ecosistemas."
+            "id": "biology_geology",
+            "label": "Biologia y Geologia",
+            "expected": true,
+            "feedback": "Corresponde al area curricular del recurso."
           }
         ]
       },
@@ -240,28 +240,28 @@
         "weight": 8,
         "options": [
           {
-            "id": "eso_1",
-            "label": "1.º de ESO",
-            "expected": true,
-            "feedback": "Coincide con el grupo destinatario."
-          },
-          {
             "id": "primary_1",
             "label": "1.º de Educacion Primaria",
             "expected": false,
             "feedback": "No corresponde al contexto indicado."
           },
           {
-            "id": "eso_2",
-            "label": "2.º de ESO",
-            "expected": false,
-            "feedback": "Es una etapa cercana, pero no coincide con el grupo destinatario."
+            "id": "eso_1",
+            "label": "1.º de ESO",
+            "expected": true,
+            "feedback": "Coincide con el grupo destinatario."
           },
           {
             "id": "primary_6",
             "label": "6.º de Educacion Primaria",
             "expected": false,
             "feedback": "No coincide con el nivel educativo indicado en el escenario."
+          },
+          {
+            "id": "eso_2",
+            "label": "2.º de ESO",
+            "expected": false,
+            "feedback": "Es una etapa cercana, pero no coincide con el grupo destinatario."
           }
         ]
       },
@@ -271,10 +271,10 @@
         "weight": 8,
         "options": [
           {
-            "id": "ecosystem_food_chain_biodiversity",
-            "label": "ecosistema; cadena trofica; biodiversidad",
-            "expected": true,
-            "feedback": "Usa terminos utiles para recuperar el recurso."
+            "id": "ecosystem_cells_solar",
+            "label": "ecosistema; celulas; sistema solar",
+            "expected": false,
+            "feedback": "Mezcla el tema correcto con conceptos que no describen el recurso."
           },
           {
             "id": "science_fun_files",
@@ -289,10 +289,10 @@
             "feedback": "Son terminos relacionados, pero demasiado amplios para recuperar este recurso con precision."
           },
           {
-            "id": "ecosystem_cells_solar",
-            "label": "ecosistema; celulas; sistema solar",
-            "expected": false,
-            "feedback": "Mezcla el tema correcto con conceptos que no describen el recurso."
+            "id": "ecosystem_food_chain_biodiversity",
+            "label": "ecosistema; cadena trofica; biodiversidad",
+            "expected": true,
+            "feedback": "Usa terminos utiles para recuperar el recurso."
           }
         ]
       }

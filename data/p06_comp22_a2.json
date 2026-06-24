@@ -34,13 +34,20 @@
       "label": "Título visible para el alumnado",
       "hint": "Sustituye el encabezado técnico por uno claro.",
       "example": "El ciclo del agua: evaporación, condensación y precipitación",
-      "required_terms": ["ciclo", "agua"]
+      "required_terms": [
+        "ciclo",
+        "agua"
+      ]
     },
     "body": {
       "label": "Explicación adaptada",
       "hint": "Reescribe el texto en dos o tres frases sin perder los conceptos esenciales.",
       "example": "El agua se evapora cuando el sol la calienta. El vapor se enfría y se condensa formando nubes. Después, el agua vuelve a la superficie mediante la precipitación.",
-      "required_terms": ["evapora", "condensa", "precipitación"],
+      "required_terms": [
+        "evapora",
+        "condensa",
+        "precipitación"
+      ],
       "minimum_words": 18,
       "maximum_words": 70
     },
@@ -48,10 +55,19 @@
       "label": "Texto alternativo del diagrama",
       "hint": "Describe la información necesaria para comprender el proceso.",
       "example": "El agua del mar se evapora, forma nubes por condensación y cae sobre la montaña como precipitación.",
-      "required_terms": ["agua", "evapora", "nubes", "precipitación"],
+      "required_terms": [
+        "agua",
+        "evapora",
+        "nubes",
+        "precipitación"
+      ],
       "minimum_words": 12,
       "maximum_words": 45,
-      "forbidden_values": ["imagen", "imagen1.png", "diagrama"]
+      "forbidden_values": [
+        "imagen",
+        "imagen1.png",
+        "diagrama"
+      ]
     }
   },
   "configuration": {
@@ -60,36 +76,72 @@
       {
         "id": "tool",
         "label": "Herramienta de autor",
-        "options": ["eXeLearning institucional", "Editor web público sin autorización", "Aplicación móvil instalada por el alumnado"],
+        "options": [
+          "Editor web público sin autorización",
+          "Aplicación móvil instalada por el alumnado",
+          "eXeLearning institucional"
+        ],
         "expected": "eXeLearning institucional"
       },
       {
         "id": "structure",
         "label": "Estructura de páginas",
-        "options": ["Inicio → Explicación → Comprueba", "Una única pantalla con todo el contenido", "Portada → Créditos → Texto técnico → Actividad externa"],
+        "options": [
+          "Una única pantalla con todo el contenido",
+          "Portada → Créditos → Texto técnico → Actividad externa",
+          "Inicio → Explicación → Comprueba"
+        ],
         "expected": "Inicio → Explicación → Comprueba"
       },
       {
         "id": "navigation",
         "label": "Navegación",
-        "options": ["Botones visibles Anterior/Siguiente y título de la sección", "Iconos sin texto que aparecen al pasar el cursor", "Navegación únicamente mediante atajos de teclado avanzados"],
+        "options": [
+          "Iconos sin texto que aparecen al pasar el cursor",
+          "Botones visibles Anterior/Siguiente y título de la sección",
+          "Navegación únicamente mediante atajos de teclado avanzados"
+        ],
         "expected": "Botones visibles Anterior/Siguiente y título de la sección"
       },
       {
         "id": "export",
         "label": "Formato de publicación",
-        "options": ["Sitio web HTML5 para Moodle", "Paquete SCORM 2004", "Aplicación ejecutable para instalar"],
+        "options": [
+          "Aplicación ejecutable para instalar",
+          "Paquete SCORM 2004",
+          "Sitio web HTML5 para Moodle"
+        ],
         "expected": "Sitio web HTML5 para Moodle"
       }
     ],
     "accessibility_actions": {
       "label": "Ajustes que aplicarás en la plantilla",
       "options": [
-        {"id": "heading_styles", "label": "Aplicar estilos Título 1 y Título 2, sin simularlos solo con tamaño", "expected": true},
-        {"id": "contrast", "label": "Mantener contraste alto y no depender únicamente del color", "expected": true},
-        {"id": "final_check", "label": "Añadir una comprobación breve sobre las tres fases", "expected": true},
-        {"id": "autoplay", "label": "Activar animaciones automáticas sin controles", "expected": false},
-        {"id": "image_heading", "label": "Convertir los títulos en imágenes para conservar el diseño", "expected": false}
+        {
+          "id": "heading_styles",
+          "label": "Aplicar estilos Título 1 y Título 2, sin simularlos solo con tamaño",
+          "expected": true
+        },
+        {
+          "id": "contrast",
+          "label": "Mantener contraste alto y no depender únicamente del color",
+          "expected": true
+        },
+        {
+          "id": "image_heading",
+          "label": "Convertir los títulos en imágenes para conservar el diseño",
+          "expected": false
+        },
+        {
+          "id": "autoplay",
+          "label": "Activar animaciones automáticas sin controles",
+          "expected": false
+        },
+        {
+          "id": "final_check",
+          "label": "Añadir una comprobación breve sobre las tres fases",
+          "expected": true
+        }
       ]
     }
   },
@@ -100,18 +152,18 @@
     "target": {
       "label": "¿Qué debes atribuir en este apartado?",
       "options": [
+        "La aplicación eXeLearning",
         "El recurso original que has reutilizado y adaptado",
-        "Únicamente tu nueva redacción",
-        "La aplicación eXeLearning"
+        "Únicamente tu nueva redacción"
       ],
       "expected": "El recurso original que has reutilizado y adaptado"
     },
     "mode": {
       "label": "Acción en la herramienta de autor",
       "options": [
-        "Editar los metadatos importados y conservar la referencia vinculada",
         "Borrar la referencia porque el recurso se ha modificado",
-        "Escribir solo «Fuente: Internet» en el texto"
+        "Escribir solo «Fuente: Internet» en el texto",
+        "Editar los metadatos importados y conservar la referencia vinculada"
       ],
       "expected": "Editar los metadatos importados y conservar la referencia vinculada"
     },

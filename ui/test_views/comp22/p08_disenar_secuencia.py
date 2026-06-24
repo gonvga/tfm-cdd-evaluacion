@@ -7,7 +7,7 @@ import flet as ft
 
 from core.paths import resource_path
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P08"
@@ -557,6 +557,12 @@ def build_test_p08(state: dict, refresh_view) -> ft.Control:
 
     def resource_card(resource: dict) -> ft.Control:
         selected = resource["id"] in sequence
+        expected = resource["id"] in bank["required_resources"]
+        feedback_text, selection_ok = checkbox_feedback(
+            selected,
+            expected,
+            resource["feedback"],
+        )
         return ft.Container(
             content=ft.Column(
                 controls=[
@@ -625,19 +631,8 @@ def build_test_p08(state: dict, refresh_view) -> ft.Control:
                     *(
                         [
                             inline_feedback(
-                                (
-                                    f"Selección adecuada. {resource['feedback']}"
-                                    if (
-                                        selected
-                                        == (
-                                            resource["id"]
-                                            in bank["required_resources"]
-                                        )
-                                    )
-                                    else f"Revisa la selección. {resource['feedback']}"
-                                ),
-                                selected
-                                == (resource["id"] in bank["required_resources"]),
+                                feedback_text,
+                                selection_ok,
                             )
                         ]
                         if validated
@@ -741,6 +736,15 @@ def build_test_p08(state: dict, refresh_view) -> ft.Control:
     for setting in data["safety"]["settings"]:
         selected = setting["id"] in saved_safety
         expected = bool(setting["expected"])
+        feedback_text, setting_ok = checkbox_feedback(
+            selected,
+            expected,
+            (
+                "Ayuda a mantener permisos, historial, copias, responsabilidades o recuperación."
+                if expected
+                else "Esta opción aumenta el riesgo de pérdida o reduce el control compartido."
+            ),
+        )
         safety_rows.append(
             ft.Column(
                 controls=[
@@ -748,16 +752,8 @@ def build_test_p08(state: dict, refresh_view) -> ft.Control:
                     *(
                         [
                             inline_feedback(
-                                (
-                                    "Configuración adecuada."
-                                    if selected == expected
-                                    else (
-                                        "Falta esta medida de seguridad."
-                                        if expected
-                                        else "Esta opción aumenta el riesgo de pérdida."
-                                    )
-                                ),
-                                selected == expected,
+                                feedback_text,
+                                setting_ok,
                             )
                         ]
                         if validated

@@ -68,16 +68,16 @@
     "description": "Selecciona los buscadores preferentes para reducir resultados condicionados por publicidad o perfil comercial.",
     "options": [
       {
-        "id": "google",
-        "label": "Google",
-        "description": "Buscador general con resultados patrocinados.",
-        "expected": false
-      },
-      {
         "id": "google_scholar",
         "label": "Google Académico",
         "description": "Orientado a literatura científica y académica.",
         "expected": true
+      },
+      {
+        "id": "google",
+        "label": "Google",
+        "description": "Buscador general con resultados patrocinados.",
+        "expected": false
       },
       {
         "id": "duckduckgo",
@@ -98,8 +98,8 @@
     "prompt": "Has localizado un recurso excelente para tu clase de Tecnología, pero al intentar buscarlo de nuevo días después no consigues encontrarlo. ¿Qué elemento del recurso digital permite que los buscadores lo indexen y tú puedas recuperarlo de forma eficiente mediante palabras clave específicas?",
     "options": [
       {
-        "id": "a",
-        "text": "El tamaño del archivo y su fecha de creación.",
+        "id": "c",
+        "text": "El nombre del servidor donde está alojado el archivo.",
         "expected": false
       },
       {
@@ -108,8 +108,8 @@
         "expected": true
       },
       {
-        "id": "c",
-        "text": "El nombre del servidor donde está alojado el archivo.",
+        "id": "a",
+        "text": "El tamaño del archivo y su fecha de creación.",
         "expected": false
       },
       {

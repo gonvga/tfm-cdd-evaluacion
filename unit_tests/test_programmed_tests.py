@@ -747,8 +747,8 @@ class ProgrammedTestsCase(unittest.TestCase):
         ]
 
         self.assertTrue(any("Bien marcada." in text for text in visible_texts))
-        self.assertTrue(any("Debías marcarla." in text for text in visible_texts))
-        self.assertTrue(any("No debías marcarla." in text for text in visible_texts))
+        self.assertTrue(any("Mal sin marcar." in text for text in visible_texts))
+        self.assertTrue(any("Mal marcada." in text for text in visible_texts))
         self.assertTrue(any("Bien sin marcar." in text for text in visible_texts))
 
         feedback_cases = [
@@ -779,11 +779,92 @@ class ProgrammedTestsCase(unittest.TestCase):
         ]
 
         self.assertTrue(any("Bien marcada." in text for text in visible_texts))
-        self.assertTrue(any("No debías marcarla." in text for text in visible_texts))
-        self.assertTrue(any("Respuesta esperada:" in text for text in visible_texts))
-        self.assertTrue(any("Tu respuesta." in text for text in visible_texts))
+        self.assertTrue(any("Mal marcada." in text for text in visible_texts))
+        self.assertTrue(any("Mal sin marcar." in text for text in visible_texts))
         self.assertFalse(any(text.startswith("Correcta:") for text in visible_texts))
         self.assertFalse(any(text.startswith("Incorrecta:") for text in visible_texts))
+
+    def test_p05_choice_feedback_depends_on_user_selection(self):
+        data = p05.load_test_data()
+        wrong_apa = next(
+            option["id"]
+            for option in data["license"]["apa_options"]
+            if not option["expected"]
+        )
+        correct_alt = next(
+            option["id"]
+            for option in data["accessibility"]["alt_text_options"]
+            if option["expected"]
+        )
+        wrong_content = next(
+            option["id"]
+            for option in data["content"]["options"]
+            if not option["expected"]
+        )
+        correct_tools = {
+            task["id"]: task["expected"]
+            for task in data["tools"]["tasks"]
+        }
+        state = initial_evaluation_state()
+        state["responses"]["p05_apa_option"] = wrong_apa
+        state["responses"]["p05_alt_text_option"] = correct_alt
+        state["responses"]["p05_content_option"] = wrong_content
+        state["responses"]["p05_tools"] = correct_tools
+        state["feedback"]["p05"] = {"ok": False, "message": ""}
+
+        control = p05.build_test_p05(state, lambda: None)
+        visible_texts = [
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        ]
+
+        self.assertTrue(any("Bien marcada." in text for text in visible_texts))
+        self.assertTrue(any("Mal marcada." in text for text in visible_texts))
+        self.assertTrue(any("Mal sin marcar." in text for text in visible_texts))
+        self.assertTrue(any("Bien sin marcar." in text for text in visible_texts))
+        self.assertFalse(any("aparece en verde" in text for text in visible_texts))
+
+    def test_p07_multiple_selection_uses_marking_feedback(self):
+        state = initial_evaluation_state()
+        state["responses"]["p07_answers"] = {
+            "settings": ["reading_order", "color_only"],
+        }
+        state["feedback"]["p07"] = {"ok": False, "message": "", "details": []}
+
+        control = p07.build_test_p07(state, lambda: None)
+        visible_texts = [
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        ]
+
+        self.assertTrue(any("Bien marcada." in text for text in visible_texts))
+        self.assertTrue(any("Mal marcada." in text for text in visible_texts))
+        self.assertTrue(any("Mal sin marcar." in text for text in visible_texts))
+        self.assertTrue(any("Bien sin marcar." in text for text in visible_texts))
+        self.assertFalse(any("Configuración correcta." in text for text in visible_texts))
+
+    def test_p08_multiple_selection_uses_marking_feedback(self):
+        state = initial_evaluation_state()
+        state["responses"]["p08_answers"] = {
+            "sequence": ["institutional_article", "closed_pdf"],
+            "safety_settings": ["named_editors", "public_edit"],
+        }
+        state["feedback"]["p08"] = {"ok": False, "message": "", "details": []}
+
+        control = p08.build_test_p08(state, lambda: None)
+        visible_texts = [
+            item.value
+            for item in iter_controls(control)
+            if isinstance(item, ft.Text) and item.value
+        ]
+
+        self.assertTrue(any("Bien marcada." in text for text in visible_texts))
+        self.assertTrue(any("Mal marcada." in text for text in visible_texts))
+        self.assertTrue(any("Mal sin marcar." in text for text in visible_texts))
+        self.assertTrue(any("Bien sin marcar." in text for text in visible_texts))
+        self.assertFalse(any("Configuración adecuada." in text for text in visible_texts))
 
     def test_p01_does_not_show_category_definitions_before_validation(self):
         data = p01.load_test_data()

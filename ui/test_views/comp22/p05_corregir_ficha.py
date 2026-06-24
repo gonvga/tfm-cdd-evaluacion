@@ -39,12 +39,14 @@ def build_choice_card(
     text_key: str,
 ) -> ft.Control:
     selected = selected_id == option["id"]
-    option_ok = bool(option["expected"])
-    show_feedback = validated
-    if show_feedback:
-        bgcolor, border_color = feedback_colors(option_ok)
-    else:
-        bgcolor, border_color = "#F9FAFB", "#E5E7EB"
+    feedback_text, option_ok = checkbox_feedback(
+        selected,
+        bool(option["expected"]),
+        option["feedback"],
+    )
+    bgcolor, border_color = (
+        feedback_colors(option_ok) if validated else ("#F9FAFB", "#E5E7EB")
+    )
 
     return ft.Container(
         content=ft.Column(
@@ -53,11 +55,11 @@ def build_choice_card(
                 *(
                     [
                         inline_feedback(
-                            f"{'Correcta' if option_ok else 'Incorrecta'}. {option['feedback']}",
+                            feedback_text,
                             option_ok,
                         )
                     ]
-                    if show_feedback
+                    if validated
                     else []
                 ),
             ],
@@ -231,7 +233,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
         )
         if not selected_option:
             apa_feedback = inline_feedback(
-                "Sin respuesta. La referencia correcta aparece en verde.",
+                "Sin respuesta. Debes marcar una opción.",
                 False,
             )
 
@@ -345,7 +347,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
         )
         if not selected_option:
             alt_feedback = inline_feedback(
-                "Sin respuesta. El texto alternativo correcto aparece en verde.",
+                "Sin respuesta. Debes marcar una opción.",
                 False,
             )
 
@@ -365,7 +367,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
     content_feedback = ft.Container()
     if validated and saved_content is None:
         content_feedback = inline_feedback(
-            "Sin respuesta. La version correcta aparece en verde.",
+            "Sin respuesta. Debes marcar una opción.",
             False,
         )
 

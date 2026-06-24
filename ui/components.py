@@ -199,9 +199,9 @@ def scenario_panel(text: str) -> ft.Container:
 def checkbox_feedback(selected: bool, expected: bool, detail: str = "") -> tuple[str, bool]:
     passed = selected == expected
     if expected:
-        action = "Bien marcada." if selected else "Debías marcarla."
+        action = "Bien marcada." if selected else "Mal sin marcar."
     else:
-        action = "No debías marcarla." if selected else "Bien sin marcar."
+        action = "Mal marcada." if selected else "Bien sin marcar."
     return f"{action} {detail}".strip(), passed
 
 

@@ -21,11 +21,26 @@
     "description": "Asigna cada pieza del expediente al entorno que le corresponde.",
     "weight": 20,
     "destinations": [
-      {"id": "repository", "label": "Repositorio institucional"},
-      {"id": "clms", "label": "Curso oficial del CLMS"},
-      {"id": "teacher_workspace", "label": "Carpeta colaborativa del equipo docente"},
-      {"id": "class_blog", "label": "Blog de aula"},
-      {"id": "personal_cloud", "label": "Nube personal con enlace publico"}
+      {
+        "id": "repository",
+        "label": "Repositorio institucional"
+      },
+      {
+        "id": "clms",
+        "label": "Curso oficial del CLMS"
+      },
+      {
+        "id": "teacher_workspace",
+        "label": "Carpeta colaborativa del equipo docente"
+      },
+      {
+        "id": "class_blog",
+        "label": "Blog de aula"
+      },
+      {
+        "id": "personal_cloud",
+        "label": "Nube personal con enlace publico"
+      }
     ],
     "items": [
       {
@@ -55,11 +70,26 @@
     "description": "Configura el permiso operativo para cada agente.",
     "weight": 25,
     "permissions": [
-      {"id": "view_download_imscp", "label": "Ver en CLMS y descargar IMSCP, sin editar"},
-      {"id": "edit_versioned_copy", "label": "Editar copia versionada"},
-      {"id": "view_summary_only", "label": "Consultar solo resumen informativo"},
-      {"id": "no_access_full_unit", "label": "Sin acceso a la unidad completa"},
-      {"id": "public_edit_link", "label": "Editar mediante enlace publico"}
+      {
+        "id": "view_download_imscp",
+        "label": "Ver en CLMS y descargar IMSCP, sin editar"
+      },
+      {
+        "id": "edit_versioned_copy",
+        "label": "Editar copia versionada"
+      },
+      {
+        "id": "view_summary_only",
+        "label": "Consultar solo resumen informativo"
+      },
+      {
+        "id": "no_access_full_unit",
+        "label": "Sin acceso a la unidad completa"
+      },
+      {
+        "id": "public_edit_link",
+        "label": "Editar mediante enlace publico"
+      }
     ],
     "agents": [
       {
@@ -98,13 +128,21 @@
       {
         "id": "keywords",
         "label": "Palabras clave normalizadas",
-        "expected_terms": ["sostenibilidad", "consumo responsable", "ciudadania global"],
+        "expected_terms": [
+          "sostenibilidad",
+          "consumo responsable",
+          "ciudadania global"
+        ],
         "placeholder": "Separalas con punto y coma"
       },
       {
         "id": "social_tags",
         "label": "Etiquetas sociales complementarias",
-        "expected_terms": ["ODS12", "compra etica", "presupuesto familiar"],
+        "expected_terms": [
+          "ODS12",
+          "compra etica",
+          "presupuesto familiar"
+        ],
         "placeholder": "Etiquetas adicionales utiles para busqueda social"
       }
     ],
@@ -114,9 +152,18 @@
         "label": "Etapa y nivel",
         "expected": "eso_2",
         "options": [
-          {"id": "eso_2", "label": "Educacion Secundaria Obligatoria - 2. ESO"},
-          {"id": "primary_6", "label": "Educacion Primaria - 6. curso"},
-          {"id": "bach_1", "label": "Bachillerato - 1. curso"}
+          {
+            "id": "primary_6",
+            "label": "Educacion Primaria - 6. curso"
+          },
+          {
+            "id": "bach_1",
+            "label": "Bachillerato - 1. curso"
+          },
+          {
+            "id": "eso_2",
+            "label": "Educacion Secundaria Obligatoria - 2. ESO"
+          }
         ]
       },
       {
@@ -124,9 +171,18 @@
         "label": "Materia y bloque curricular",
         "expected": "geo_hist_sustainability",
         "options": [
-          {"id": "geo_hist_sustainability", "label": "Geografia e Historia - Sostenibilidad y consumo"},
-          {"id": "math_statistics", "label": "Matematicas - Estadistica"},
-          {"id": "general_tutoring", "label": "Tutoria - Material general"}
+          {
+            "id": "general_tutoring",
+            "label": "Tutoria - Material general"
+          },
+          {
+            "id": "geo_hist_sustainability",
+            "label": "Geografia e Historia - Sostenibilidad y consumo"
+          },
+          {
+            "id": "math_statistics",
+            "label": "Matematicas - Estadistica"
+          }
         ]
       },
       {
@@ -134,9 +190,18 @@
         "label": "Tipo de recurso",
         "expected": "interactive_unit",
         "options": [
-          {"id": "interactive_unit", "label": "Unidad didactica interactiva"},
-          {"id": "loose_file", "label": "Archivo suelto"},
-          {"id": "news_post", "label": "Entrada informativa"}
+          {
+            "id": "loose_file",
+            "label": "Archivo suelto"
+          },
+          {
+            "id": "news_post",
+            "label": "Entrada informativa"
+          },
+          {
+            "id": "interactive_unit",
+            "label": "Unidad didactica interactiva"
+          }
         ]
       },
       {
@@ -144,9 +209,18 @@
         "label": "Licencia",
         "expected": "cc_by_nc_sa_40",
         "options": [
-          {"id": "cc_by_nc_sa_40", "label": "CC BY-NC-SA 4.0 con autoria del equipo docente"},
-          {"id": "all_rights_reserved_unknown", "label": "Todos los derechos reservados, autoria no indicada"},
-          {"id": "no_license", "label": "Sin licencia visible"}
+          {
+            "id": "all_rights_reserved_unknown",
+            "label": "Todos los derechos reservados, autoria no indicada"
+          },
+          {
+            "id": "cc_by_nc_sa_40",
+            "label": "CC BY-NC-SA 4.0 con autoria del equipo docente"
+          },
+          {
+            "id": "no_license",
+            "label": "Sin licencia visible"
+          }
         ]
       },
       {
@@ -154,9 +228,18 @@
         "label": "Formato",
         "expected": "imscp",
         "options": [
-          {"id": "imscp", "label": "IMS Content Packaging"},
-          {"id": "plain_zip", "label": "ZIP con archivos sueltos"},
-          {"id": "external_link", "label": "Enlace externo sin paquete"}
+          {
+            "id": "plain_zip",
+            "label": "ZIP con archivos sueltos"
+          },
+          {
+            "id": "imscp",
+            "label": "IMS Content Packaging"
+          },
+          {
+            "id": "external_link",
+            "label": "Enlace externo sin paquete"
+          }
         ]
       }
     ]
@@ -198,9 +281,18 @@
         "label": "Ambito de descarga",
         "expected": "authenticated_students",
         "options": [
-          {"id": "authenticated_students", "label": "Solo alumnado autenticado del grupo"},
-          {"id": "anyone_link", "label": "Cualquier persona con enlace"},
-          {"id": "teachers_only", "label": "Solo profesorado"}
+          {
+            "id": "teachers_only",
+            "label": "Solo profesorado"
+          },
+          {
+            "id": "authenticated_students",
+            "label": "Solo alumnado autenticado del grupo"
+          },
+          {
+            "id": "anyone_link",
+            "label": "Cualquier persona con enlace"
+          }
         ]
       },
       {
@@ -208,9 +300,18 @@
         "label": "Comprobacion previa",
         "expected": "validate_manifest_metadata_license",
         "options": [
-          {"id": "validate_manifest_metadata_license", "label": "Validar manifiesto, metadatos, licencia y enlaces"},
-          {"id": "upload_if_zip", "label": "Publicar si el ZIP sube sin error"},
-          {"id": "skip_check", "label": "Omitir revision tecnica"}
+          {
+            "id": "skip_check",
+            "label": "Omitir revision tecnica"
+          },
+          {
+            "id": "upload_if_zip",
+            "label": "Publicar si el ZIP sube sin error"
+          },
+          {
+            "id": "validate_manifest_metadata_license",
+            "label": "Validar manifiesto, metadatos, licencia y enlaces"
+          }
         ]
       }
     ]

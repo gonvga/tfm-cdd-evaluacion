@@ -7,7 +7,7 @@ import flet as ft
 
 from core.paths import resource_path
 from core.storage import save_result
-from ui.components import question_block
+from ui.components import checkbox_feedback, question_block
 
 
 TEST_ID = "P07"
@@ -518,6 +518,15 @@ def build_test_p07(state: dict, refresh_view) -> ft.Control:
     for setting in authoring["settings"]:
         selected = setting["id"] in saved_settings
         expected = bool(setting["expected"])
+        feedback_text, setting_ok = checkbox_feedback(
+            selected,
+            expected,
+            (
+                "Asegura orden de lectura, uso con teclado, foco visible o adaptación responsive."
+                if expected
+                else "Esta configuración introduce una barrera o reduce la accesibilidad."
+            ),
+        )
         settings_rows.append(
             ft.Column(
                 controls=[
@@ -525,16 +534,8 @@ def build_test_p07(state: dict, refresh_view) -> ft.Control:
                     *(
                         [
                             inline_feedback(
-                                (
-                                    "Configuración correcta."
-                                    if selected == expected
-                                    else (
-                                        "Falta activar esta función."
-                                        if expected
-                                        else "Esta configuración introduce una barrera."
-                                    )
-                                ),
-                                selected == expected,
+                                feedback_text,
+                                setting_ok,
                             )
                         ]
                         if validated

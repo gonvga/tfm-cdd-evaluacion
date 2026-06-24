@@ -20,18 +20,6 @@
     "description": "Selecciona una licencia que permita reutilizar y adaptar el recurso, y escribe una referencia APA básica.",
     "options": [
       {
-        "id": "copyright",
-        "label": "Copyright completo",
-        "expected": false,
-        "feedback": "No permite adaptar el contenido sin autorización expresa."
-      },
-      {
-        "id": "cc_by",
-        "label": "CC BY",
-        "expected": true,
-        "feedback": "Permite reutilizar y adaptar citando la autoría."
-      },
-      {
         "id": "cc_by_sa",
         "label": "CC BY-SA",
         "expected": true,
@@ -42,6 +30,18 @@
         "label": "Sin licencia indicada",
         "expected": false,
         "feedback": "No ofrece garantías para transformar y republicar el material."
+      },
+      {
+        "id": "copyright",
+        "label": "Copyright completo",
+        "expected": false,
+        "feedback": "No permite adaptar el contenido sin autorización expresa."
+      },
+      {
+        "id": "cc_by",
+        "label": "CC BY",
+        "expected": true,
+        "feedback": "Permite reutilizar y adaptar citando la autoría."
       }
     ],
     "apa_options": [
@@ -70,10 +70,10 @@
     "description": "Selecciona las acciones que aplicarías en un procesador de texto para crear un documento más accesible.",
     "options": [
       {
-        "id": "alt_text",
-        "label": "Añadir texto alternativo a las imágenes",
+        "id": "subtitles",
+        "label": "Añadir subtítulos si se incorpora vídeo",
         "expected": true,
-        "feedback": "Permite que lectores de pantalla describan la imagen."
+        "feedback": "Mejora el acceso al contenido audiovisual."
       },
       {
         "id": "document_styles",
@@ -82,16 +82,16 @@
         "feedback": "Facilita la navegación y estructura del documento."
       },
       {
-        "id": "subtitles",
-        "label": "Añadir subtítulos si se incorpora vídeo",
-        "expected": true,
-        "feedback": "Mejora el acceso al contenido audiovisual."
-      },
-      {
         "id": "low_contrast",
         "label": "Reducir el contraste para suavizar el diseño",
         "expected": false,
         "feedback": "Dificulta la lectura y reduce la accesibilidad."
+      },
+      {
+        "id": "alt_text",
+        "label": "Añadir texto alternativo a las imágenes",
+        "expected": true,
+        "feedback": "Permite que lectores de pantalla describan la imagen."
       },
       {
         "id": "image_text",
@@ -133,16 +133,16 @@
         "feedback": "Mantiene tecnicismos innecesarios para 2º de ESO."
       },
       {
-        "id": "B",
-        "text": "Los hábitos saludables son acciones que repetimos en nuestra vida diaria y que ayudan a cuidar el cuerpo y la mente, como descansar bien, alimentarnos de forma equilibrada y hacer actividad física.",
-        "expected": true,
-        "feedback": "Usa lenguaje claro, mantiene el significado y se ajusta al nivel del alumnado."
-      },
-      {
         "id": "C",
         "text": "Los hábitos saludables son cosas buenas que hacemos para estar bien.",
         "expected": false,
         "feedback": "Es comprensible, pero resulta demasiado imprecisa y pierde contenido disciplinar."
+      },
+      {
+        "id": "B",
+        "text": "Los hábitos saludables son acciones que repetimos en nuestra vida diaria y que ayudan a cuidar el cuerpo y la mente, como descansar bien, alimentarnos de forma equilibrada y hacer actividad física.",
+        "expected": true,
+        "feedback": "Usa lenguaje claro, mantiene el significado y se ajusta al nivel del alumnado."
       }
     ]
   },
@@ -154,10 +154,10 @@
         "id": "transparent_background",
         "label": "Quitar el fondo de una imagen para integrarla en la ficha",
         "options": [
-          "GIMP (editor de imágenes)",
-          "Microsoft Word (procesador de textos)",
           "Audacity (editor de audio)",
-          "Microsoft Excel (hoja de cálculo)"
+          "Microsoft Excel (hoja de cálculo)",
+          "Microsoft Word (procesador de textos)",
+          "GIMP (editor de imágenes)"
         ],
         "expected": "GIMP (editor de imágenes)"
       },
@@ -165,10 +165,10 @@
         "id": "subtitles_video",
         "label": "Añadir subtítulos a un vídeo breve",
         "options": [
-          "Clipchamp (editor de vídeo)",
+          "7-Zip (compresor de archivos)",
           "Audacity (editor de audio)",
-          "Microsoft PowerPoint (presentaciones)",
-          "7-Zip (compresor de archivos)"
+          "Clipchamp (editor de vídeo)",
+          "Microsoft PowerPoint (presentaciones)"
         ],
         "expected": "Clipchamp (editor de vídeo)"
       },
@@ -176,10 +176,10 @@
         "id": "heading_styles",
         "label": "Crear una estructura accesible con títulos y apartados",
         "options": [
-          "LibreOffice Writer (procesador de textos)",
           "Audacity (editor de audio)",
-          "Unsplash (banco de imágenes)",
-          "GeoGebra (herramienta matemática)"
+          "GeoGebra (herramienta matemática)",
+          "LibreOffice Writer (procesador de textos)",
+          "Unsplash (banco de imágenes)"
         ],
         "expected": "LibreOffice Writer (procesador de textos)"
       }

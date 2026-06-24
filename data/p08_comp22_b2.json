@@ -126,10 +126,23 @@
         "label": "Infografía abierta",
         "hint": "Describe ajustes de nivel, estructura visual, contraste y alternativa textual.",
         "required_groups": [
-          ["simplificar", "nivel", "vocabulario"],
-          ["contraste", "color"],
-          ["texto alternativo", "descripcion"],
-          ["svg", "editable"]
+          [
+            "simplificar",
+            "nivel",
+            "vocabulario"
+          ],
+          [
+            "contraste",
+            "color"
+          ],
+          [
+            "texto alternativo",
+            "descripcion"
+          ],
+          [
+            "svg",
+            "editable"
+          ]
         ],
         "minimum_words": 18,
         "maximum_words": 80
@@ -139,10 +152,21 @@
         "label": "Vídeo breve",
         "hint": "Explica qué fragmento usarás y cómo integrarás subtítulos o transcripción.",
         "required_groups": [
-          ["recortar", "fragmento", "seleccionar"],
-          ["subtitulo"],
-          ["transcripcion"],
-          ["moodle", "secuencia"]
+          [
+            "recortar",
+            "fragmento",
+            "seleccionar"
+          ],
+          [
+            "subtitulo"
+          ],
+          [
+            "transcripcion"
+          ],
+          [
+            "moodle",
+            "secuencia"
+          ]
         ],
         "minimum_words": 16,
         "maximum_words": 75
@@ -152,10 +176,23 @@
         "label": "Simulador HTML5",
         "hint": "Concreta instrucciones, apoyo y retroalimentación para este grupo.",
         "required_groups": [
-          ["instruccion", "consigna"],
-          ["paso", "guiada", "apoyo"],
-          ["retroalimentacion", "pista"],
-          ["teclado", "accesibilidad"]
+          [
+            "instruccion",
+            "consigna"
+          ],
+          [
+            "paso",
+            "guiada",
+            "apoyo"
+          ],
+          [
+            "retroalimentacion",
+            "pista"
+          ],
+          [
+            "teclado",
+            "accesibilidad"
+          ]
         ],
         "minimum_words": 18,
         "maximum_words": 80
@@ -171,9 +208,22 @@
         "label": "Reto inicial propio",
         "hint": "Formula una situación cercana, una pregunta guía y el producto que se espera.",
         "required_groups": [
-          ["merienda", "compra", "etiqueta", "consumo"],
-          ["pregunta", "decidir", "comparar"],
-          ["producto", "recomendacion", "propuesta"]
+          [
+            "merienda",
+            "compra",
+            "etiqueta",
+            "consumo"
+          ],
+          [
+            "pregunta",
+            "decidir",
+            "comparar"
+          ],
+          [
+            "producto",
+            "recomendacion",
+            "propuesta"
+          ]
         ],
         "minimum_words": 20,
         "maximum_words": 90
@@ -183,9 +233,22 @@
         "label": "Apoyo guiado propio",
         "hint": "Define una plantilla, organizador o andamiaje para distintos ritmos.",
         "required_groups": [
-          ["plantilla", "organizador", "tabla", "ficha"],
-          ["paso", "pregunta", "criterio"],
-          ["ritmo", "apoyo", "nivel"]
+          [
+            "plantilla",
+            "organizador",
+            "tabla",
+            "ficha"
+          ],
+          [
+            "paso",
+            "pregunta",
+            "criterio"
+          ],
+          [
+            "ritmo",
+            "apoyo",
+            "nivel"
+          ]
         ],
         "minimum_words": 18,
         "maximum_words": 80
@@ -195,11 +258,26 @@
         "label": "Producto final y evaluación propia",
         "hint": "Describe el producto final y al menos tres criterios de la rúbrica.",
         "required_groups": [
-          ["producto", "recomendacion", "presentacion"],
-          ["rubrica", "criterio"],
-          ["datos", "interpretacion"],
-          ["justificacion"],
-          ["comunicacion", "fuentes"]
+          [
+            "producto",
+            "recomendacion",
+            "presentacion"
+          ],
+          [
+            "rubrica",
+            "criterio"
+          ],
+          [
+            "datos",
+            "interpretacion"
+          ],
+          [
+            "justificacion"
+          ],
+          [
+            "comunicacion",
+            "fuentes"
+          ]
         ],
         "minimum_words": 26,
         "maximum_words": 120
@@ -210,21 +288,58 @@
     "title": "Protocolo de edición compartida segura",
     "description": "Configura el flujo de colaboración para evitar sobrescrituras y pérdida de información.",
     "settings": [
-      {"id": "named_editors", "label": "Permisos de edición solo para los dos docentes coautores", "expected": true},
-      {"id": "version_history", "label": "Historial de versiones y registro de cambios activados", "expected": true},
-      {"id": "milestone_copy", "label": "Copias de hitos antes de integrar recursos y antes de exportar", "expected": true},
-      {"id": "responsibilities", "label": "Responsables y tareas acordados para evitar ediciones simultáneas conflictivas", "expected": true},
-      {"id": "public_edit", "label": "Enlace público con edición para agilizar el trabajo", "expected": false},
-      {"id": "overwrite", "label": "Sustituir siempre el archivo anterior sin conservar versiones", "expected": false}
+      {
+        "id": "named_editors",
+        "label": "Permisos de edición solo para los dos docentes coautores",
+        "expected": true
+      },
+      {
+        "id": "version_history",
+        "label": "Historial de versiones y registro de cambios activados",
+        "expected": true
+      },
+      {
+        "id": "milestone_copy",
+        "label": "Copias de hitos antes de integrar recursos y antes de exportar",
+        "expected": true
+      },
+      {
+        "id": "responsibilities",
+        "label": "Responsables y tareas acordados para evitar ediciones simultáneas conflictivas",
+        "expected": true
+      },
+      {
+        "id": "public_edit",
+        "label": "Enlace público con edición para agilizar el trabajo",
+        "expected": false
+      },
+      {
+        "id": "overwrite",
+        "label": "Sustituir siempre el archivo anterior sin conservar versiones",
+        "expected": false
+      }
     ],
     "recovery": {
       "label": "Procedimiento de recuperación",
       "hint": "Explica qué haríais si una edición elimina contenido o el paquete exportado falla.",
       "required_groups": [
-        ["historial", "version"],
-        ["restaurar", "recuperar"],
-        ["copia", "respaldo"],
-        ["comprob", "compar", "valid"]
+        [
+          "historial",
+          "version"
+        ],
+        [
+          "restaurar",
+          "recuperar"
+        ],
+        [
+          "copia",
+          "respaldo"
+        ],
+        [
+          "comprob",
+          "compar",
+          "valid"
+        ]
       ],
       "minimum_words": 16,
       "maximum_words": 70
@@ -237,12 +352,33 @@
       "label": "Criterios y registro previo",
       "hint": "Incluye pertinencia, veracidad, licencia, accesibilidad, compatibilidad y decisión documentada.",
       "required_groups": [
-        ["pertinencia", "objetivo", "nivel"],
-        ["veracidad", "fuente", "autoria"],
-        ["licencia"],
-        ["accesibilidad"],
-        ["compatibilidad", "formato", "moodle"],
-        ["recomendar", "adaptar", "descartar", "decision"]
+        [
+          "pertinencia",
+          "objetivo",
+          "nivel"
+        ],
+        [
+          "veracidad",
+          "fuente",
+          "autoria"
+        ],
+        [
+          "licencia"
+        ],
+        [
+          "accesibilidad"
+        ],
+        [
+          "compatibilidad",
+          "formato",
+          "moodle"
+        ],
+        [
+          "recomendar",
+          "adaptar",
+          "descartar",
+          "decision"
+        ]
       ],
       "minimum_words": 28,
       "maximum_words": 130
@@ -251,11 +387,28 @@
       "label": "Revisión después del uso",
       "hint": "Explica qué evidencias recogeréis y cómo modificarán futuras selecciones.",
       "required_groups": [
-        ["alumnado", "aula"],
-        ["resultado", "dificultad", "incidencia"],
-        ["accesibilidad", "tecnica"],
-        ["actualizar", "mejorar", "criterio"],
-        ["catalogo", "registro"]
+        [
+          "alumnado",
+          "aula"
+        ],
+        [
+          "resultado",
+          "dificultad",
+          "incidencia"
+        ],
+        [
+          "accesibilidad",
+          "tecnica"
+        ],
+        [
+          "actualizar",
+          "mejorar",
+          "criterio"
+        ],
+        [
+          "catalogo",
+          "registro"
+        ]
       ],
       "minimum_words": 22,
       "maximum_words": 100
@@ -267,17 +420,22 @@
       {
         "id": "package_format",
         "label": "Formato de paquete",
-        "options": ["SCORM 1.2", "PDF único", "Carpeta de enlaces", "Aplicación ejecutable"],
+        "options": [
+          "Carpeta de enlaces",
+          "SCORM 1.2",
+          "PDF único",
+          "Aplicación ejecutable"
+        ],
         "expected": "SCORM 1.2"
       },
       {
         "id": "resource_handling",
         "label": "Integración de archivos y enlaces",
         "options": [
-          "Incluir recursos permitidos en el paquete y documentar enlaces externos imprescindibles",
           "Mantener todos los archivos en carpetas locales del docente",
-          "Usar enlaces temporales sin comprobar",
-          "Convertir cada recurso en una captura"
+          "Incluir recursos permitidos en el paquete y documentar enlaces externos imprescindibles",
+          "Convertir cada recurso en una captura",
+          "Usar enlaces temporales sin comprobar"
         ],
         "expected": "Incluir recursos permitidos en el paquete y documentar enlaces externos imprescindibles"
       },
@@ -285,10 +443,10 @@
         "id": "accessibility_check",
         "label": "Validación antes de exportar",
         "options": [
-          "Comprobar teclado, foco, contraste, textos alternativos, subtítulos y orden de lectura",
-          "Revisar únicamente que las páginas se abran",
+          "Omitir pruebas para evitar cambios de última hora",
           "Validar solo el aspecto visual",
-          "Omitir pruebas para evitar cambios de última hora"
+          "Revisar únicamente que las páginas se abran",
+          "Comprobar teclado, foco, contraste, textos alternativos, subtítulos y orden de lectura"
         ],
         "expected": "Comprobar teclado, foco, contraste, textos alternativos, subtítulos y orden de lectura"
       },
@@ -296,10 +454,10 @@
         "id": "deployment",
         "label": "Despliegue",
         "options": [
-          "Importar en un curso de prueba, revisar seguimiento y navegación y después publicar",
-          "Publicar directamente en el curso del alumnado",
+          "Abrir el paquete solo desde el ordenador del docente",
           "Enviar el archivo por correo al alumnado",
-          "Abrir el paquete solo desde el ordenador del docente"
+          "Publicar directamente en el curso del alumnado",
+          "Importar en un curso de prueba, revisar seguimiento y navegación y después publicar"
         ],
         "expected": "Importar en un curso de prueba, revisar seguimiento y navegación y después publicar"
       }
@@ -308,14 +466,34 @@
       "label": "Metadatos del paquete",
       "hint": "Registra título, autoría, nivel, objetivos, licencias, accesibilidad, formatos y versión.",
       "required_groups": [
-        ["titulo"],
-        ["autoria", "autor"],
-        ["2 eso", "2 de eso"],
-        ["objetivo"],
-        ["licencia"],
-        ["accesibilidad"],
-        ["formato", "scorm"],
-        ["version", "v1"]
+        [
+          "titulo"
+        ],
+        [
+          "autoria",
+          "autor"
+        ],
+        [
+          "2 eso",
+          "2 de eso"
+        ],
+        [
+          "objetivo"
+        ],
+        [
+          "licencia"
+        ],
+        [
+          "accesibilidad"
+        ],
+        [
+          "formato",
+          "scorm"
+        ],
+        [
+          "version",
+          "v1"
+        ]
       ],
       "minimum_words": 18,
       "maximum_words": 90

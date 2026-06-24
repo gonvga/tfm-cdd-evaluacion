@@ -21,23 +21,13 @@
     "weight": 35,
     "options": [
       {
+        "id": "free_tags_only",
+        "label": "Sustituir la taxonomía por etiquetas libres para que cada docente escriba términos diferentes.",
+        "expected": false
+      },
+      {
         "id": "controlled_vocabulary",
         "label": "Aplicar la taxonomía oficial y sugerir términos del vocabulario controlado al etiquetar.",
-        "expected": true
-      },
-      {
-        "id": "required_metadata",
-        "label": "Hacer obligatorios autoría, procedencia, licencia, etapa, materia, tipo, fecha y accesibilidad.",
-        "expected": true
-      },
-      {
-        "id": "faceted_search",
-        "label": "Activar filtros combinables por etapa, curso, materia, competencia, tipo, licencia y accesibilidad.",
-        "expected": true
-      },
-      {
-        "id": "related_resources",
-        "label": "Relacionar versiones, materiales docentes y adaptaciones accesibles de un mismo recurso.",
         "expected": true
       },
       {
@@ -46,14 +36,24 @@
         "expected": true
       },
       {
-        "id": "free_tags_only",
-        "label": "Sustituir la taxonomía por etiquetas libres para que cada docente escriba términos diferentes.",
-        "expected": false
-      },
-      {
         "id": "hide_metadata",
         "label": "Ocultar los metadatos en los resultados y mostrar únicamente el nombre del archivo.",
         "expected": false
+      },
+      {
+        "id": "faceted_search",
+        "label": "Activar filtros combinables por etapa, curso, materia, competencia, tipo, licencia y accesibilidad.",
+        "expected": true
+      },
+      {
+        "id": "required_metadata",
+        "label": "Hacer obligatorios autoría, procedencia, licencia, etapa, materia, tipo, fecha y accesibilidad.",
+        "expected": true
+      },
+      {
+        "id": "related_resources",
+        "label": "Relacionar versiones, materiales docentes y adaptaciones accesibles de un mismo recurso.",
+        "expected": true
       }
     ]
   },
@@ -63,13 +63,8 @@
     "weight": 30,
     "options": [
       {
-        "id": "saved_student_view",
-        "label": "Crear para el alumnado una búsqueda guardada con los filtros de su curso y materia.",
-        "expected": true
-      },
-      {
-        "id": "draft_review_workflow",
-        "label": "Mantener borradores privados y usar el flujo de revisión antes de publicar en la colección profesional.",
+        "id": "professional_collection",
+        "label": "Publicar la versión validada, bien identificada y etiquetada en la colección profesional.",
         "expected": true
       },
       {
@@ -78,19 +73,24 @@
         "expected": true
       },
       {
-        "id": "professional_collection",
-        "label": "Publicar la versión validada, bien identificada y etiquetada en la colección profesional.",
-        "expected": true
-      },
-      {
         "id": "anonymous_edit",
         "label": "Permitir edición anónima mediante enlace para acelerar las correcciones.",
         "expected": false
       },
       {
+        "id": "draft_review_workflow",
+        "label": "Mantener borradores privados y usar el flujo de revisión antes de publicar en la colección profesional.",
+        "expected": true
+      },
+      {
         "id": "publish_drafts",
         "label": "Hacer públicos todos los borradores para que cualquier usuario decida cuál utilizar.",
         "expected": false
+      },
+      {
+        "id": "saved_student_view",
+        "label": "Crear para el alumnado una búsqueda guardada con los filtros de su curso y materia.",
+        "expected": true
       }
     ]
   },
@@ -105,16 +105,16 @@
         "expected": "cc_by_sa",
         "options": [
           {
-            "id": "cc_by_sa",
-            "label": "Indicar su autoría y aplicar CC BY-SA, explicando que permite adaptar con atribución y compartir igual."
+            "id": "cc0_unknown_assets",
+            "label": "Aplicar CC0 sin comprobar si incorpora recursos de terceros."
           },
           {
             "id": "no_license",
             "label": "Publicarla sin licencia: si está en el repositorio se entiende que cualquiera puede adaptarla."
           },
           {
-            "id": "cc0_unknown_assets",
-            "label": "Aplicar CC0 sin comprobar si incorpora recursos de terceros."
+            "id": "cc_by_sa",
+            "label": "Indicar su autoría y aplicar CC BY-SA, explicando que permite adaptar con atribución y compartir igual."
           }
         ]
       },
@@ -124,16 +124,16 @@
         "expected": "complete_record",
         "options": [
           {
-            "id": "complete_record",
-            "label": "Proponer un título descriptivo y completar etapa, curso, materia, competencia, tipo, palabras clave, autoría, licencia y fecha."
-          },
-          {
             "id": "many_free_tags",
             "label": "Mantener el título y añadir muchas etiquetas libres, aunque no coincidan con la taxonomía."
           },
           {
             "id": "filename_only",
             "label": "Usar solo el nombre del archivo porque el buscador indexará su contenido."
+          },
+          {
+            "id": "complete_record",
+            "label": "Proponer un título descriptivo y completar etapa, curso, materia, competencia, tipo, palabras clave, autoría, licencia y fecha."
           }
         ]
       },
@@ -143,12 +143,12 @@
         "expected": "accessibility_level",
         "options": [
           {
-            "id": "accessibility_level",
-            "label": "Registrar sus características y nivel de accesibilidad para mostrar la insignia y permitir filtrar el recurso."
-          },
-          {
             "id": "generic_accessible_tag",
             "label": "Escribir «accesible» solo en la descripción, sin completar el campo de accesibilidad."
+          },
+          {
+            "id": "accessibility_level",
+            "label": "Registrar sus características y nivel de accesibilidad para mostrar la insignia y permitir filtrar el recurso."
           },
           {
             "id": "omit_accessibility",

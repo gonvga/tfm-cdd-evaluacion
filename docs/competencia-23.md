@@ -102,7 +102,12 @@ Las soluciones siguientes explican la lógica de cada opción. La regla general 
 
 #### Entornos de compartición
 
-- **Correctos:** aula virtual del centro, nube institucional del departamento y repositorio educativo con licencia, autoría y metadatos. Los tres ofrecen control, organización o trazabilidad apropiados.
+- **Correctos:**
+  - Aula virtual del centro.
+  - Nube institucional del departamento.
+  - Repositorio educativo con licencia, autoría y metadatos.
+
+  Los tres ofrecen control, organización o trazabilidad apropiados.
 
 - **Incorrecto:** enlace público de edición. Cualquier persona con la URL podría modificar o borrar contenido sin control.
 
@@ -120,7 +125,10 @@ Se aplica el principio de mínimo privilegio: cada persona recibe solo la capaci
 
 #### Autoría y licencias
 
-- **Correctas:** citar autora, fuente y enlace de la imagen CC BY; mantener visible la licencia CC BY-NC-SA del vídeo; elegir y mostrar una licencia para la ficha propia.
+- **Correctas:**
+  - Citar autora, fuente y enlace de la imagen CC BY.
+  - Mantener visible la licencia CC BY-NC-SA del vídeo.
+  - Elegir y mostrar una licencia para la ficha propia.
 
 - **Incorrecto:** eliminar atribuciones para «limpiar» la carpeta. La presentación visual no justifica borrar la autoría.
 

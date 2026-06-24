@@ -132,7 +132,12 @@ Las soluciones P05-P08 combinan elecciones cerradas y producciones abiertas. Los
 
 #### Accesibilidad
 
-- **Correctas:** añadir texto alternativo; usar estilos de título; añadir subtítulos si hay vídeo. Estas medidas proporcionan alternativas y una estructura navegable.
+- **Correctas:**
+  - Añadir texto alternativo.
+  - Usar estilos de título.
+  - Añadir subtítulos si hay vídeo.
+
+  Estas medidas proporcionan alternativas y una estructura navegable.
 
 - **Reducir el contraste:** incorrecto porque dificulta distinguir texto y fondo.
 
@@ -183,9 +188,16 @@ El editor público no autorizado y la aplicación instalada por el alumnado cont
 
 #### Ajustes de accesibilidad
 
-- **Correctos:** estilos Título 1/Título 2; contraste alto sin depender solo del color; comprobación final de las tres fases.
+- **Correctos:**
+  - Estilos Título 1/Título 2.
+  - Contraste alto sin depender solo del color.
+  - Comprobación final de las tres fases.
 
-- **Incorrectos:** animaciones automáticas sin control y títulos convertidos en imágenes. La primera opción quita control al usuario y la segunda elimina estructura semántica y texto adaptable.
+- **Incorrectos:**
+  - Animaciones automáticas sin control.
+  - Títulos convertidos en imágenes.
+
+  La primera opción quita control al usuario y la segunda elimina estructura semántica y texto adaptable.
 
 #### Referencia del recurso
 
@@ -193,9 +205,16 @@ El editor público no autorizado y la aplicación instalada por el alumnado cont
 
 - **Acción:** editar los metadatos importados y conservar la referencia vinculada.
 
-- **Correcciones correctas:** restaurar la autoría institucional; recuperar año, título y URL originales; indicar CC BY 4.0 y que existe una adaptación.
+- **Correcciones correctas:**
+  - Restaurar la autoría institucional.
+  - Recuperar año, título y URL originales.
+  - Indicar CC BY 4.0 y que existe una adaptación.
 
-- **Incorrectas:** presentarlo como «recurso propio» o aplicar «todos los derechos reservados». Reescribir una parte no borra la autoría ni la licencia de la obra de partida.
+- **Incorrectas:**
+  - Presentarlo como «recurso propio».
+  - Aplicar «todos los derechos reservados».
+
+  Reescribir una parte no borra la autoría ni la licencia de la obra de partida.
 
 ### Soluciones de P07
 

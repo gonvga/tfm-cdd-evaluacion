@@ -442,17 +442,17 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
     for resource in resources["items"]:
         expected = resource["id"] == resources["expected_id"]
         selected = selected_value == resource["id"]
-        item_ok = selected == expected
+        feedback_text, item_ok = checkbox_feedback(
+            selected,
+            expected,
+            resource["reason"],
+        )
         title_control = ft.Text(resource["title"])
         if validated:
             resource_feedback_rows.append(
                 (
                     item_ok,
-                    (
-                        f"{resource['id']} · {resource['title']}: opción correcta"
-                        if expected
-                        else f"{resource['id']} · {resource['title']}: {resource['reason']}"
-                    ),
+                    f"{resource['id']} · {resource['title']}: {feedback_text}",
                 )
             )
         rows.append(

@@ -41,10 +41,10 @@
         "label": "Estructura del texto principal",
         "current": "Un único párrafo denso sin apartados.",
         "options": [
-          "Conservar el párrafo y reducir el tamaño de letra",
-          "Dividirlo en tres secciones breves con encabezados semánticos y conservar los tres procesos",
           "Eliminar el texto y dejar únicamente el audio",
-          "Convertir todo el párrafo en una imagen"
+          "Convertir todo el párrafo en una imagen",
+          "Conservar el párrafo y reducir el tamaño de letra",
+          "Dividirlo en tres secciones breves con encabezados semánticos y conservar los tres procesos"
         ],
         "expected": "Dividirlo en tres secciones breves con encabezados semánticos y conservar los tres procesos",
         "feedback": "La adaptación debe mejorar legibilidad y estructura sin perder el contenido esencial."
@@ -54,10 +54,10 @@
         "label": "Vocabulario y apoyos",
         "current": "Los términos nuevos aparecen sin ayuda.",
         "options": [
-          "Sustituir todos los términos por expresiones imprecisas",
+          "No modificar este componente",
           "Añadir un glosario contextual accesible y mantener los términos necesarios",
           "Añadir definiciones solo mediante ventanas que aparecen con el ratón",
-          "No modificar este componente"
+          "Sustituir todos los términos por expresiones imprecisas"
         ],
         "expected": "Añadir un glosario contextual accesible y mantener los términos necesarios",
         "feedback": "El apoyo debe facilitar el acceso al vocabulario sin eliminar el lenguaje disciplinar."
@@ -68,9 +68,9 @@
         "current": "Se reproduce automáticamente y no tiene transcripción.",
         "options": [
           "Mantener reproducción automática y añadir música de fondo",
-          "Eliminar el audio porque no todo el alumnado puede escucharlo",
+          "Sustituirlo por un enlace externo sin comprobar",
           "Añadir controles, transcripción equivalente y evitar la reproducción automática",
-          "Sustituirlo por un enlace externo sin comprobar"
+          "Eliminar el audio porque no todo el alumnado puede escucharlo"
         ],
         "expected": "Añadir controles, transcripción equivalente y evitar la reproducción automática",
         "feedback": "El audio puede conservarse si existe una alternativa equivalente y control del usuario."
@@ -80,10 +80,10 @@
         "label": "Comprobación de aprendizaje",
         "current": "Arrastrar con ratón; sin teclado y con retroalimentación mínima.",
         "options": [
-          "Mantener el arrastre y ampliar el tiempo disponible",
-          "Usar una selección ordenable compatible con teclado y ofrecer una pista específica antes de reintentar",
           "Sustituirla por una pregunta abierta sin criterios ni retroalimentación",
-          "Eliminar la comprobación para simplificar el recurso"
+          "Eliminar la comprobación para simplificar el recurso",
+          "Mantener el arrastre y ampliar el tiempo disponible",
+          "Usar una selección ordenable compatible con teclado y ofrecer una pista específica antes de reintentar"
         ],
         "expected": "Usar una selección ordenable compatible con teclado y ofrecer una pista específica antes de reintentar",
         "feedback": "La interacción debe comprobar el aprendizaje sin excluir a quienes no usan ratón."
@@ -93,9 +93,9 @@
         "label": "Contenido avanzado",
         "current": "Interrumpe el itinerario básico.",
         "options": [
-          "Moverlo a una ampliación opcional después de la actividad principal",
-          "Colocarlo al inicio para aumentar el nivel del recurso",
           "Eliminarlo siempre, aunque pueda ser útil para personalizar",
+          "Colocarlo al inicio para aumentar el nivel del recurso",
+          "Moverlo a una ampliación opcional después de la actividad principal",
           "Repetirlo antes y después de la actividad"
         ],
         "expected": "Moverlo a una ampliación opcional después de la actividad principal",
@@ -140,10 +140,10 @@
     "export": {
       "label": "Formato de publicación",
       "options": [
-        "PDF bloqueado",
         "Aplicación ejecutable",
-        "HTML5 editable y compatible con Moodle",
-        "Capturas de pantalla"
+        "PDF bloqueado",
+        "Capturas de pantalla",
+        "HTML5 editable y compatible con Moodle"
       ],
       "expected": "HTML5 editable y compatible con Moodle"
     }
@@ -153,11 +153,28 @@
     "label": "Resume los cambios realizados en la obra",
     "hint": "Documenta cambios de estructura, accesibilidad, interacción y personalización.",
     "required_groups": [
-      ["estructura", "seccion", "encabezado"],
-      ["transcripcion", "audio"],
-      ["teclado", "accesibilidad"],
-      ["retroalimentacion", "pista", "actividad"],
-      ["ampliacion", "opcional"]
+      [
+        "estructura",
+        "seccion",
+        "encabezado"
+      ],
+      [
+        "transcripcion",
+        "audio"
+      ],
+      [
+        "teclado",
+        "accesibilidad"
+      ],
+      [
+        "retroalimentacion",
+        "pista",
+        "actividad"
+      ],
+      [
+        "ampliacion",
+        "opcional"
+      ]
     ],
     "minimum_words": 24,
     "maximum_words": 120
@@ -168,9 +185,17 @@
       "label": "Atribución del recurso original y aviso de cambios",
       "hint": "Identifica el título y la autoría originales e indica qué has modificado. La licencia se selecciona en el campo siguiente.",
       "required_groups": [
-        ["procesos y cambios en un sistema natural"],
-        ["banco de recursos abiertos"],
-        ["adaptacion", "modificado", "cambios"]
+        [
+          "procesos y cambios en un sistema natural"
+        ],
+        [
+          "banco de recursos abiertos"
+        ],
+        [
+          "adaptacion",
+          "modificado",
+          "cambios"
+        ]
       ],
       "minimum_words": 11,
       "maximum_words": 90
@@ -178,11 +203,11 @@
     "derivative_license": {
       "label": "Licencia de la obra adaptada",
       "options": [
-        "Copyright · Todos los derechos reservados",
         "CC BY 4.0",
         "CC BY-SA 4.0",
-        "CC BY-NC-SA 4.0",
-        "CC0 1.0"
+        "Copyright · Todos los derechos reservados",
+        "CC0 1.0",
+        "CC BY-NC-SA 4.0"
       ],
       "expected": "CC BY-SA 4.0"
     }
@@ -196,9 +221,20 @@
         "label": "Destinatarios y necesidades",
         "hint": "Curso, ritmos de lectura y necesidades de acceso.",
         "required_groups": [
-          ["1 eso", "1 de eso", "primero de eso"],
-          ["ritmo", "lectura"],
-          ["teclado", "transcripcion", "accesibilidad"]
+          [
+            "1 eso",
+            "1 de eso",
+            "primero de eso"
+          ],
+          [
+            "ritmo",
+            "lectura"
+          ],
+          [
+            "teclado",
+            "transcripcion",
+            "accesibilidad"
+          ]
         ],
         "minimum_words": 8,
         "maximum_words": 45
@@ -208,8 +244,16 @@
         "label": "Finalidad didáctica",
         "hint": "Qué debe comprender o realizar el alumnado.",
         "required_groups": [
-          ["comprender", "identificar", "ordenar"],
-          ["tres procesos", "procesos consecutivos", "secuencia"]
+          [
+            "comprender",
+            "identificar",
+            "ordenar"
+          ],
+          [
+            "tres procesos",
+            "procesos consecutivos",
+            "secuencia"
+          ]
         ],
         "minimum_words": 8,
         "maximum_words": 45
@@ -219,10 +263,19 @@
         "label": "Accesibilidad incorporada",
         "hint": "Documenta alternativas y formas de interacción.",
         "required_groups": [
-          ["transcripcion"],
-          ["teclado"],
-          ["foco", "orden de lectura"],
-          ["glosario"]
+          [
+            "transcripcion"
+          ],
+          [
+            "teclado"
+          ],
+          [
+            "foco",
+            "orden de lectura"
+          ],
+          [
+            "glosario"
+          ]
         ],
         "minimum_words": 9,
         "maximum_words": 55
@@ -232,9 +285,16 @@
         "label": "Formato y requisitos técnicos",
         "hint": "Formato editable, plataforma y dispositivos previstos.",
         "required_groups": [
-          ["html5"],
-          ["moodle"],
-          ["tableta", "pantalla"]
+          [
+            "html5"
+          ],
+          [
+            "moodle"
+          ],
+          [
+            "tableta",
+            "pantalla"
+          ]
         ],
         "minimum_words": 6,
         "maximum_words": 35
@@ -244,10 +304,23 @@
         "label": "Versión y cambios principales",
         "hint": "Versión y resumen de las modificaciones.",
         "required_groups": [
-          ["v1", "version 1", "versión 1"],
-          ["estructura", "encabezado"],
-          ["audio", "transcripcion"],
-          ["actividad", "retroalimentacion"]
+          [
+            "v1",
+            "version 1",
+            "versión 1"
+          ],
+          [
+            "estructura",
+            "encabezado"
+          ],
+          [
+            "audio",
+            "transcripcion"
+          ],
+          [
+            "actividad",
+            "retroalimentacion"
+          ]
         ],
         "minimum_words": 10,
         "maximum_words": 60

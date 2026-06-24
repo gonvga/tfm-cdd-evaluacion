@@ -125,9 +125,17 @@ La idea clave es distinguir tres preguntas: «¿es fiable?» corresponde a lo ci
 
 #### Herramientas de búsqueda
 
-- **Correctas: Google Académico y DuckDuckGo.** Google Académico prioriza literatura académica y DuckDuckGo reduce la personalización basada en perfiles, por lo que responden mejor al criterio planteado.
+- **Correctas:**
+  - Google Académico.
+  - DuckDuckGo.
 
-- **Incorrectas: Google y Yahoo Search.** Son buscadores generales útiles en otros contextos, pero en esta tarea se quieren reducir resultados condicionados por publicidad o perfil comercial. No son «malos buscadores» en términos absolutos; simplemente no son los preferentes para este propósito.
+  Google Académico prioriza literatura académica y DuckDuckGo reduce la personalización basada en perfiles, por lo que responden mejor al criterio planteado.
+
+- **Incorrectas:**
+  - Google.
+  - Yahoo Search.
+
+  Son buscadores generales útiles en otros contextos, pero en esta tarea se quieren reducir resultados condicionados por publicidad o perfil comercial. No son «malos buscadores» en términos absolutos; simplemente no son los preferentes para este propósito.
 
 #### Metadatos
 
@@ -143,7 +151,12 @@ La idea clave es distinguir tres preguntas: «¿es fiable?» corresponde a lo ci
 
 El nombre de la carpeta debe describir el contenido. Son válidos, por ejemplo, `Sostenibilidad_2ESO`, `UD_Sostenibilidad` o `Recursos_Biología_Sostenibilidad`. Nombres como `Nueva carpeta`, `Documentos` o `Cosas` no permiten reconocer ni recuperar con facilidad la unidad.
 
-- **Deben incluirse:** `Documento_01.pdf`, `Enlace_recurso.url` y `Video_actividad.mp4`, porque los tres contienen materiales educativos sobre sostenibilidad.
+- **Deben incluirse:**
+  - `Documento_01.pdf`.
+  - `Enlace_recurso.url`.
+  - `Video_actividad.mp4`.
+
+  Los tres contienen materiales educativos sobre sostenibilidad.
 
 - **No debe incluirse:** `Lista_Compra.pdf`, porque es un archivo personal ajeno a la unidad. Mezclar documentos personales y docentes dificulta la recuperación y puede provocar una compartición accidental.
 
@@ -151,7 +164,13 @@ El nombre de la carpeta debe describir el contenido. Son válidos, por ejemplo, 
 
 #### Requisitos derivados del contexto
 
-- **Correctos:** comprobación breve de productor, consumidor y descomponedor; ampliación y uso no exclusivo del color; apertura desde Moodle sin instalación ni registro; alternativa descargable o imprimible. Cada condición procede directamente del objetivo, la baja visión, la política técnica del centro o la conexión inestable.
+- **Correctos:**
+  - Comprobación breve de productor, consumidor y descomponedor.
+  - Ampliación y uso no exclusivo del color.
+  - Apertura desde Moodle sin instalación ni registro.
+  - Alternativa descargable o imprimible.
+
+  Cada condición procede directamente del objetivo, la baja visión, la política técnica del centro o la conexión inestable.
 
 - **Incorrecto:** exigir todos los archivos fuente. Serían útiles para una adaptación profunda, pero la actividad breve no los necesita.
 
@@ -161,7 +180,11 @@ El nombre de la carpeta debe describir el contenido. Son válidos, por ejemplo, 
 
 #### Repositorios iniciales
 
-- **Correctos:** repositorio de la Administración educativa y colección de Moodle revisada por Biología. El primero aporta catalogación institucional; el segundo ofrece recursos ya contrastados en el contexto técnico y pedagógico del centro.
+- **Correctos:**
+  - Repositorio de la Administración educativa.
+  - Colección de Moodle revisada por Biología.
+
+  El primero aporta catalogación institucional; el segundo ofrece recursos ya contrastados en el contexto técnico y pedagógico del centro.
 
 - **Incorrecto:** comenzar por resultados patrocinados de un buscador general. Puede utilizarse para ampliar la búsqueda, pero desaprovecha las fuentes institucionales prioritarias.
 
@@ -169,7 +192,11 @@ El nombre de la carpeta debe describir el contenido. Son válidos, por ejemplo, 
 
 #### Estrategias de búsqueda
 
-- **Correctas:** `2.º ESO + cadenas tróficas + HTML/H5P + sin registro + accesibilidad documentada` y `revisado por Biología + actividad breve + alternativa descargable`. Combinan tema, nivel, formato, acceso, duración y necesidades reales.
+- **Correctas:**
+  - `2.º ESO + cadenas tróficas + HTML/H5P + sin registro + accesibilidad documentada`.
+  - `revisado por Biología + actividad breve + alternativa descargable`.
+
+  Combinan tema, nivel, formato, acceso, duración y necesidades reales.
 
 - **Incorrecta:** `solo SCORM + máxima interactividad + cualquier etapa`. Moodle no tiene habilitado SCORM y se pierde el ajuste al nivel.
 

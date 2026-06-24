@@ -239,33 +239,26 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
     for option in metadata_question["options"]:
         selected = saved_metadata == option["id"]
         expected = option["expected"]
-        feedback = []
-        bgcolor = None
-        border_color = ft.Colors.GREY_300
-
-        if validated and expected:
-            bgcolor, border_color = feedback_colors(True)
-            feedback.append(
-                inline_feedback(
-                    "Respuesta esperada: los metadatos permiten describir, indexar y recuperar el recurso.",
-                    True,
-                )
-            )
-        elif validated and selected:
-            bgcolor, border_color = feedback_colors(False)
-            feedback.append(
-                inline_feedback(
-                    "Tu respuesta. Esta opción no describe el contenido mediante etiquetas recuperables.",
-                    False,
-                )
-            )
+        detail = (
+            "Los metadatos permiten describir, indexar y recuperar el recurso."
+            if expected
+            else "Esta opción no describe el contenido mediante etiquetas recuperables."
+        )
+        feedback_text, option_ok = checkbox_feedback(selected, bool(expected), detail)
+        bgcolor, border_color = (
+            feedback_colors(option_ok) if validated else (None, ft.Colors.GREY_300)
+        )
 
         metadata_cards.append(
             ft.Container(
                 content=ft.Column(
                     controls=[
                         ft.Radio(value=option["id"], label=option["text"]),
-                        *feedback,
+                        *(
+                            [inline_feedback(feedback_text, option_ok)]
+                            if validated
+                            else []
+                        ),
                     ],
                     spacing=4,
                 ),
