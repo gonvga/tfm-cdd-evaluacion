@@ -245,7 +245,7 @@
     ]
   },
   "imscp_package": {
-    "title": "4. Preparacion IMSCP",
+    "title": "4. Preparación IMSCP",
     "description": "Activa los componentes y ajustes que debe tener el paquete antes de publicarlo.",
     "weight": 25,
     "components": [
@@ -255,9 +255,9 @@
         "expected": true
       },
       {
-        "id": "index",
-        "label": "index.html como punto de entrada",
-        "expected": true
+        "id": "teacher_private_notes",
+        "label": "Notas privadas del profesorado dentro del paquete descargable",
+        "expected": false
       },
       {
         "id": "assets",
@@ -265,14 +265,14 @@
         "expected": true
       },
       {
-        "id": "license_file",
-        "label": "Archivo de licencia y autoria",
+        "id": "index",
+        "label": "index.html como punto de entrada",
         "expected": true
       },
       {
-        "id": "teacher_private_notes",
-        "label": "Notas privadas del profesorado dentro del paquete descargable",
-        "expected": false
+        "id": "license_file",
+        "label": "Archivo de licencia y autoria",
+        "expected": true
       }
     ],
     "settings": [
@@ -286,12 +286,12 @@
             "label": "Solo profesorado"
           },
           {
-            "id": "authenticated_students",
-            "label": "Solo alumnado autenticado del grupo"
-          },
-          {
             "id": "anyone_link",
             "label": "Cualquier persona con enlace"
+          },
+          {
+            "id": "authenticated_students",
+            "label": "Solo alumnado autenticado del grupo"
           }
         ]
       },
@@ -301,16 +301,16 @@
         "expected": "validate_manifest_metadata_license",
         "options": [
           {
-            "id": "skip_check",
-            "label": "Omitir revision tecnica"
-          },
-          {
             "id": "upload_if_zip",
             "label": "Publicar si el ZIP sube sin error"
           },
           {
             "id": "validate_manifest_metadata_license",
             "label": "Validar manifiesto, metadatos, licencia y enlaces"
+          },
+          {
+            "id": "skip_check",
+            "label": "Omitir revision tecnica"
           }
         ]
       }

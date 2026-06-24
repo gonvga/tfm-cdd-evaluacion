@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import tempfile
 import unittest
 import unicodedata
@@ -893,6 +894,25 @@ class ProgrammedTestsCase(unittest.TestCase):
         state["feedback"]["p05"] = {"ok": True, "message": ""}
         state["feedback"]["p09"] = {"ok": True, "message": ""}
         self.assertEqual(get_next_test(state)["id"], "p06")
+
+    def test_failed_test_can_advance_in_development_mode(self):
+        previous = os.environ.get("CDD_ALLOW_FAILED_ADVANCE")
+        os.environ["CDD_ALLOW_FAILED_ADVANCE"] = "1"
+        try:
+            state = initial_evaluation_state()
+            state["feedback"]["p01"] = {"ok": False, "message": ""}
+
+            self.assertEqual(get_next_test(state)["id"], "p05")
+
+            state["feedback"]["p05"] = {"ok": True, "message": ""}
+            state["feedback"]["p09"] = {"ok": True, "message": ""}
+            self.assertEqual(get_next_test(state)["id"], "p02")
+            self.assertFalse(get_competence_status(state, "2.1")["locked"])
+        finally:
+            if previous is None:
+                os.environ.pop("CDD_ALLOW_FAILED_ADVANCE", None)
+            else:
+                os.environ["CDD_ALLOW_FAILED_ADVANCE"] = previous
 
     def test_finished_exam_reports_each_achieved_level(self):
         state = initial_evaluation_state()

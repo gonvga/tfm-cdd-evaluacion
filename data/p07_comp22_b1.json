@@ -112,14 +112,19 @@
         "expected": true
       },
       {
+        "id": "color_only",
+        "label": "Usar solo colores para diferenciar los tres procesos",
+        "expected": false
+      },
+      {
         "id": "keyboard",
         "label": "Comprobar navegación y actividad mediante teclado",
         "expected": true
       },
       {
-        "id": "visible_focus",
-        "label": "Mantener visible el foco de teclado",
-        "expected": true
+        "id": "locked_pdf",
+        "label": "Publicar únicamente un PDF bloqueado",
+        "expected": false
       },
       {
         "id": "responsive",
@@ -127,14 +132,9 @@
         "expected": true
       },
       {
-        "id": "color_only",
-        "label": "Usar solo colores para diferenciar los tres procesos",
-        "expected": false
-      },
-      {
-        "id": "locked_pdf",
-        "label": "Publicar únicamente un PDF bloqueado",
-        "expected": false
+        "id": "visible_focus",
+        "label": "Mantener visible el foco de teclado",
+        "expected": true
       }
     ],
     "export": {

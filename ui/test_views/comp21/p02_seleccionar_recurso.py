@@ -472,10 +472,40 @@ def build_test_p02(state: dict, refresh_view) -> ft.Control:
             )
         )
 
-    selected_radio.content.controls = [
-        ft.Radio(value=resource["id"], label=f"{resource['id']} · {resource['title']}")
-        for resource in resources["items"]
-    ]
+    selected_radio.content.controls = []
+    for resource in resources["items"]:
+        expected = resource["id"] == resources["expected_id"]
+        selected = selected_value == resource["id"]
+        feedback_text, item_ok = checkbox_feedback(
+            selected,
+            expected,
+            resource["reason"],
+        )
+        selected_radio.content.controls.append(
+            ft.Container(
+                content=ft.Column(
+                    controls=[
+                        ft.Radio(
+                            value=resource["id"],
+                            label=f"{resource['id']} · {resource['title']}",
+                        ),
+                        *(
+                            [inline_feedback(feedback_text, item_ok)]
+                            if validated
+                            else []
+                        ),
+                    ],
+                    spacing=5,
+                ),
+                bgcolor=feedback_colors(item_ok)[0] if validated else "#F9FAFB",
+                border=ft.border.all(
+                    1,
+                    feedback_colors(item_ok)[1] if validated else "#E5E7EB",
+                ),
+                border_radius=10,
+                padding=10,
+            )
+        )
 
     def validate(e):
         selected_requirements = get_selected_ids(requirement_checkboxes)

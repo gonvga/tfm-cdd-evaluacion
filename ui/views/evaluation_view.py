@@ -1,3 +1,5 @@
+import os
+
 import flet as ft
 
 from ui.components import info_box, modern_card, primary_button
@@ -53,6 +55,15 @@ TEST_BUILDERS = {
 }
 
 
+def allow_failed_advance() -> bool:
+    return os.getenv("CDD_ALLOW_FAILED_ADVANCE", "").lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
+
+
 def initial_evaluation_state() -> dict:
     return {
         "active_test": TEST_FLOW[0]["id"],
@@ -73,6 +84,7 @@ def get_competence_flow(state: dict, competence: str | None = None) -> list[dict
 
 def get_competence_status(state: dict, competence: str) -> dict:
     flow = get_competence_flow(state, competence)
+    allow_failed = allow_failed_advance()
     failed_item = None
     achieved_level = None
     completed_count = 0
@@ -80,8 +92,11 @@ def get_competence_status(state: dict, competence: str) -> dict:
     for item in flow:
         result = state["feedback"].get(item["id"], {}).get("ok")
         if result is False:
-            failed_item = item
-            break
+            if not allow_failed:
+                failed_item = item
+                break
+            completed_count += 1
+            continue
         if result is True:
             achieved_level = item["level"]
             completed_count += 1
@@ -107,11 +122,13 @@ def get_competence_status(state: dict, competence: str) -> dict:
 
 
 def get_next_test(state: dict) -> dict | None:
-    failed_competences = {
-        item["competence"]
-        for item in TEST_FLOW
-        if state["feedback"].get(item["id"], {}).get("ok") is False
-    }
+    failed_competences = set()
+    if not allow_failed_advance():
+        failed_competences = {
+            item["competence"]
+            for item in TEST_FLOW
+            if state["feedback"].get(item["id"], {}).get("ok") is False
+        }
 
     for item in TEST_FLOW:
         if item["competence"] in failed_competences:
@@ -128,6 +145,7 @@ def evaluation_is_finished(state: dict) -> bool:
 def _resolved_progress(state: dict) -> float:
     resolved = 0
     failed_competences = set()
+    allow_failed = allow_failed_advance()
 
     for item in TEST_FLOW:
         if item["competence"] in failed_competences:
@@ -137,7 +155,7 @@ def _resolved_progress(state: dict) -> float:
         result = state["feedback"].get(item["id"], {}).get("ok")
         if result is not None:
             resolved += 1
-        if result is False:
+        if result is False and not allow_failed:
             failed_competences.add(item["competence"])
 
     return resolved / len(TEST_FLOW)

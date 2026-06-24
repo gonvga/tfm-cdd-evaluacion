@@ -61,15 +61,15 @@
         "feedback": "Aporta una fuente verificable, accesible y reutilizable."
       },
       {
-        "id": "open_infographic",
-        "title": "Infografía abierta de nutrientes",
-        "source": "Banco de Recursos Abiertos",
-        "format": "SVG editable",
-        "license": "CC BY-SA 4.0",
-        "accessibility": "Contraste bajo y sin descripción textual",
-        "use": "Síntesis visual de azúcares, grasas y sal",
-        "needs_modification": true,
-        "feedback": "Puede integrarse después de adaptar contraste, texto y complejidad."
+        "id": "closed_pdf",
+        "title": "Unidad editorial protegida",
+        "source": "Editorial comercial",
+        "format": "PDF bloqueado",
+        "license": "Copyright; sin permiso de adaptación",
+        "accessibility": "Documento sin etiquetar",
+        "use": "Unidad completa sobre nutrición",
+        "needs_modification": false,
+        "feedback": "No permite modificación ni integración legal en una obra derivada."
       },
       {
         "id": "captioned_video",
@@ -83,28 +83,6 @@
         "feedback": "Es útil si se recorta el fragmento relevante y se integra la transcripción."
       },
       {
-        "id": "label_simulator",
-        "title": "Simulador de comparación de etiquetas",
-        "source": "Proyecto REA Ciencias",
-        "format": "HTML5",
-        "license": "CC BY-SA 4.0",
-        "accessibility": "Funciona con teclado, pero las instrucciones son demasiado generales",
-        "use": "Permite comparar productos y recibir retroalimentación",
-        "needs_modification": true,
-        "feedback": "Necesita instrucciones contextualizadas y una tarea guiada."
-      },
-      {
-        "id": "closed_pdf",
-        "title": "Unidad editorial protegida",
-        "source": "Editorial comercial",
-        "format": "PDF bloqueado",
-        "license": "Copyright; sin permiso de adaptación",
-        "accessibility": "Documento sin etiquetar",
-        "use": "Unidad completa sobre nutrición",
-        "needs_modification": false,
-        "feedback": "No permite modificación ni integración legal en una obra derivada."
-      },
-      {
         "id": "blocked_game",
         "title": "Juego comercial incrustado",
         "source": "Plataforma externa",
@@ -114,6 +92,28 @@
         "use": "Clasificación rápida de alimentos",
         "needs_modification": false,
         "feedback": "No puede empaquetarse ni utilizarse de forma accesible."
+      },
+      {
+        "id": "open_infographic",
+        "title": "Infografía abierta de nutrientes",
+        "source": "Banco de Recursos Abiertos",
+        "format": "SVG editable",
+        "license": "CC BY-SA 4.0",
+        "accessibility": "Contraste bajo y sin descripción textual",
+        "use": "Síntesis visual de azúcares, grasas y sal",
+        "needs_modification": true,
+        "feedback": "Puede integrarse después de adaptar contraste, texto y complejidad."
+      },
+      {
+        "id": "label_simulator",
+        "title": "Simulador de comparación de etiquetas",
+        "source": "Proyecto REA Ciencias",
+        "format": "HTML5",
+        "license": "CC BY-SA 4.0",
+        "accessibility": "Funciona con teclado, pero las instrucciones son demasiado generales",
+        "use": "Permite comparar productos y recibir retroalimentación",
+        "needs_modification": true,
+        "feedback": "Necesita instrucciones contextualizadas y una tarea guiada."
       }
     ]
   },
@@ -294,14 +294,19 @@
         "expected": true
       },
       {
+        "id": "public_edit",
+        "label": "Enlace público con edición para agilizar el trabajo",
+        "expected": false
+      },
+      {
         "id": "version_history",
         "label": "Historial de versiones y registro de cambios activados",
         "expected": true
       },
       {
-        "id": "milestone_copy",
-        "label": "Copias de hitos antes de integrar recursos y antes de exportar",
-        "expected": true
+        "id": "overwrite",
+        "label": "Sustituir siempre el archivo anterior sin conservar versiones",
+        "expected": false
       },
       {
         "id": "responsibilities",
@@ -309,14 +314,9 @@
         "expected": true
       },
       {
-        "id": "public_edit",
-        "label": "Enlace público con edición para agilizar el trabajo",
-        "expected": false
-      },
-      {
-        "id": "overwrite",
-        "label": "Sustituir siempre el archivo anterior sin conservar versiones",
-        "expected": false
+        "id": "milestone_copy",
+        "label": "Copias de hitos antes de integrar recursos y antes de exportar",
+        "expected": true
       }
     ],
     "recovery": {
