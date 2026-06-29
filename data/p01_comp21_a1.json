@@ -8,11 +8,6 @@
   "classification": {
     "title": "Clasificación de criterios de calidad",
     "description": "Clasifica cada etiqueta en la dimensión que corresponde: científica, técnica o didáctica.",
-    "resource": {
-      "title": "Simulador interactivo sobre circuitos eléctricos",
-      "source": "Portal educativo institucional",
-      "context": "Recurso digital para trabajar electricidad en 3º de ESO."
-    },
     "categories": [
       {
         "id": "scientific",

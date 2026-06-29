@@ -50,22 +50,6 @@ def section_title(text: str) -> ft.Text:
     return ft.Text(text, size=18, weight=ft.FontWeight.BOLD)
 
 
-def build_info_panel(title: str, lines: list[str]) -> ft.Control:
-    return ft.Container(
-        content=ft.Column(
-            controls=[
-                ft.Text(title, size=15, weight=ft.FontWeight.BOLD),
-                *[ft.Text(line, size=13, color=ft.Colors.GREY_700) for line in lines],
-            ],
-            spacing=4,
-        ),
-        bgcolor=ft.Colors.BLUE_50,
-        border=ft.border.all(1, ft.Colors.BLUE_100),
-        border_radius=12,
-        padding=14,
-    )
-
-
 def ids_to_labels(items: list[dict], ids: list[str], label_key: str = "label") -> list[str]:
     labels = {item["id"]: item.get(label_key, item.get("text", item["id"])) for item in items}
     return [labels.get(item_id, item_id) for item_id in ids]
@@ -533,13 +517,6 @@ def build_test_p01(state: dict, refresh_view) -> ft.Control:
             ),
             section_title(classification["title"]),
             ft.Text(classification["description"], size=14),
-            build_info_panel(
-                classification["resource"]["title"],
-                [
-                    f"Fuente: {classification['resource']['source']}",
-                    classification["resource"]["context"],
-                ],
-            ),
             ft.DataTable(
                 columns=[
                     ft.DataColumn(ft.Text("Etiqueta")),

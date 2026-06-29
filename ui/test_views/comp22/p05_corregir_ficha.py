@@ -321,7 +321,7 @@ def build_test_p05(state: dict, refresh_view) -> ft.Control:
                 ),
                 ft.Container(
                     content=ft.Image(
-                        src="assets/p05/alumnado.png",
+                        src="p05/alumnado.png",
                         width=680,
                         height=380,
                         fit="contain",

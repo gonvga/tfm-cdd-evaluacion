@@ -4,6 +4,9 @@ from core.paths import resource_path
 from ui.shell import build_shell
 
 
+ASSETS_DIR = resource_path("assets")
+
+
 def main(page: ft.Page):
     page.title = "Evaluación CDD"
 
@@ -17,7 +20,7 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
     page.bgcolor = ft.Colors.GREY_100
 
-    page.assets_dir = str(resource_path("assets"))
+    page.assets_dir = str(ASSETS_DIR)
 
     page.add(build_shell(page))
 
@@ -26,4 +29,4 @@ def main(page: ft.Page):
 
 
 if __name__ == "__main__":
-    ft.run(main)
+    ft.run(main, assets_dir=str(ASSETS_DIR))

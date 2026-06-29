@@ -8,8 +8,15 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
+def resource_root() -> Path:
+    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+        return Path(sys._MEIPASS)
+
+    return PROJECT_ROOT
+
+
 def resource_path(*parts: str) -> Path:
-    return PROJECT_ROOT.joinpath(*parts)
+    return resource_root().joinpath(*parts)
 
 
 def asset_path(src: str | None) -> Path | None:
