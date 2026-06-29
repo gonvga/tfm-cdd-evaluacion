@@ -1,0 +1,1974 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica y pedagógica de la aplicación de evaluación de la competencia digital docente en el Área 2 del MRCDD.">
+      
+      
+        <meta name="author" content="Gonzalo Vega Pérez">
+      
+      
+        <link rel="canonical" href="https://gonvga.github.io/tfm-cdd-evaluacion/competencia-21/">
+      
+      
+        <link rel="prev" href="../desarrollo-pruebas/">
+      
+      
+        <link rel="next" href="../competencia-22/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Competencia 2.1 - Documentación MRCDD - Evaluación de Contenidos Digitales</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#competencia-21-busqueda-y-seleccion-de-contenidos-digitales" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Documentación MRCDD - Evaluación de Contenidos Digitales" class="md-header__button md-logo" aria-label="Documentación MRCDD - Evaluación de Contenidos Digitales" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentación MRCDD - Evaluación de Contenidos Digitales
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Competencia 2.1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="blue"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gonvga/tfm-cdd-evaluacion" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tfm-cdd-evaluacion
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../instalacion/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Descargar
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitectura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitectura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../desarrollo-pruebas/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Cómo colaborar
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Competencia 2.1
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../competencia-22/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Competencia 2.2
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../competencia-23/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Competencia 2.3
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Documentación MRCDD - Evaluación de Contenidos Digitales" class="md-nav__button md-logo" aria-label="Documentación MRCDD - Evaluación de Contenidos Digitales" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Documentación MRCDD - Evaluación de Contenidos Digitales
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gonvga/tfm-cdd-evaluacion" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tfm-cdd-evaluacion
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instalacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Descargar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../desarrollo-pruebas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cómo colaborar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Competencia 2.1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Competencia 2.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vision-general" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visión General
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p01-nivel-a1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P01 · Nivel A1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p02-nivel-a2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P02 · Nivel A2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p03-nivel-b1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P03 · Nivel B1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p04-nivel-b2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P04 · Nivel B2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#guia-de-respuestas-y-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guía de respuestas y aprendizaje
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Guía de respuestas y aprendizaje">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#soluciones-de-p01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Soluciones de P01
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soluciones de P01">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-de-criterios-de-calidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clasificación de criterios de calidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#herramientas-de-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas de búsqueda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadatos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadatos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizacion-de-archivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Organización de archivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soluciones-de-p02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Soluciones de P02
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soluciones de P02">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-derivados-del-contexto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos derivados del contexto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repositorios-iniciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repositorios iniciales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategias-de-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrategias de búsqueda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-de-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparación de recursos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soluciones-de-p03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Soluciones de P03
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soluciones de P03">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consultas-de-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas de búsqueda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-y-catalogacion-del-lote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selección y catalogación del lote
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sistema-de-organizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sistema de organización
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soluciones-de-p04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Soluciones de P04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soluciones de P04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protocolo-relacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protocolo relacional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asesoramiento-sobre-busquedas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Asesoramiento sobre búsquedas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan-proactivo-de-actualizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan proactivo de actualización
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feedback-e-interfaz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feedback E Interfaz
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#justificacion-mrcdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Justificación MRCDD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#progresion-a1-b2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Progresión A1-B2
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../competencia-22/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Competencia 2.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../competencia-23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Competencia 2.3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vision-general" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visión General
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p01-nivel-a1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P01 · Nivel A1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p02-nivel-a2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P02 · Nivel A2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p03-nivel-b1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P03 · Nivel B1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p04-nivel-b2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P04 · Nivel B2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#guia-de-respuestas-y-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guía de respuestas y aprendizaje
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Guía de respuestas y aprendizaje">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#soluciones-de-p01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Soluciones de P01
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soluciones de P01">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-de-criterios-de-calidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clasificación de criterios de calidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#herramientas-de-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas de búsqueda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadatos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadatos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizacion-de-archivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Organización de archivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soluciones-de-p02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Soluciones de P02
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soluciones de P02">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-derivados-del-contexto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos derivados del contexto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repositorios-iniciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repositorios iniciales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategias-de-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrategias de búsqueda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-de-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparación de recursos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soluciones-de-p03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Soluciones de P03
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soluciones de P03">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consultas-de-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas de búsqueda
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-y-catalogacion-del-lote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selección y catalogación del lote
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sistema-de-organizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sistema de organización
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soluciones-de-p04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Soluciones de P04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soluciones de P04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protocolo-relacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protocolo relacional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asesoramiento-sobre-busquedas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Asesoramiento sobre búsquedas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plan-proactivo-de-actualizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan proactivo de actualización
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feedback-e-interfaz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feedback E Interfaz
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#justificacion-mrcdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Justificación MRCDD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#progresion-a1-b2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Progresión A1-B2
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="competencia-21-busqueda-y-seleccion-de-contenidos-digitales">Competencia 2.1: Búsqueda y selección de contenidos digitales<a class="headerlink" href="#competencia-21-busqueda-y-seleccion-de-contenidos-digitales" title="Permanent link">&para;</a></h1>
+<p>La competencia 2.1 del MRCDD se evalúa mediante cuatro pruebas progresivas: P01, P02, P03 y P04. Todas están planteadas como actividades de desempeño y generan evidencias observables: selecciones, consultas de búsqueda, fichas revisadas, catalogaciones y decisiones justificadas.</p>
+<h2 id="vision-general">Visión General<a class="headerlink" href="#vision-general" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Prueba</th>
+<th>Nivel</th>
+<th>Foco de evaluación</th>
+<th>Archivo de datos</th>
+<th>Vista</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P01</td>
+<td>A1</td>
+<td>Reconocimiento de criterios básicos, buscadores, metadatos y organización inicial</td>
+<td><code>data/p01_comp21_a1.json</code></td>
+<td><code>ui/test_views/comp21/p01_identificar_recursos.py</code></td>
+</tr>
+<tr>
+<td>P02</td>
+<td>A2</td>
+<td>Selección guiada de contenidos según requisitos, repositorios y compatibilidad</td>
+<td><code>data/p02_comp21_a2.json</code></td>
+<td><code>ui/test_views/comp21/p02_seleccionar_recurso.py</code></td>
+</tr>
+<tr>
+<td>P03</td>
+<td>B1</td>
+<td>Búsqueda práctica, revisión de fichas simuladas y catalogación autónoma</td>
+<td><code>data/p03_comp21_b1.json</code></td>
+<td><code>ui/test_views/comp21/p03_banco_recursos.py</code></td>
+</tr>
+<tr>
+<td>P04</td>
+<td>B2</td>
+<td>Protocolo relacional de curación, asesoramiento y actualización de repositorios</td>
+<td><code>data/p04_comp21_b2.json</code></td>
+<td><code>ui/test_views/comp21/p04_curacion_contenidos.py</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="p01-nivel-a1">P01 · Nivel A1<a class="headerlink" href="#p01-nivel-a1" title="Permanent link">&para;</a></h2>
+<p>P01 evalúa el acceso inicial a la competencia 2.1. La prueba comprueba si el usuario reconoce criterios básicos de calidad y organización de contenidos digitales.</p>
+<p><strong>Indicadores evaluados</strong></p>
+<ul>
+<li><code>2.1.A1.1</code>: conocimiento de criterios didácticos, técnicos y científicos.</li>
+<li><code>2.1.A1.2</code>: uso básico de buscadores neutros y conocimiento de metadatos.</li>
+<li><code>2.1.A1.3</code>: uso inicial de sistemas de organización de recursos.</li>
+</ul>
+<p><strong>Tareas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Acción del usuario</th>
+<th>Evidencia generada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clasificación</td>
+<td>Clasificar etiquetas en criterios científicos, técnicos o didácticos</td>
+<td>Categoría asignada a cada criterio</td>
+</tr>
+<tr>
+<td>Buscadores</td>
+<td>Seleccionar herramientas de búsqueda adecuadas</td>
+<td>Buscadores marcados</td>
+</tr>
+<tr>
+<td>Metadatos</td>
+<td>Resolver una situación sobre recuperación de recursos</td>
+<td>Respuesta seleccionada</td>
+</tr>
+<tr>
+<td>Organización</td>
+<td>Nombrar una carpeta y seleccionar archivos educativos</td>
+<td>Nombre de carpeta y archivos movidos</td>
+</tr>
+</tbody>
+</table>
+<p>Para superar P01, el usuario debe clasificar correctamente los criterios, seleccionar los buscadores esperados, identificar los metadatos y organizar solo los archivos pertinentes.</p>
+<h2 id="p02-nivel-a2">P02 · Nivel A2<a class="headerlink" href="#p02-nivel-a2" title="Permanent link">&para;</a></h2>
+<p>P02 evalúa la selección de contenidos con apoyo y asesoramiento. El usuario traduce un contexto concreto en requisitos observables, elige estrategias completas de búsqueda y compara candidatos plausibles con ventajas e incompatibilidades discretas.</p>
+<p><strong>Indicadores evaluados</strong></p>
+<ul>
+<li><code>2.1.A2.1</code>: identificación de requisitos para una situación concreta de aprendizaje, incluyendo compatibilidad con plataformas del centro.</li>
+<li><code>2.1.A2.2</code>: uso de repositorios institucionales o del centro.</li>
+</ul>
+<p><strong>Tareas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Acción del usuario</th>
+<th>Evidencia generada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requisitos</td>
+<td>Distinguir condiciones necesarias de cualidades solo deseables</td>
+<td>Requisitos seleccionados</td>
+</tr>
+<tr>
+<td>Repositorios</td>
+<td>Elegir los espacios institucionales y del centro por los que iniciar la búsqueda</td>
+<td>Repositorios seleccionados</td>
+</tr>
+<tr>
+<td>Estrategias</td>
+<td>Seleccionar configuraciones de filtros ajustadas al caso</td>
+<td>Estrategias seleccionadas</td>
+</tr>
+<tr>
+<td>Contraste</td>
+<td>Comparar al menos tres fichas con candidatos plausibles</td>
+<td>Fichas consultadas</td>
+</tr>
+<tr>
+<td>Selección</td>
+<td>Elegir el recurso más adecuado</td>
+<td>Recurso seleccionado</td>
+</tr>
+</tbody>
+</table>
+<p>Para superar P02, el usuario debe identificar requisitos derivados del grupo y del centro, priorizar repositorios adecuados, evitar filtros irrelevantes o excesivos, consultar al menos tres candidatos y seleccionar el recurso que mejor resuelve conjuntamente el objetivo, la accesibilidad, el tiempo, la conectividad y la compatibilidad con Moodle.</p>
+<h2 id="p03-nivel-b1">P03 · Nivel B1<a class="headerlink" href="#p03-nivel-b1" title="Permanent link">&para;</a></h2>
+<p>P03 evalúa la autonomía en la búsqueda y catalogación de contenidos. El usuario no solo reconoce opciones: construye consultas de búsqueda y organiza recursos revisados.</p>
+<p><strong>Indicadores evaluados</strong></p>
+<ul>
+<li><code>2.1.B1.1</code>: aplicación autónoma de criterios didácticos, técnicos y científicos.</li>
+<li><code>2.1.B1.2</code>: uso de búsquedas para localizar distintos formatos de contenido.</li>
+<li><code>2.1.B1.3</code>: organización sistemática de contenidos educativos digitales.</li>
+</ul>
+<p><strong>Tareas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Acción del usuario</th>
+<th>Evidencia generada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Búsquedas</td>
+<td>Escribir consultas con operadores y criterios</td>
+<td>Queries introducidas</td>
+</tr>
+<tr>
+<td>Revisión</td>
+<td>Abrir fichas simuladas de recursos</td>
+<td>Recursos revisados</td>
+</tr>
+<tr>
+<td>Catalogación</td>
+<td>Clasificar recursos por finalidad, dificultad y etiqueta</td>
+<td>Catálogo generado</td>
+</tr>
+<tr>
+<td>Sistema</td>
+<td>Seleccionar sistemas de organización recuperables</td>
+<td>Sistemas seleccionados</td>
+</tr>
+</tbody>
+</table>
+<p>La prueba valida consultas que incorporan criterios como <code>site:</code>, <code>filetype:pdf</code>, licencia, Creative Commons, vídeo, subtítulos, transcripción, infografía, H5P, simulación o actividad interactiva.</p>
+<p>P03 utiliza fichas Markdown ubicadas en:</p>
+<div class="highlight"><pre><span></span><code>assets/simulated_resources/comp21_p03/
+</code></pre></div>
+<p>Para superar P03, el usuario debe construir consultas válidas, revisar un número mínimo de fichas, catalogar los recursos con la finalidad esperada y seleccionar sistemas de organización recuperables.</p>
+<h2 id="p04-nivel-b2">P04 · Nivel B2<a class="headerlink" href="#p04-nivel-b2" title="Permanent link">&para;</a></h2>
+<p>P04 evalúa un desempeño más avanzado: el usuario aplica un protocolo relacional de curación, formula asesoramiento para otros docentes y selecciona acciones de actualización de repositorios.</p>
+<p><strong>Indicadores evaluados</strong></p>
+<ul>
+<li><code>2.1.B2.1</code>: uso de un instrumento de evaluación y catalogación relacional de contenidos digitales.</li>
+<li><code>2.1.B2.2</code>: asesoramiento informal a otros docentes sobre estrategias de búsqueda en Internet.</li>
+<li><code>2.1.B2.3</code>: actitud proactiva para localizar y mantener repositorios de contenidos digitales.</li>
+</ul>
+<p><strong>Tareas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Acción del usuario</th>
+<th>Evidencia generada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protocolo relacional</td>
+<td>Evaluar recursos con Bloom, competencia, decisión y puntuaciones</td>
+<td>Matriz de catalogación</td>
+</tr>
+<tr>
+<td>Asesoramiento</td>
+<td>Escribir consultas recomendables para otra docente</td>
+<td>Queries de asesoramiento</td>
+</tr>
+<tr>
+<td>Actualización</td>
+<td>Seleccionar acciones de mantenimiento del catálogo</td>
+<td>Acciones seleccionadas</td>
+</tr>
+</tbody>
+</table>
+<p>El protocolo de P04 combina nivel cognitivo de Bloom, competencia trabajada, decisión de curación, calidad técnica, veracidad y relevancia didáctica. Esto diferencia B2 de B1: no solo se catalogan recursos, sino que se aplica un protocolo reutilizable para mejorar la selección y asesorar al equipo docente.</p>
+<p>Para superar P04, el usuario debe completar correctamente la matriz relacional, formular consultas con operadores y criterios útiles para asesorar, y seleccionar acciones proactivas de actualización del catálogo.</p>
+<h2 id="guia-de-respuestas-y-aprendizaje">Guía de respuestas y aprendizaje<a class="headerlink" href="#guia-de-respuestas-y-aprendizaje" title="Permanent link">&para;</a></h2>
+<p>Este apartado permite revisar todas las decisiones de las pruebas P01-P04. En las preguntas de selección se indican tanto las opciones correctas como los distractores. En las tareas abiertas se ofrece un modelo válido: no es la única redacción posible, pero sí muestra todos los elementos que la aplicación comprueba.</p>
+<h3 id="soluciones-de-p01">Soluciones de P01<a class="headerlink" href="#soluciones-de-p01" title="Permanent link">&para;</a></h3>
+<h4 id="clasificacion-de-criterios-de-calidad">Clasificación de criterios de calidad<a class="headerlink" href="#clasificacion-de-criterios-de-calidad" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Respuesta correcta</th>
+<th>Por qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fecha de actualización o revisión</td>
+<td>Científico</td>
+<td>Ayuda a valorar la vigencia de la información y si el contenido sigue siendo fiable.</td>
+</tr>
+<tr>
+<td>Licencia de uso Creative Commons</td>
+<td>Técnico</td>
+<td>Determina las condiciones legales de acceso, reutilización y adaptación del archivo.</td>
+</tr>
+<tr>
+<td>Autoría institucional o reconocida</td>
+<td>Científico</td>
+<td>Permite comprobar la procedencia, responsabilidad y autoridad de la fuente.</td>
+</tr>
+<tr>
+<td>Nivel educativo o edad recomendada</td>
+<td>Didáctico</td>
+<td>Indica para qué alumnado y grado de desarrollo se ha diseñado el recurso.</td>
+</tr>
+<tr>
+<td>Compatibilidad con lectores de pantalla o subtítulos</td>
+<td>Técnico</td>
+<td>Describe si el formato y su implementación permiten un acceso adecuado.</td>
+</tr>
+<tr>
+<td>Objetivos de aprendizaje vinculados al currículo</td>
+<td>Didáctico</td>
+<td>Relaciona el recurso con lo que se pretende enseñar y aprender.</td>
+</tr>
+</tbody>
+</table>
+<p>La idea clave es distinguir tres preguntas: «¿es fiable?» corresponde a lo científico; «¿puede utilizarse y accederse correctamente?» a lo técnico; y «¿sirve para este alumnado y objetivo?» a lo didáctico.</p>
+<h4 id="herramientas-de-busqueda">Herramientas de búsqueda<a class="headerlink" href="#herramientas-de-busqueda" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Correctas:</strong></li>
+<li>Google Académico.</li>
+<li>DuckDuckGo.</li>
+</ul>
+<p>Google Académico prioriza literatura académica y DuckDuckGo reduce la personalización basada en perfiles, por lo que responden mejor al criterio planteado.</p>
+<ul>
+<li><strong>Incorrectas:</strong></li>
+<li>Google.</li>
+<li>Yahoo Search.</li>
+</ul>
+<p>Son buscadores generales útiles en otros contextos, pero en esta tarea se quieren reducir resultados condicionados por publicidad o perfil comercial. No son «malos buscadores» en términos absolutos; simplemente no son los preferentes para este propósito.</p>
+<h4 id="metadatos">Metadatos<a class="headerlink" href="#metadatos" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p><strong>Correcta:</strong> «Los metadatos: etiquetas de área, nivel, autoría y descripción». Los metadatos describen el contenido con campos recuperables y permiten que un buscador o catálogo lo indexe.</p>
+</li>
+<li>
+<p><strong>Incorrecta:</strong> «El tamaño del archivo y su fecha de creación». Son propiedades técnicas, pero no explican de qué trata el recurso.</p>
+</li>
+<li>
+<p><strong>Incorrecta:</strong> «El nombre del servidor». Informa sobre el alojamiento, no sobre el contenido educativo.</p>
+</li>
+<li>
+<p><strong>Incorrecta:</strong> «La resolución de las imágenes». Afecta a la calidad visual, pero no aporta palabras clave para recuperar el recurso.</p>
+</li>
+</ul>
+<h4 id="organizacion-de-archivos">Organización de archivos<a class="headerlink" href="#organizacion-de-archivos" title="Permanent link">&para;</a></h4>
+<p>El nombre de la carpeta debe describir el contenido. Son válidos, por ejemplo, <code>Sostenibilidad_2ESO</code>, <code>UD_Sostenibilidad</code> o <code>Recursos_Biología_Sostenibilidad</code>. Nombres como <code>Nueva carpeta</code>, <code>Documentos</code> o <code>Cosas</code> no permiten reconocer ni recuperar con facilidad la unidad.</p>
+<ul>
+<li><strong>Deben incluirse:</strong></li>
+<li><code>Documento_01.pdf</code>.</li>
+<li><code>Enlace_recurso.url</code>.</li>
+<li><code>Video_actividad.mp4</code>.</li>
+</ul>
+<p>Los tres contienen materiales educativos sobre sostenibilidad.</p>
+<ul>
+<li><strong>No debe incluirse:</strong> <code>Lista_Compra.pdf</code>, porque es un archivo personal ajeno a la unidad. Mezclar documentos personales y docentes dificulta la recuperación y puede provocar una compartición accidental.</li>
+</ul>
+<h3 id="soluciones-de-p02">Soluciones de P02<a class="headerlink" href="#soluciones-de-p02" title="Permanent link">&para;</a></h3>
+<h4 id="requisitos-derivados-del-contexto">Requisitos derivados del contexto<a class="headerlink" href="#requisitos-derivados-del-contexto" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Correctos:</strong></li>
+<li>Comprobación breve de productor, consumidor y descomponedor.</li>
+<li>Ampliación y uso no exclusivo del color.</li>
+<li>Apertura desde Moodle sin instalación ni registro.</li>
+<li>Alternativa descargable o imprimible.</li>
+</ul>
+<p>Cada condición procede directamente del objetivo, la baja visión, la política técnica del centro o la conexión inestable.</p>
+<ul>
+<li>
+<p><strong>Incorrecto:</strong> exigir todos los archivos fuente. Serían útiles para una adaptación profunda, pero la actividad breve no los necesita.</p>
+</li>
+<li>
+<p><strong>Incorrecto:</strong> registrar cada clic en una plataforma externa. No aporta la evidencia esencial y contradice la prohibición de crear cuentas externas.</p>
+</li>
+<li>
+<p><strong>Incorrecto:</strong> maximizar vídeos, animaciones y sonidos. Más multimedia no significa mejor aprendizaje y puede aumentar carga cognitiva, consumo de datos y barreras de acceso.</p>
+</li>
+</ul>
+<h4 id="repositorios-iniciales">Repositorios iniciales<a class="headerlink" href="#repositorios-iniciales" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Correctos:</strong></li>
+<li>Repositorio de la Administración educativa.</li>
+<li>Colección de Moodle revisada por Biología.</li>
+</ul>
+<p>El primero aporta catalogación institucional; el segundo ofrece recursos ya contrastados en el contexto técnico y pedagógico del centro.</p>
+<ul>
+<li>
+<p><strong>Incorrecto:</strong> comenzar por resultados patrocinados de un buscador general. Puede utilizarse para ampliar la búsqueda, pero desaprovecha las fuentes institucionales prioritarias.</p>
+</li>
+<li>
+<p><strong>Incorrecto:</strong> elegir publicaciones de una red social por popularidad. La interacción social no acredita nivel, licencia, accesibilidad ni compatibilidad.</p>
+</li>
+</ul>
+<h4 id="estrategias-de-busqueda">Estrategias de búsqueda<a class="headerlink" href="#estrategias-de-busqueda" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Correctas:</strong></li>
+<li><code>2.º ESO + cadenas tróficas + HTML/H5P + sin registro + accesibilidad documentada</code>.</li>
+<li><code>revisado por Biología + actividad breve + alternativa descargable</code>.</li>
+</ul>
+<p>Combinan tema, nivel, formato, acceso, duración y necesidades reales.</p>
+<ul>
+<li>
+<p><strong>Incorrecta:</strong> <code>solo SCORM + máxima interactividad + cualquier etapa</code>. Moodle no tiene habilitado SCORM y se pierde el ajuste al nivel.</p>
+</li>
+<li>
+<p><strong>Incorrecta:</strong> <code>más abierto + más descargado + cualquier duración</code>. La popularidad no sustituye la adecuación didáctica ni temporal.</p>
+</li>
+<li>
+<p><strong>Incorrecta:</strong> <code>2.º ESO + PDF exclusivamente + último mes</code>. Introduce límites no justificados: el recurso principal puede ser HTML o H5P y no necesita haberse publicado ese mes.</p>
+</li>
+</ul>
+<h4 id="comparacion-de-recursos">Comparación de recursos<a class="headerlink" href="#comparacion-de-recursos" title="Permanent link">&para;</a></h4>
+<p>La respuesta correcta es <strong>C · Construye y comprueba una cadena trófica</strong>. Se ajusta a 2.º de ESO, dura 22-25 minutos, funciona desde Moodle sin cuentas externas, es accesible, comprueba los tres roles y dispone de una ficha PDF equivalente si falla la conexión.</p>
+<ul>
+<li>
+<p><strong>A · Red alimentaria interactiva:</strong> incorrecta porque exige una cuenta externa, depende parcialmente del color y no tiene alternativa sin conexión, aunque su contenido y cuestionario sean valiosos.</p>
+</li>
+<li>
+<p><strong>B · Microdocumental:</strong> incorrecta como recurso principal porque es accesible y compatible, pero no incluye una tarea que produzca la evidencia de aprendizaje solicitada.</p>
+</li>
+<li>
+<p><strong>D · Laboratorio virtual:</strong> incorrecta porque requiere el complemento SCORM no habilitado y no comprueba el papel de los descomponedores.</p>
+</li>
+</ul>
+<p>Además de elegir C, deben abrirse al menos tres fichas. La consulta previa forma parte de la competencia: una elección acertada por azar no demuestra contraste de fuentes.</p>
+<h3 id="soluciones-de-p03">Soluciones de P03<a class="headerlink" href="#soluciones-de-p03" title="Permanent link">&para;</a></h3>
+<h4 id="consultas-de-busqueda">Consultas de búsqueda<a class="headerlink" href="#consultas-de-busqueda" title="Permanent link">&para;</a></h4>
+<p>Modelos válidos:</p>
+<table>
+<thead>
+<tr>
+<th>Necesidad</th>
+<th>Ejemplo de consulta</th>
+<th>Elementos imprescindibles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDF fiable</td>
+<td><code>cambio climático site:intef.es filetype:pdf</code></td>
+<td>Tema, <code>site:</code> y <code>filetype:pdf</code>.</td>
+</tr>
+<tr>
+<td>Vídeo accesible</td>
+<td><code>vídeo cambio climático subtítulos transcripción</code></td>
+<td>Tema, formato audiovisual y alternativa accesible.</td>
+</tr>
+<tr>
+<td>Imagen reutilizable</td>
+<td><code>infografía sostenibilidad Creative Commons</code></td>
+<td>Imagen o infografía, tema y licencia.</td>
+</tr>
+<tr>
+<td>Actividad interactiva</td>
+<td><code>H5P actividad alumnado huella de carbono</code></td>
+<td>H5P/interactivo/simulación, participación y tema.</td>
+</tr>
+</tbody>
+</table>
+<p>Una consulta es incompleta si omite uno de esos grupos. Por ejemplo, <code>cambio climático PDF</code> no acota una fuente fiable; <code>vídeo cambio climático</code> no contempla accesibilidad; <code>infografía sostenibilidad</code> no comprueba la licencia; y <code>H5P cambio climático</code> no expresa la finalidad participativa.</p>
+<h4 id="seleccion-y-catalogacion-del-lote">Selección y catalogación del lote<a class="headerlink" href="#seleccion-y-catalogacion-del-lote" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Decisión, uso y etiqueta</th>
+<th>Explicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1 · Vídeo subtitulado</td>
+<td>Incorporar · Introducción común · <code>inicio-clima</code></td>
+<td>Es breve, activa conocimientos previos y presenta las causas de forma visual y accesible. Dificultad orientativa: básica.</td>
+</tr>
+<tr>
+<td>R2 · Simulación H5P</td>
+<td>Incorporar · Participación común · <code>participación</code></td>
+<td>Permite decidir por parejas y recibir feedback; funciona en Moodle, no exige cuentas y tiene alternativa ante fallos de conexión. Dificultad orientativa: media.</td>
+</tr>
+<tr>
+<td>R3 · Informe científico</td>
+<td>Descartar · No catalogar · <code>no catalogar</code></td>
+<td>Es fiable, pero está dirigido a Bachillerato, requiere unos 35 minutos y usa vocabulario no trabajado. Un recurso de calidad puede ser inadecuado para un contexto concreto.</td>
+</tr>
+<tr>
+<td>R4 · Infografía accesible</td>
+<td>Incorporar · Apoyo visual · <code>apoyo-visual</code></td>
+<td>Resume mediante iconos etiquetados, frases breves y texto equivalente; apoya al alumnado sin crear un itinerario segregado. Dificultad orientativa: básica.</td>
+</tr>
+<tr>
+<td>R5 · Artículo avanzado</td>
+<td>Incorporar · Ampliación · <code>ampliación-clima</code></td>
+<td>Su glosario, modo lectura y preguntas permiten ofrecer un reto autónomo a quien termina antes. Dificultad orientativa: alta.</td>
+</tr>
+<tr>
+<td>R6 · Imagen viral</td>
+<td>Descartar · No catalogar · <code>no catalogar</code></td>
+<td>No se pueden verificar autoría, licencia ni rigor; existen versiones contradictorias y no tiene alternativa textual.</td>
+</tr>
+</tbody>
+</table>
+<p>La dificultad es una estimación docente y no penaliza por sí sola. Sí deben coincidir la decisión, el uso didáctico y la etiqueta, porque son los datos que permiten formar y recuperar el lote.</p>
+<h4 id="sistema-de-organizacion">Sistema de organización<a class="headerlink" href="#sistema-de-organizacion" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p><strong>Correcto:</strong> registrar tema, nivel, área, uso, dificultad, formato, licencia, enlace y fecha de revisión en el catálogo compartido.</p>
+</li>
+<li>
+<p><strong>Correcto:</strong> aplicar vocabulario acordado y nombres estables a archivos y enlaces.</p>
+</li>
+<li>
+<p><strong>Incorrecto:</strong> conservarlo todo en <code>Descargas</code>. Esa carpeta no aporta clasificación, contexto ni mantenimiento.</p>
+</li>
+<li>
+<p><strong>Incorrecto:</strong> confiar en el historial de un chat. Los mensajes se desplazan, los enlaces pueden quedar sin contexto y no existe una ficha común actualizable.</p>
+</li>
+</ul>
+<p>También deben revisarse las seis fichas y seleccionarse los cuatro formatos previstos. Esto demuestra análisis del conjunto y no una decisión superficial basada en el título.</p>
+<h3 id="soluciones-de-p04">Soluciones de P04<a class="headerlink" href="#soluciones-de-p04" title="Permanent link">&para;</a></h3>
+<h4 id="protocolo-relacional">Protocolo relacional<a class="headerlink" href="#protocolo-relacional" title="Permanent link">&para;</a></h4>
+<p>Las puntuaciones admiten un margen de un punto respecto a la referencia; una diferencia de dos puntos recibe crédito parcial y una mayor no se ajusta a la evidencia. Bloom y competencia también admiten las alternativas indicadas porque un mismo recurso puede sostener usos próximos si la decisión es coherente. Para recomendar, las tres puntuaciones deben ser al menos 3 y su media al menos 3,5; adaptar exige veracidad mínima 2, relevancia mínima 3 y media 2,5; descartar es coherente cuando técnica o veracidad son como máximo 2, o la media no supera 2,5.</p>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Respuestas aceptadas</th>
+<th>Puntuación de referencia</th>
+<th>Por qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A · Guía institucional</td>
+<td>Analizar o Evaluar · Alfabetización mediática o Ciudadanía digital · Recomendar</td>
+<td>Técnica 5 · Veracidad 5 · Relevancia 5</td>
+<td>Tiene autoría, fuentes, actualización, CC BY, accesibilidad y aplicación directa en 3.º de ESO.</td>
+</tr>
+<tr>
+<td>B · Vídeo viral</td>
+<td>Comprender o Analizar · Ciudadanía digital o Alfabetización mediática · Descartar</td>
+<td>Técnica 1 · Veracidad 1 · Relevancia 2</td>
+<td>No tiene autoría, fuentes, fecha, licencia ni alternativas accesibles. Ser llamativo no compensa esas carencias.</td>
+</tr>
+<tr>
+<td>C · H5P de titulares</td>
+<td>Analizar o Evaluar · Comunicación o Alfabetización mediática · Adaptar o Recomendar</td>
+<td>Técnica 4 · Veracidad 3 · Relevancia 4</td>
+<td>La base es accesible y útil, pero necesita contexto y criterios de verificación; por ello adaptar es la opción más prudente y recomendar con contextualización también es defendible.</td>
+</tr>
+<tr>
+<td>D · Imágenes satíricas</td>
+<td>Analizar o Evaluar · Alfabetización mediática o Comunicación · Descartar</td>
+<td>Técnica 2 · Veracidad 2 · Relevancia 3</td>
+<td>El posible debate no resuelve la falta de procedencia, derechos de uso, contexto y textos alternativos.</td>
+</tr>
+</tbody>
+</table>
+<p>Son incoherentes, por ejemplo, recomendar B o D pese a no poder verificar derechos y procedencia; descartar A pese a cumplir todos los criterios; o asignar puntuaciones máximas de veracidad a materiales sin fuentes.</p>
+<h4 id="asesoramiento-sobre-busquedas">Asesoramiento sobre búsquedas<a class="headerlink" href="#asesoramiento-sobre-busquedas" title="Permanent link">&para;</a></h4>
+<p><strong>Caso 1: guía institucional reutilizable</strong></p>
+<ul>
+<li>Consulta modelo: <code>desinformación site:intef.es filetype:pdf "Creative Commons"</code>.</li>
+<li>Justificación modelo: el dominio institucional reduce resultados de procedencia dudosa; el PDF facilita localizar una guía descargable y revisable; Creative Commons permite identificar materiales potencialmente reutilizables.</li>
+<li>Comprobación modelo: verificar autoría o institución, fecha y vigencia, licencia exacta, etiquetado del PDF, contraste y otras medidas de accesibilidad.</li>
+</ul>
+<p>Una respuesta falla si solo propone palabras temáticas, si no explica el valor de los filtros o si confunde «estar en Internet» con permiso de reutilización.</p>
+<p><strong>Caso 2: actividad interactiva educativa</strong></p>
+<ul>
+<li>Consulta modelo: <code>H5P desinformación actividad repositorio educativo</code>.</li>
+<li>Justificación modelo: H5P orienta hacia una práctica interactiva; el repositorio aporta catalogación educativa; el tema mantiene el ajuste al objetivo y al curso.</li>
+<li>Comprobación modelo: probar teclado, dispositivos y compatibilidad; revisar nivel, contenido y fuentes; confirmar licencia y permiso de adaptación.</li>
+</ul>
+<p>No basta con encontrar un interactivo atractivo: debe comprobarse que funciona, que enseña contenido fiable y que puede usarse legalmente.</p>
+<h4 id="plan-proactivo-de-actualizacion">Plan proactivo de actualización<a class="headerlink" href="#plan-proactivo-de-actualizacion" title="Permanent link">&para;</a></h4>
+<p>Modelos válidos:</p>
+<ul>
+<li>
+<p><strong>Descubrimiento:</strong> «Revisaré repositorios institucionales como INTEF y Procomún, y me suscribiré a sus boletines o alertas para descubrir periódicamente fuentes y colecciones educativas nuevas».</p>
+</li>
+<li>
+<p><strong>Revisión:</strong> «Cada trimestre revisaré fecha y vigencia, licencia, accesibilidad y enlaces de los recursos, incorporando la valoración y los resultados obtenidos durante su uso en el aula».</p>
+</li>
+<li>
+<p><strong>Compartición y mejora:</strong> «Registraré las novedades en el catálogo compartido y presentaré las conclusiones al departamento para ajustar criterios, reformular consultas y actualizar el protocolo de búsqueda».</p>
+</li>
+</ul>
+<p>Son insuficientes planes como «buscaré recursos cuando los necesite», porque no incluyen fuentes ni seguimiento; «los revisaré de vez en cuando», porque no fija periodicidad ni criterios; o «enviaré los enlaces al grupo», porque no crea memoria compartida ni mejora el protocolo.</p>
+<h2 id="feedback-e-interfaz">Feedback E Interfaz<a class="headerlink" href="#feedback-e-interfaz" title="Permanent link">&para;</a></h2>
+<p>Las pruebas P01-P04 ofrecen feedback contextual. Las opciones correctas e incorrectas se diferencian visualmente y, cuando la corrección podría ocupar demasiado espacio, se muestra en paneles compactos bajo el bloque correspondiente.</p>
+<h2 id="justificacion-mrcdd">Justificación MRCDD<a class="headerlink" href="#justificacion-mrcdd" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>P01</strong> se alinea con <code>2.1.A1.1</code>, <code>2.1.A1.2</code> y <code>2.1.A1.3</code> porque solicita clasificar criterios científicos, técnicos y didácticos, elegir buscadores neutros o académicos, reconocer metadatos y organizar recursos básicos.</li>
+<li><strong>P02</strong> se alinea con <code>2.1.A2.1</code> y <code>2.1.A2.2</code> porque convierte el contexto del grupo y del centro en requisitos operativos, elige repositorios institucionales y compara fichas antes de seleccionar el recurso más adecuado.</li>
+<li><strong>P03</strong> se alinea con <code>2.1.B1.1</code>, <code>2.1.B1.2</code> y <code>2.1.B1.3</code> porque exige construir búsquedas, revisar fichas multimodales y catalogar recursos con criterios de finalidad, dificultad y etiqueta.</li>
+<li><strong>P04</strong> se alinea con <code>2.1.B2.1</code>, <code>2.1.B2.2</code> y <code>2.1.B2.3</code> porque utiliza un protocolo relacional, genera asesoramiento basado en criterios justificables y propone una actualización proactiva del repositorio.</li>
+</ul>
+<h2 id="progresion-a1-b2">Progresión A1-B2<a class="headerlink" href="#progresion-a1-b2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Desempeño principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Reconoce criterios básicos y organiza recursos sencillos</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Selecciona con apoyo recursos ajustados a un contexto</td>
+</tr>
+<tr>
+<td>B1</td>
+<td>Busca y cataloga de forma autónoma recursos variados</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>Aplica un protocolo, asesora a otros docentes y mejora el catálogo</td>
+</tr>
+</tbody>
+</table>
+<p>Esta progresión permite pasar de la identificación inicial de criterios a la curación avanzada de contenidos digitales con valor para el equipo docente.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es">CC BY-SA 4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "toc.follow", "search.highlight", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
